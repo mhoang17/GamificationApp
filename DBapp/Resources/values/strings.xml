@@ -1,0 +1,21 @@
+<resources>
+  <string name="app_name">GamificationApp</string>
+  <string name="action_settings">Settings</string>
+
+  <string name="transport_prompt">Transport</string>
+  <string-array name="transport_array">
+    <item>Walking</item>
+    <item>Bike</item>
+    <item>Bus</item>
+    <item>Car</item>
+  </string-array>
+
+  <string name="car_type_prompt">Car Type</string>
+  <string-array name="car_type_array">
+    <item>Gasoline</item>
+    <item>Diesel</item>
+    <item>Hybrid</item>
+    <item>Fully Electric</item>
+  </string-array>
+</resources>
+

@@ -1,0 +1,20 @@
+<resources>
+
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:textColorPrimary">#ff111111</item>
+    <item name="android:colorBackground">#ffffffff</item>
+    <item name="android:windowBackground">?android:attr/colorBackground</item>
+    <item name="android:colorPrimary">#fffdfdfd</item>
+    <item name="android:colorPrimaryDark">#ff030303</item>
+    <item name="android:colorAccent">#ffbfbfbf</item>
+    <item name="android:textColorSecondary">#ff000000</item>
+    <item name="android:colorControlNormal">#ffffffff</item>
+    <item name="android:colorControlActivated">#fffbfbfb</item>
+    <item name="android:colorButtonNormal">@android:color/transparent</item>
+  </style>
+
+</resources>

@@ -1,0 +1,1031 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation = "vertical">
+
+    <!--Background Layers-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background7"
+        android:src="@drawable/background_7"
+        android:visibility = "gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background6"
+        android:src="@drawable/background_6"
+        android:background = "@android:color/transparent"
+        android:visibility ="gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background5"
+        android:src="@drawable/background_5"
+        android:visibility ="gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background4"
+        android:src="@drawable/background_4"
+        android:visibility ="gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background3"
+        android:src="@drawable/background_3"
+        android:visibility ="gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background2"
+        android:src="@drawable/background_2"
+        android:visibility ="gone"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/background1"
+        android:src = "@drawable/background_1"
+        android:visibility ="visible"
+        android:adjustViewBounds="true"
+    />
+
+
+
+    <!--Backbuildings Layers-->
+    <ImageView
+        android:src="@drawable/backbuildings_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings8"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/backbuildings_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildings1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+
+
+    <!--Middle Buildings Layers-->
+    <ImageView
+        android:src="@drawable/middlebuildings_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+
+    <!--Front Buildings Layers-->
+    <ImageView
+        android:src="@drawable/frontbuildings_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings9"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings8"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+
+    <!--Road Layers-->
+    <ImageView
+        android:src="@drawable/road_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road10"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road9"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road8"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+        android:scaleType="fitXY"
+    />
+
+
+
+
+    <!--Buttons-->
+    <Button
+        android:text="Road"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/frontbuildingsButton"
+        android:layout_below="@+id/backbuildingsButton"
+        android:id="@+id/roadButton"
+    />
+
+    <Button
+        android:text="Front Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backbuildingsButton"
+        android:id="@+id/frontbuildingsButton" />
+
+    <Button
+        android:text="Middle Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/backbuildingsButton"
+        android:id="@+id/middleBuildingsButton" />
+
+    <Button
+        android:text="Back Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildingsButton" 
+    />
+    
+    <ImageView
+        android:src="@drawable/menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/menuBar"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"   
+    />
+        
+    <ImageButton
+        android:src="@drawable/profile_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/profileIcon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="50dp"
+    />
+
+    <ImageButton
+        android:src="@drawable/menu_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/menuIcon"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="50dp"
+    />
+    
+    <ImageButton
+        android:src="@drawable/trophy_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/trophyIcon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitXY"
+        android:layout_marginRight="50dp"
+    />
+
+
+
+
+
+    <!--Pop Ups-->
+
+    <TextView
+        android:text="Text"
+        android:background="@android:color/white"
+        android:layout_centerHorizontal = "true"
+        android:layout_centerVertical = "true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="25dp"
+        android:layout_above="@id/menuBar"
+        android:id="@+id/menuPopUp"
+        android:visibility = "gone"
+    />
+
+    <TextView
+        android:text="Text"
+        android:background="@android:color/white"
+        android:layout_centerHorizontal = "true"
+        android:layout_centerVertical = "true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="25dp"
+        android:layout_above="@id/menuBar"
+        android:id="@+id/trophyPopUp"
+        android:visibility = "gone"
+    />
+
+
+
+
+
+    <!--User Creation Pop Up-->
+    <LinearLayout
+       android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/menuBar"
+        android:padding="15dp"
+        android:layout_margin="40dp"
+        android:background="@android:color/white"
+        android:id="@+id/UserCreationPopUp"
+        android:visibility = "visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="@android:color/black"
+            android:text="Welcome!" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Please enter the fields below" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Username:" />
+
+            <EditText
+                android:id="@+id/et_usernameCreate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background = "@color/material_grey_300"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Age:" />
+
+            <EditText
+                android:id="@+id/ageCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/transport_prompt"
+            />
+            <Spinner
+                android:id="@+id/spinnerCreate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/material_grey_300"
+                android:prompt="@string/transport_prompt"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/carNamePromptCreate">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Car name:" />
+
+            <EditText
+                android:id="@+id/carNameCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/carTypePromptCreate">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="Car Type"
+            />
+            <Spinner
+                android:id="@+id/carTypeSpinnerCreate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/car_type_prompt"
+                android:background = "@color/material_grey_300"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/carKmPLPromptCreate">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Km/L:" />
+
+            <EditText
+                android:id="@+id/kmPerLCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <TextView
+            android:text="Please fill out all informations!"
+            android:textColor = "@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity = "center"
+            android:id="@+id/ErrorMissingInformation"
+            android:visibility = "gone" />
+
+        <TextView
+            android:text="Username has already been taken! Please select a new one!"
+            android:textColor = "@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity = "center"
+            android:id="@+id/ErrorUserTaken"
+            android:visibility = "gone" />
+
+        <Button
+            android:text="Create User"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal = "true"
+            android:layout_marginLeft = "100dp"
+            android:id="@+id/createUserButton"/>
+
+    </LinearLayout>
+
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:visibility = "gone"
+        android:id="@+id/ProfilePopUp"
+        android:padding="15dp"
+        android:layout_margin="40dp"
+        android:layout_above="@+id/menuBar"
+        android:background="@android:color/white">
+        <!--Profile Pop Up-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="40dp"
+                android:textColor="@android:color/black"
+                android:text="Profile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Username:" />
+
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background = "@color/material_grey_100"
+                    android:layout_weight=".7"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Age:" />
+
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="0dp"
+                    android:background = "@color/material_grey_100"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="10dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:text="@string/transport_prompt"
+            />
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/transport_prompt"
+            />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10dip"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:id="@+id/carNamePrompt">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Car name:" />
+
+                <EditText
+                    android:id="@+id/carName"
+                    android:layout_width="0dp"
+                    android:background = "@color/material_grey_100"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="10dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/carTypePrompt">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:text="Car Type"
+            />
+                <Spinner
+                    android:id="@+id/carTypeSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/transport_prompt"
+            />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10dip"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:id="@+id/carKmPLPrompt">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Km/L:" />
+
+                <EditText
+                    android:id="@+id/kmPerL"
+                    android:layout_width="0dp"
+                    android:background = "@color/material_grey_100"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity = "center"
+            >
+
+                <Button
+                    android:text="Save Car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/saveCarButton"
+                    android:visibility = "gone"
+            />
+
+                <Button
+                    android:text="Delete Car"
+                    android:textColor = "@android:color/holo_red_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/saveCarButton"
+                    android:id="@+id/deleteCarButton"
+                    android:visibility = "gone"/>
+
+            </RelativeLayout>
+
+
+            <Button
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal = "true"
+                android:layout_marginLeft = "100dp"
+                android:id="@+id/saveProfileButton"/>
+
+            <Button
+                android:text="Close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal = "true"
+                android:layout_marginLeft = "100dp"
+                android:id="@+id/closeProfilePopUp"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="bottom">
+
+                <Button
+                    android:text="Delete User?"
+                    android:textColor= "@android:color/holo_red_dark"
+                    android:background = "@android:color/transparent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal = "true"
+                    android:layout_alignParentBottom="true"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/deleteUserButton"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
