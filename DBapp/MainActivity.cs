@@ -5,7 +5,6 @@ using Android.Runtime;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
-using DBapp;
 
 namespace DBapp
 {
@@ -90,10 +89,14 @@ namespace DBapp
         string carName = "";
         string carType = "";
         string carKmPL = "";
+        string oldCarName = "";
+
         List<CarClass> carList = new List<CarClass>();
         List<string> transportItems = new List<string>();
         Spinner spinner;
         ArrayAdapter<string> adapter;
+
+        Spinner carTypeSpinner;
 
         // Constant that decides if the background should be changed.
         int sceneChange = 0;
@@ -124,7 +127,8 @@ namespace DBapp
             spinner.Adapter = adapter;
 
 
-            Spinner carTypeSpinner = FindViewById<Spinner>(Resource.Id.carTypeSpinner);
+            carTypeSpinner = FindViewById<Spinner>(Resource.Id.carTypeSpinner);
+            carTypeSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(CarTypeSpinner);
             var carTypeAdapter = ArrayAdapter.CreateFromResource(
                     this, Resource.Array.car_type_array, Android.Resource.Layout.SimpleSpinnerItem);
             carTypeAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
@@ -222,6 +226,9 @@ namespace DBapp
 
             FindViewById<Button>(Resource.Id.deleteCarButton).Click += (o, e) =>
                 DeleteCarAlert();
+
+            FindViewById<Button>(Resource.Id.saveCarButton).Click += (o, e) =>
+                SaveCar();
 
         }
 
@@ -321,9 +328,10 @@ namespace DBapp
                             FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
                             CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
 
+                            adapter.Add(car.CarName);
+                            adapter.NotifyDataSetChanged();
+                            spinner.SetSelection(4);
 
-                            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, transportItems);
-                            spinner.Adapter = adapter;
                         }
                     }
                     else
@@ -347,6 +355,19 @@ namespace DBapp
                     {
                         FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
                         FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
+
+                        switch (transport) {
+                            case "Walking":
+                                spinner.SetSelection(0);
+                                break;
+                            case "Bike":
+                                spinner.SetSelection(1);
+                                break;
+                            case "Bus":
+                                spinner.SetSelection(2);
+                                break;
+                        }
+                        
                         // Close creation pop up
                         CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
                     }
@@ -392,12 +413,25 @@ namespace DBapp
         private void SaveUser()
         {
 
-            userName = FindViewById<EditText>(Resource.Id.et_username).Text.ToString();
-            age = FindViewById<EditText>(Resource.Id.age).Text.ToString();
+            if (!transport.Equals("New Car")) {
 
-            user.Update("userName", userName);
-            user.Update("age", age);
+                userName = FindViewById<EditText>(Resource.Id.et_username).Text.ToString();
+                age = FindViewById<EditText>(Resource.Id.age).Text.ToString();
 
+                user.Update("userName", userName);
+                user.Update("age", age);
+
+                if (!transport.Equals("Walking") && !transport.Equals("Bike") && !transport.Equals("Bus"))
+                {
+                    user.Update("primaryTransportCurrent", "Car");
+                }
+                else
+                {
+                    user.Update("primaryTransportCurrent", transport);
+                }
+            }
+
+            //TODO: Error message must choose valid transport
         }
 
         public void DeleteCarAlert()
@@ -410,37 +444,113 @@ namespace DBapp
 
             alert.SetPositiveButton("Yes", (senderAlert, args) =>
             {
-            });
+                
+                int index = transportItems.IndexOf(transport);
 
+                Console.WriteLine("Index Delete " + index);
+                Console.WriteLine("Transport Delete " + transport);
+                Console.WriteLine("Count " + transportItems.Count);
+
+                transportItems.RemoveAt(index);
+                carList.RemoveAt(index-4);
+                adapter.Remove(transport);
+                adapter.NotifyDataSetChanged();
+            });
             alert.SetNegativeButton("Cancel", (senderAlert, args) =>
             {
             });
 
             Dialog dialog = alert.Create();
             dialog.Show();
+    }
+
+        public void SaveCar() { 
+            
+            carName = FindViewById<EditText>(Resource.Id.carName).Text.ToString();
+            carKmPL = FindViewById<EditText>(Resource.Id.kmPerL).Text.ToString();
+            try
+            {
+                if (transport.Equals("New Car"))
+                {
+
+                    if (carName != "" && carType != "" && carKmPL != "")
+                    {
+                        if (!transportItems.Contains(carName))
+                        {
+                            CarClass car = new CarClass(carName, carType, carKmPL, user);
+                            carList.Add(car);
+                            transportItems.Add(car.CarName);
+                            FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
+                            FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
+                            CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
+
+                            // Update Adapter
+                            adapter.Add(car.CarName);
+                            adapter.NotifyDataSetChanged();
+
+                            spinner.SetSelection(transportItems.Count - 1);
+
+                            transport = carName;
+
+                            FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Gone;
+                        }
+
+                        //TODO: Error message for same car name
+                    }
+                    else
+                    {
+                        // Diplay that there's missing information
+                        FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Visible;
+                    }
+                }
+                else
+                {
+                    if (carName != "" && carType != "" && carKmPL != "")
+                    {
+
+                        int index = transportItems.IndexOf(transport);
+                        Console.WriteLine("Transport " + transport);
+                        Console.WriteLine("New Carname " + carName);
+                        Console.WriteLine("Old Car Name " + carList[index - 4].CarName);
+
+                        transportItems.RemoveAt(index);
+                        transportItems.Insert(index, carName);
+                        carList[index - 4].Update("carName", carName);
+                        carList[index - 4].Update("carType", carType);
+                        carList[index - 4].Update("KMPerL", carKmPL);
+                        adapter.Remove(transport);
+                        adapter.Insert(carName.ToString(), index);
+                        adapter.NotifyDataSetChanged();
+
+                        transport = carName;
+
+                        Console.WriteLine("1: " + carList[index - 4].CarName);
+                        Console.WriteLine("2: " + transportItems[index]);
+                        Console.WriteLine("3: " + adapter.GetItem(index));
+                        Console.WriteLine("4: " + index);
+                    }
+                }
+            } catch (Exception e) {
+
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(transport);
+            }
+
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        private void CarTypeSpinner(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+            carType = spinner.GetItemAtPosition(e.Position).ToString();
+        }
 
         private void SpinnerItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spinner = (Spinner)sender;
-            if (!spinner.GetItemAtPosition(e.Position).Equals("Walking") && !spinner.GetItemAtPosition(e.Position).Equals("Bike") && !spinner.GetItemAtPosition(e.Position).Equals("Bus"))
+            string temp = spinner.GetItemAtPosition(e.Position).ToString();
+
+            if (!temp.Equals("Walking") && !temp.Equals("Bike") && !temp.Equals("Bus"))
             {
 
                 CarName.Visibility = Android.Views.ViewStates.Visible;
@@ -448,13 +558,34 @@ namespace DBapp
                 CarKmPL.Visibility = Android.Views.ViewStates.Visible;
                 saveCarButton.Visibility = Android.Views.ViewStates.Visible;
 
-                if (!spinner.GetItemAtPosition(e.Position).Equals("New Car"))
+                if (!temp.Equals("New Car"))
                 {
                     deleteCarButton.Visibility = Android.Views.ViewStates.Visible;
+                    CarClass selectedCar = carList[e.Position-4];
+                    FindViewById<EditText>(Resource.Id.carName).Text = selectedCar.CarName;
+                    FindViewById<EditText>(Resource.Id.kmPerL).Text = selectedCar.KMPerLProp;
+
+                    switch (selectedCar.CarType) {
+                        case "Gasoline":
+                            carTypeSpinner.SetSelection(0);
+                            break;
+                        case "Diesel":
+                            carTypeSpinner.SetSelection(1);
+                            break;
+                        case "Hybrid":
+                            carTypeSpinner.SetSelection(2);
+                            break;
+                        case "Fully Electric":
+                            carTypeSpinner.SetSelection(3);
+                            break;
+                    }
                 }
                 else
                 {
                     deleteCarButton.Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<EditText>(Resource.Id.carName).Text = "";
+                    FindViewById<EditText>(Resource.Id.kmPerL).Text = "";
+                    carTypeSpinner.SetSelection(0);
                 }
 
             }
@@ -467,7 +598,16 @@ namespace DBapp
                 saveCarButton.Visibility = Android.Views.ViewStates.Gone;
                 deleteCarButton.Visibility = Android.Views.ViewStates.Gone;
             }
+
+            transport = temp;
+
         }
+
+
+
+
+
+
 
 
 

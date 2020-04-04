@@ -809,6 +809,8 @@
         android:layout_margin="40dp"
         android:layout_above="@+id/menuBar"
         android:background="@android:color/white">
+
+
         <!--Profile Pop Up-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -845,7 +847,9 @@
                     android:layout_weight=".7"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:editable ="true"
+                />
             </LinearLayout>
 
             <LinearLayout
@@ -869,7 +873,8 @@
                     android:layout_weight=".7"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:editable ="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -915,7 +920,8 @@
                     android:layout_weight=".7"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:editable ="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -963,8 +969,18 @@
                     android:layout_weight=".7"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:editable ="true"/>
             </LinearLayout>
+
+            <TextView
+                android:text="Please fill out all informations!"
+                android:textColor = "@android:color/holo_red_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity = "center"
+                android:id="@+id/ErrorMissingInformationCar"
+                android:visibility = "gone" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

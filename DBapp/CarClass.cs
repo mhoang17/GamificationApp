@@ -18,7 +18,7 @@ namespace DBapp
 
             CarInsert(carType, carName, KMPerL, userID);
 
-            this.carID = CarSelect("carID", "userID = '" + userID + "'")[0];
+            this.carID = CarSelect("carID", "userID = '" + userID + "' and carName= '" + carName + "'")[0];
         }
 
         public void Delete() {
@@ -36,6 +36,7 @@ namespace DBapp
 
                 // Update in object
                 if (column.Equals("carType")) { this.carType = newValue; }
+                else if (column.Equals("carName")) { this.carName = newValue; }
                 else if (column.Equals("KMPerL")) { this.KMPerL = newValue; }
             }
             // TODO: Might need an error handling statement here
