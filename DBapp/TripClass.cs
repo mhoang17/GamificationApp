@@ -18,9 +18,7 @@ namespace DBapp
             userID = user.UserID;
             this.otherTransport = otherTransport;
 
-            TripInsert(distance, timeStamp, userID, otherTransport);
-
-            tripID = TripSelect("tripID", "timeStamp = '" + timeStamp + "' and " + "userID = '" + userID + "'");
+            tripID = TripInsert(distance, timeStamp, userID, otherTransport);
         }
 
         public TripClass(string distance, UserClass user, CarClass car)
@@ -30,9 +28,7 @@ namespace DBapp
             userID = user.UserID;
             carID = car.CarID;
 
-            TripInsert(distance, timeStamp, userID, carID);
-
-            tripID = TripSelect("tripID", "timeStamp = '" + timeStamp + "' and " + "userID = '" + userID + "'");
+            tripID = TripInsert(distance, timeStamp, userID, carID);
         }
 
         public void Delete() {

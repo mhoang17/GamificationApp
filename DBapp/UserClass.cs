@@ -19,9 +19,7 @@
                 this.primaryTransportCurrent = primaryTransportCurrent;
                 totalXP = "0";
 
-                UserInsert(userName, age, primaryTransportStart, primaryTransportCurrent, totalXP);
-
-                this.userID = UserSelect("userID", "userName = '" + userName + "'");
+                userID = UserInsert(userName, age, primaryTransportStart, primaryTransportCurrent, totalXP);
             }
         }
 

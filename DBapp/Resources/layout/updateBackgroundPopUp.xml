@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Buttons-->
+    <Button
+        android:text="Road"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/frontbuildingsButton"
+        android:layout_below="@+id/backbuildingsButton"
+        android:id="@+id/roadButton"
+    />
+
+    <Button
+        android:text="Front Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backbuildingsButton"
+        android:id="@+id/frontbuildingsButton" />
+
+    <Button
+        android:text="Middle Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/backbuildingsButton"
+        android:id="@+id/middleBuildingsButton" />
+
+    <Button
+        android:text="Back Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backbuildingsButton" 
+    />
+
+</RelativeLayout>

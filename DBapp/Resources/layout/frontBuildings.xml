@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--Front Buildings Layers-->
+    <ImageView
+        android:src="@drawable/frontbuildings_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings9"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings8"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/frontbuildings_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontbuildings1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+</RelativeLayout>

@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
+using Android.Animation;
 
 namespace DBapp
 {
@@ -79,6 +80,9 @@ namespace DBapp
         LinearLayout CarKmPL;
         Button saveCarButton;
         Button deleteCarButton;
+        string carName = "";
+        string carType = "";
+        string carKmPL = "";
 
         // User Informations
         string transport = "";
@@ -86,20 +90,33 @@ namespace DBapp
         string age = "";
         UserClass user;
 
-        string carName = "";
-        string carType = "";
-        string carKmPL = "";
-        string oldCarName = "";
-
+        // Spinners
         List<CarClass> carList = new List<CarClass>();
         List<string> transportItems = new List<string>();
         Spinner spinner;
         ArrayAdapter<string> adapter;
-
         Spinner carTypeSpinner;
 
         // Constant that decides if the background should be changed.
-        int sceneChange = 0;
+        int level = 0;
+
+
+        bool koalaSceneVisible = false;
+        bool pbSceneVisible = false;
+        LinearLayout chooseAnimalPopUp;
+        RelativeLayout koalaBearScene;
+        RelativeLayout PBScene;
+        int koalaLevel = 0;
+        int polarBearLevel = 0;
+
+        ImageButton cityChangeScene;
+        ImageButton koalaChangeScene;
+        ImageButton PolarBearChangeScene;
+
+
+        //Cars
+        ImageView car1;
+        ObjectAnimator carAnimator;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -192,6 +209,18 @@ namespace DBapp
             saveCarButton = FindViewById<Button>(Resource.Id.saveCarButton);
             deleteCarButton = FindViewById<Button>(Resource.Id.deleteCarButton);
 
+            chooseAnimalPopUp = FindViewById<LinearLayout>(Resource.Id.chooseAnimalPopUp);
+            koalaBearScene = FindViewById<RelativeLayout>(Resource.Id.koalaScene);
+            PBScene = FindViewById<RelativeLayout>(Resource.Id.PBScene);
+            cityChangeScene = FindViewById<ImageButton>(Resource.Id.cityChangeSceneBtn);
+            koalaChangeScene = FindViewById<ImageButton>(Resource.Id.koalaChangeSceneBtn);
+            PolarBearChangeScene = FindViewById<ImageButton>(Resource.Id.PBChangeSceneBtn);
+
+
+            car1 = FindViewById<ImageView>(Resource.Id.car1);
+            carAnimator = ObjectAnimator.OfFloat(car1, "x", 1200);
+            CarAnimation();
+
             FindViewById<Button>(Resource.Id.backbuildingsButton).Click += (o, e) =>
                ChangeBackBuildings();
 
@@ -230,7 +259,54 @@ namespace DBapp
             FindViewById<Button>(Resource.Id.saveCarButton).Click += (o, e) =>
                 SaveCar();
 
+            FindViewById<Button>(Resource.Id.polarBearChoice).Click += (o, e) =>
+            {
+                PBScene.Visibility = Android.Views.ViewStates.Visible;
+                pbSceneVisible = true;
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
+                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
+            };
+
+            FindViewById<Button>(Resource.Id.koalaChoice).Click += (o, e) =>
+            {
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                koalaSceneVisible = true;
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
+                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+            };
+
+            cityChangeScene.Click += (o, e) =>
+            {
+                koalaBearScene.Visibility = Android.Views.ViewStates.Gone;
+                PBScene.Visibility = Android.Views.ViewStates.Gone;
+            };
+
+            koalaChangeScene.Click += (o, e) =>
+            {
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                PBScene.Visibility = Android.Views.ViewStates.Gone;
+            };
+
+            PolarBearChangeScene.Click += (o, e) =>
+            {
+                koalaBearScene.Visibility = Android.Views.ViewStates.Gone;
+                PBScene.Visibility = Android.Views.ViewStates.Visible;
+            };
+                
         }
+
+
+        private void CarAnimation() {
+
+
+            carAnimator.SetDuration(5000);
+            carAnimator.Start();
+            carAnimator.RepeatCount = ObjectAnimator.Infinite;
+
+        }
+
+
+
 
 
         // Create User (when you first open the app and when you delete your account).
@@ -327,10 +403,13 @@ namespace DBapp
                             FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
                             FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
                             CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
+                            chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
 
                             adapter.Add(car.CarName);
                             adapter.NotifyDataSetChanged();
                             spinner.SetSelection(4);
+
+                            
 
                         }
                     }
@@ -370,6 +449,7 @@ namespace DBapp
                         
                         // Close creation pop up
                         CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
+                        chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
                     }
 
                 }
@@ -447,10 +527,6 @@ namespace DBapp
                 
                 int index = transportItems.IndexOf(transport);
 
-                Console.WriteLine("Index Delete " + index);
-                Console.WriteLine("Transport Delete " + transport);
-                Console.WriteLine("Count " + transportItems.Count);
-
                 transportItems.RemoveAt(index);
                 carList.RemoveAt(index-4);
                 adapter.Remove(transport);
@@ -468,74 +544,59 @@ namespace DBapp
             
             carName = FindViewById<EditText>(Resource.Id.carName).Text.ToString();
             carKmPL = FindViewById<EditText>(Resource.Id.kmPerL).Text.ToString();
-            try
+           
+            if (transport.Equals("New Car"))
             {
-                if (transport.Equals("New Car"))
+
+                if (carName != "" && carType != "" && carKmPL != "")
                 {
-
-                    if (carName != "" && carType != "" && carKmPL != "")
+                    if (!transportItems.Contains(carName))
                     {
-                        if (!transportItems.Contains(carName))
-                        {
-                            CarClass car = new CarClass(carName, carType, carKmPL, user);
-                            carList.Add(car);
-                            transportItems.Add(car.CarName);
-                            FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
-                            FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
-                            CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
+                        CarClass car = new CarClass(carName, carType, carKmPL, user);
+                        carList.Add(car);
+                        transportItems.Add(car.CarName);
+                        FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
+                        FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
+                        CreateUserPopUp.Visibility = Android.Views.ViewStates.Gone;
 
-                            // Update Adapter
-                            adapter.Add(car.CarName);
-                            adapter.NotifyDataSetChanged();
-
-                            spinner.SetSelection(transportItems.Count - 1);
-
-                            transport = carName;
-
-                            FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Gone;
-                        }
-
-                        //TODO: Error message for same car name
-                    }
-                    else
-                    {
-                        // Diplay that there's missing information
-                        FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Visible;
-                    }
-                }
-                else
-                {
-                    if (carName != "" && carType != "" && carKmPL != "")
-                    {
-
-                        int index = transportItems.IndexOf(transport);
-                        Console.WriteLine("Transport " + transport);
-                        Console.WriteLine("New Carname " + carName);
-                        Console.WriteLine("Old Car Name " + carList[index - 4].CarName);
-
-                        transportItems.RemoveAt(index);
-                        transportItems.Insert(index, carName);
-                        carList[index - 4].Update("carName", carName);
-                        carList[index - 4].Update("carType", carType);
-                        carList[index - 4].Update("KMPerL", carKmPL);
-                        adapter.Remove(transport);
-                        adapter.Insert(carName.ToString(), index);
+                        // Update Adapter
+                        adapter.Add(car.CarName);
                         adapter.NotifyDataSetChanged();
+
+                        spinner.SetSelection(transportItems.Count - 1);
 
                         transport = carName;
 
-                        Console.WriteLine("1: " + carList[index - 4].CarName);
-                        Console.WriteLine("2: " + transportItems[index]);
-                        Console.WriteLine("3: " + adapter.GetItem(index));
-                        Console.WriteLine("4: " + index);
+                        FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Gone;
                     }
+
+                    //TODO: Error message for same car name
                 }
-            } catch (Exception e) {
-
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(transport);
+                else
+                {
+                    // Diplay that there's missing information
+                    FindViewById<TextView>(Resource.Id.ErrorMissingInformationCar).Visibility = Android.Views.ViewStates.Visible;
+                }
             }
+            else
+            {
+                if (carName != "" && carType != "" && carKmPL != "")
+                {
 
+                    int index = transportItems.IndexOf(transport);
+
+                    transportItems.RemoveAt(index);
+                    transportItems.Insert(index, carName);
+                    carList[index - 4].Update("carName", carName);
+                    carList[index - 4].Update("carType", carType);
+                    carList[index - 4].Update("KMPerL", carKmPL);
+                    adapter.Remove(transport);
+                    adapter.Insert(carName.ToString(), index);
+                    adapter.NotifyDataSetChanged();
+
+                    transport = carName;
+                }
+            }
         }
 
 
@@ -605,11 +666,71 @@ namespace DBapp
 
 
 
+        public void animalLevelUp()
+        {
+            if (koalaChangeScene.Visibility == Android.Views.ViewStates.Visible)
+            {
+                koalaLevel++;
+            }
 
+            if (PolarBearChangeScene.Visibility == Android.Views.ViewStates.Visible)
+            {
+                polarBearLevel++;
+            }
 
+            if (koalaLevel >= 25)
+            {
+                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
+            }
 
+            if (polarBearLevel >= 25)
+            {
+                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+            }
 
+            updateKoalaScene();
+            updatePolarBearScene();
+        }
 
+        public void updateKoalaScene()
+        {
+
+            switch (koalaLevel)
+            {
+                case 5:
+                    FindViewById<ImageView>(Resource.Id.koalaBackground1).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 10:
+                    FindViewById<ImageView>(Resource.Id.koalaBackground2).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 15:
+                    FindViewById<ImageView>(Resource.Id.koalaBackground3).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 20:
+                    FindViewById<ImageView>(Resource.Id.koalaBackground4).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+            }
+        }
+
+        public void updatePolarBearScene()
+        {
+
+            switch (polarBearLevel)
+            {
+                case 5:
+                    FindViewById<ImageView>(Resource.Id.PBBackground1).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 10:
+                    FindViewById<ImageView>(Resource.Id.PBBackground2).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 15:
+                    FindViewById<ImageView>(Resource.Id.PBBackground3).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+                case 20:
+                    FindViewById<ImageView>(Resource.Id.PBBackground4).Visibility = Android.Views.ViewStates.Gone;
+                    break;
+            }
+        }
 
 
 
@@ -619,44 +740,46 @@ namespace DBapp
             {
                 backbuildings_7.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_8.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_6.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (backbuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
+
+            animalLevelUp();
 
             ChangeBackgroundColor();
         }
@@ -668,39 +791,40 @@ namespace DBapp
             {
                 middleBuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (middleBuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (middleBuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (middleBuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (middleBuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (middleBuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
 
+            animalLevelUp();
             ChangeBackgroundColor();
         }
 
@@ -710,51 +834,52 @@ namespace DBapp
             {
                 frontbuildings_8.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_9.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_7.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_7.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_8.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_6.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (frontbuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
 
+            animalLevelUp();
             ChangeBackgroundColor();
         }
 
@@ -765,57 +890,58 @@ namespace DBapp
             {
                 road9.Visibility = Android.Views.ViewStates.Gone;
                 road10.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road8.Visibility != Android.Views.ViewStates.Gone)
             {
                 road8.Visibility = Android.Views.ViewStates.Gone;
                 road9.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road7.Visibility != Android.Views.ViewStates.Gone)
             {
                 road7.Visibility = Android.Views.ViewStates.Gone;
                 road8.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road6.Visibility != Android.Views.ViewStates.Gone)
             {
                 road6.Visibility = Android.Views.ViewStates.Gone;
                 road7.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road5.Visibility != Android.Views.ViewStates.Gone)
             {
                 road5.Visibility = Android.Views.ViewStates.Gone;
                 road6.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road4.Visibility != Android.Views.ViewStates.Gone)
             {
                 road4.Visibility = Android.Views.ViewStates.Gone;
                 road5.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road3.Visibility != Android.Views.ViewStates.Gone)
             {
                 road3.Visibility = Android.Views.ViewStates.Gone;
                 road4.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road2.Visibility != Android.Views.ViewStates.Gone)
             {
                 road2.Visibility = Android.Views.ViewStates.Gone;
                 road3.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
             else if (road1.Visibility != Android.Views.ViewStates.Gone)
             {
                 road1.Visibility = Android.Views.ViewStates.Gone;
                 road2.Visibility = Android.Views.ViewStates.Visible;
-                sceneChange++;
+                level++;
             }
 
+            animalLevelUp();
             ChangeBackgroundColor();
         }
 
@@ -824,32 +950,32 @@ namespace DBapp
 
             int levelChange = 5;
 
-            if (sceneChange == levelChange)
+            if (level == levelChange)
             {
                 background_1.Visibility = Android.Views.ViewStates.Gone;
                 background_2.Visibility = Android.Views.ViewStates.Visible;
             }
-            else if (sceneChange == levelChange * 2)
+            else if (level == levelChange * 2)
             {
                 background_2.Visibility = Android.Views.ViewStates.Gone;
                 background_3.Visibility = Android.Views.ViewStates.Visible;
             }
-            else if (sceneChange == levelChange * 3)
+            else if (level == levelChange * 3)
             {
                 background_3.Visibility = Android.Views.ViewStates.Gone;
                 background_4.Visibility = Android.Views.ViewStates.Visible;
             }
-            else if (sceneChange == levelChange * 4)
+            else if (level == levelChange * 4)
             {
                 background_4.Visibility = Android.Views.ViewStates.Gone;
                 background_5.Visibility = Android.Views.ViewStates.Visible;
             }
-            else if (sceneChange == levelChange * 5)
+            else if (level == levelChange * 5)
             {
                 background_5.Visibility = Android.Views.ViewStates.Gone;
                 background_6.Visibility = Android.Views.ViewStates.Visible;
             }
-            else if (sceneChange == levelChange * 6)
+            else if (level == levelChange * 6)
             {
                 background_6.Visibility = Android.Views.ViewStates.Gone;
                 background_7.Visibility = Android.Views.ViewStates.Visible;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/menuBar"
+        android:padding="15dp"
+        android:layout_margin="40dp"
+        android:background="@android:color/white"
+        android:id="@+id/chooseAnimalPopUp"
+        android:visibility = "visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="@android:color/black"
+            android:text="Are you more a" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Please choose below" />
+
+       <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <Button
+            android:text="Polar Bear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/polarBearChoice"
+            android:layout_alignParentLeft = "true"/>
+             
+            <Button
+            android:text="Koala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/koalaChoice"
+            android:layout_alignParentRight = "true"/>
+
+       </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

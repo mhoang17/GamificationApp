@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--User Creation Pop Up-->
+    <LinearLayout
+       android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/menuBar"
+        android:padding="15dp"
+        android:layout_margin="40dp"
+        android:background="@android:color/white"
+        android:id="@+id/UserCreationPopUp"
+        android:visibility = "visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="@android:color/black"
+            android:text="Welcome!" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Please enter the fields below" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Username:" />
+
+            <EditText
+                android:id="@+id/et_usernameCreate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background = "@color/material_grey_300"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Age:" />
+
+            <EditText
+                android:id="@+id/ageCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/transport_prompt"
+            />
+            <Spinner
+                android:id="@+id/spinnerCreate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/material_grey_300"
+                android:prompt="@string/transport_prompt"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/carNamePromptCreate">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Car name:" />
+
+            <EditText
+                android:id="@+id/carNameCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/carTypePromptCreate">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="Car Type"
+            />
+            <Spinner
+                android:id="@+id/carTypeSpinnerCreate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/car_type_prompt"
+                android:background = "@color/material_grey_300"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/carKmPLPromptCreate">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Km/L:" />
+
+            <EditText
+                android:id="@+id/kmPerLCreate"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_300"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <TextView
+            android:text="Please fill out all informations!"
+            android:textColor = "@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity = "center"
+            android:id="@+id/ErrorMissingInformation"
+            android:visibility = "gone" />
+
+        <TextView
+            android:text="Username has already been taken! Please select a new one!"
+            android:textColor = "@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity = "center"
+            android:id="@+id/ErrorUserTaken"
+            android:visibility = "gone" />
+
+        <Button
+            android:text="Create User"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal = "true"
+            android:layout_marginLeft = "100dp"
+            android:id="@+id/createUserButton"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

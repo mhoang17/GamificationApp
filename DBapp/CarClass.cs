@@ -16,9 +16,7 @@ namespace DBapp
             this.KMPerL = KMPerL;
             userID = user.UserID;
 
-            CarInsert(carType, carName, KMPerL, userID);
-
-            this.carID = CarSelect("carID", "userID = '" + userID + "' and carName= '" + carName + "'")[0];
+            carID = CarInsert(carType, carName, KMPerL, userID);
         }
 
         public void Delete() {

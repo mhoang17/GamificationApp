@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/koalaBackground5"
+        android:src="@drawable/kgb5"
+        android:visibility = "visible"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/koalaBackground4"
+        android:src="@drawable/kgb4"
+        android:visibility = "visible"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/koalaBackground3"
+        android:src="@drawable/kgb3"
+        android:visibility = "visible"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/koalaBackground2"
+        android:src="@drawable/kgb2"
+        android:visibility = "visible"
+    />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:scaleType="fitXY"
+        android:id="@+id/koalaBackground1"
+        android:src="@drawable/kbg1"
+        android:visibility = "visible"
+    />
+
+    
+
+    
+
+    
+
+</RelativeLayout>

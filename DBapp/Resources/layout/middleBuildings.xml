@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Middle Buildings Layers-->
+    <ImageView
+        android:src="@drawable/middlebuildings_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+    <ImageView
+        android:src="@drawable/middlebuildings_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlebuilding1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "100dp"
+    />
+
+</RelativeLayout>

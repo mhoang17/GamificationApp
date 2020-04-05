@@ -11,10 +11,13 @@ namespace DBapp
 
 	public class UserInfo : DBConnect
 	{
-		public void UserInsert(string userName, string age, string primaryTransportStart, string primaryTransportCurrent, string totalXP)
+		public string UserInsert(string userName, string age, string primaryTransportStart, string primaryTransportCurrent, string totalXP)
 		{
+			string id = "";
 
-			string query = "INSERT INTO dbo.userInfo (userName, age, primaryTransportStart, primaryTransportCurrent, totalXP) VALUES ('" + userName + "', '" + age + "', '" + primaryTransportStart + "', '" + primaryTransportCurrent + "', '" + totalXP + "')";
+			string query = "INSERT INTO dbo.userInfo (userName, age, primaryTransportStart, primaryTransportCurrent, totalXP)" +
+				"VALUES (@userName, @age, @primaryTransportStart, @primaryTransportCurrent, @totalXP);" +
+				"SELECT SCOPE_IDENTITY();";
 
 			//open connection
 			if (this.OpenConnection() == true)
@@ -22,12 +25,21 @@ namespace DBapp
 				//create command and assign the query and connection from the constructor
 				SqlCommand cmd = new SqlCommand(query, connection);
 
+				cmd.Parameters.AddWithValue("@userName", userName);
+				cmd.Parameters.AddWithValue("@age", age);
+				cmd.Parameters.AddWithValue("@primaryTransportStart", primaryTransportStart);
+				cmd.Parameters.AddWithValue("@primaryTransportCurrent", primaryTransportCurrent);
+				cmd.Parameters.AddWithValue("@totalXP", totalXP);
+
 				//execute command
-				int executed = cmd.ExecuteNonQuery();
+				object returnID = cmd.ExecuteScalar();
+				id = returnID.ToString();
 
 				//close connection
 				this.CloseConnection();
 			}
+
+			return id;
 		}
 
 		public void UserDelete(string userID)
@@ -106,9 +118,12 @@ namespace DBapp
 
 	public class CarInfo : DBConnect
 	{
-		public void CarInsert(string carType, string carName, string KMPerL, string userID)
+		public string CarInsert(string carType, string carName, string KMPerL, string userID)
 		{
-			string query = "INSERT INTO dbo.carInfo (carType, carName, KMPerL, userID) VALUES ('" + carType + "', '" + carName + "', '" + KMPerL + "', '" + userID + "')";
+			string id = "";
+			string query = "INSERT INTO dbo.carInfo (carType, carName, KMPerL, userID)" +
+				"VALUES (@carType, @carName, @KMPerL, @userID);" +
+				"SELECT SCOPE_IDENTITY();";
 
 			//open connection
 			if (this.OpenConnection() == true)
@@ -116,12 +131,20 @@ namespace DBapp
 				//create command and assign the query and connection from the constructor
 				SqlCommand cmd = new SqlCommand(query, connection);
 
+				cmd.Parameters.AddWithValue("@carType", carType);
+				cmd.Parameters.AddWithValue("@carName", carName);
+				cmd.Parameters.AddWithValue("@KMPerL", KMPerL);
+				cmd.Parameters.AddWithValue("@userID", userID);
+
 				//execute command
-				int executed = cmd.ExecuteNonQuery();
+				object returnID = cmd.ExecuteScalar();
+				id = returnID.ToString();
 
 				//close connection
 				this.CloseConnection();
 			}
+
+			return id;
 		}
 
 		public void CarDelete(string carID)
@@ -206,18 +229,23 @@ namespace DBapp
 
 	public class TripInfo : DBConnect
 	{
-		public void TripInsert(string distance, string timeStamp, string userID, string transport)
+		public string TripInsert(string distance, string timeStamp, string userID, string transport)
 		{
 
 			string query = "";
+			string id = "";
 
 			if (transport.Equals("Bike") || transport.Equals("Bus") || transport.Equals("Walk"))
 			{
-				query = "INSERT INTO tripInfo (distance, timeStamp, userID, otherTransport) VALUES ('" + distance + "','" + timeStamp +"','" + userID + "','" + transport + "')";
+				query = "INSERT INTO tripInfo (distance, timeStamp, userID, otherTransport)" +
+					"VALUES (@distance, @timeStamp, @userID, @otherTransport);" +
+					"SELECT SCOPE_IDENTITY();";
 			}
 			else {
 
-				query = "INSERT INTO tripInfo (distance, timeStamp, userID, carID) VALUES ('" + distance + "','" + timeStamp + "','" + userID + "','" + transport + "')";
+				query = "INSERT INTO tripInfo (distance, timeStamp, userID, carID)" +
+					"VALUES (@distance, @timeStamp, @userID, @carID);" +
+					"SELECT SCOPE_IDENTITY();";
 			}
 			
 			//open connection
@@ -225,13 +253,21 @@ namespace DBapp
 			{
 				//create command and assign the query and connection from the constructor
 				SqlCommand cmd = new SqlCommand(query, connection);
+				cmd.Parameters.AddWithValue("@distance", distance);
+				cmd.Parameters.AddWithValue("@timeStamp", timeStamp);
+				cmd.Parameters.AddWithValue("@userID", userID);
+				cmd.Parameters.AddWithValue("@otherTransport", transport);
+				cmd.Parameters.AddWithValue("@carID", transport);
 
 				//execute command
-				int executed = cmd.ExecuteNonQuery();
+				//execute command
+				object returnID = cmd.ExecuteScalar();
+				id = returnID.ToString();
 
 				//close connection
 				this.CloseConnection();
 			}
+			return id;
 		}
 
 		public void TripDelete(string tripID)

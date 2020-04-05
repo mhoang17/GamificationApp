@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/menuBar"
+        android:layout_centerInParent="true">
+
+        <ImageButton
+            android:src="@android:drawable/ic_menu_gallery"
+            android:text="Koala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/koalaChangeSceneBtn"
+            android:layout_toRightOf ="@+id/cityChangeSceneBtn"
+            android:visibility = "gone"/>
+
+        <ImageButton
+            android:src="@android:drawable/ic_menu_gallery"
+            android:text="City"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/cityChangeSceneBtn"
+            android:layout_toRightOf ="@+id/PBChangeSceneBtn"/>
+
+        <ImageButton
+            android:src="@android:drawable/ic_menu_gallery"
+            android:text="Polar Bear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/PBChangeSceneBtn"
+            android:visibility = "gone"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:src="@drawable/menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/menuBar"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"   
+    />
+        
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp">
+    
+        <ImageButton
+        android:src="@drawable/profile_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/profileIcon"
+        android:scaleType="fitCenter"
+        android:layout_alignParentBottom="true"
+        
+        /> 
+        <TextView
+            android:text="PROFILE"
+            android:textStyle = "bold"
+            android:textColor = "@android:color/white"
+            android:textSize = "20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_alignParentBottom="true"
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent = "true">
+    
+        <ImageButton
+            android:src="@drawable/menu_icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/menuIcon"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom = "true"
+        />
+        <TextView
+            android:text="MENU"
+            android:textStyle = "bold"
+            android:textColor = "@android:color/white"
+            android:textSize = "20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_alignParentBottom="true"
+        />
+    </RelativeLayout>
+        
+    
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight = "true"
+        android:layout_marginRight = "50dp">
+    
+        <ImageButton
+            android:src="@drawable/trophy_icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/trophyIcon"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom = "true"
+        />
+        <TextView
+            android:text="TROPHY"
+            android:textStyle = "bold"
+            android:textColor = "@android:color/white"
+            android:textSize = "20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_alignParentBottom="true"
+        />
+    </RelativeLayout>
+
+    <TextView
+        android:text="Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menuBar"
+        android:id="@+id/textView1" />
+</RelativeLayout>

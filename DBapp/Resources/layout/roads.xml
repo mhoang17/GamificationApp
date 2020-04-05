@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--Road Layers-->
+    <ImageView
+        android:src="@drawable/road_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road10"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road9"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road8"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road7"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road6"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road5"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road4"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road3"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road2"
+        android:visibility ="gone"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+    />
+
+    <ImageView
+        android:src="@drawable/road_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/road1"
+        android:visibility ="visible"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:paddingBottom = "50dp"
+        android:scaleType="fitXY"
+    />
+</RelativeLayout>
