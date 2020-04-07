@@ -11,16 +11,14 @@
 
         public UserClass(string userName, string age, string primaryTransportCurrent) {
 
-            if (UserSelect("userName", "userName = '" + userName + "'") == "") {
-                
-                this.userName = userName;
-                this.age = age;
-                primaryTransportStart = primaryTransportCurrent;
-                this.primaryTransportCurrent = primaryTransportCurrent;
-                totalXP = "0";
+            this.userName = userName;
+            this.age = age;
+            primaryTransportStart = primaryTransportCurrent;
+            this.primaryTransportCurrent = primaryTransportCurrent;
+            totalXP = "0";
 
-                userID = UserInsert(userName, age, primaryTransportStart, primaryTransportCurrent, totalXP);
-            }
+            userID = UserInsert(userName, age, primaryTransportStart, primaryTransportCurrent, totalXP);
+
         }
 
         public void Update(string column, string newValue) {

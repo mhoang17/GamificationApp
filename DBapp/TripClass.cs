@@ -11,20 +11,20 @@ namespace DBapp
         private string otherTransport;
         private string carID;
 
-        public TripClass(string distance, UserClass user, string otherTransport)
+        public TripClass(string distance, string timeStamp, UserClass user, string otherTransport)
         {
             this.distance = distance;
-            timeStamp = DateTime.Now.ToString();
+            this.timeStamp = timeStamp;
             userID = user.UserID;
             this.otherTransport = otherTransport;
 
             tripID = TripInsert(distance, timeStamp, userID, otherTransport);
         }
 
-        public TripClass(string distance, UserClass user, CarClass car)
+        public TripClass(string distance, string timeStamp, UserClass user, CarClass car)
         {
             this.distance = distance;
-            timeStamp = DateTime.Now.ToString();
+            this.timeStamp = timeStamp;
             userID = user.UserID;
             carID = car.CarID;
 

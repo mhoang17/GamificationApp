@@ -14,7 +14,7 @@
         android:layout_margin="40dp"
         android:background="@android:color/white"
         android:id="@+id/UserCreationPopUp"
-        android:visibility = "visible">
+        android:visibility = "gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -183,15 +183,6 @@
             android:layout_height="wrap_content"
             android:gravity = "center"
             android:id="@+id/ErrorMissingInformation"
-            android:visibility = "gone" />
-
-        <TextView
-            android:text="Username has already been taken! Please select a new one!"
-            android:textColor = "@android:color/holo_red_dark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity = "center"
-            android:id="@+id/ErrorUserTaken"
             android:visibility = "gone" />
 
         <Button

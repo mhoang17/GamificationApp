@@ -12,18 +12,7 @@
     <include layout="@layout/middlebuildings"/>
     <include layout="@layout/frontBuildings"/>
     <include layout="@layout/roads"/>
-    <include layout="@layout/updateBackgroundPopUp"/>
-    <include layout="@layout/koalascene"
-        android:visibility="gone"
-        android:id = "@+id/koalaScene" />
-    <include layout="@layout/polarbearbackgrounds"
-        android:visibility="gone"
-        android:id = "@+id/PBScene"/>
-    <include layout="@layout/chooseanimalpopup" android:visibility="gone"/>
-    <include layout="@layout/menuBar"/>
-    <include layout="@layout/createuserpopup" android:visibility="gone"/>
-    <include layout="@layout/profilepopup"/>
-    
+
     <ImageView
         android:src="@drawable/v4"
         android:layout_width="70dp"
@@ -35,6 +24,19 @@
         android:layout_marginLeft = "-70dp"
     />
 
+    <include layout="@layout/updateBackgroundPopUp"/>
+    <include layout="@layout/koalascene"
+        android:visibility="gone"
+        android:id = "@+id/koalaScene" />
+    <include layout="@layout/polarbearbackgrounds"
+        android:visibility="gone"
+        android:id = "@+id/PBScene"/>
+    <include layout="@layout/chooseanimalpopup"/>
+    <include layout="@layout/menuBar"/>
+    <include layout="@layout/createuserpopup"/>
+    <include layout="@layout/profilepopup"/>
+    <include layout = "@layout/tripspopup"/>
+    
 
 
 </RelativeLayout>

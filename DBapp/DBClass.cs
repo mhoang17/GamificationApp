@@ -235,7 +235,7 @@ namespace DBapp
 			string query = "";
 			string id = "";
 
-			if (transport.Equals("Bike") || transport.Equals("Bus") || transport.Equals("Walk"))
+			if (transport.Equals("Bike") || transport.Equals("Bus") || transport.Equals("Walking"))
 			{
 				query = "INSERT INTO tripInfo (distance, timeStamp, userID, otherTransport)" +
 					"VALUES (@distance, @timeStamp, @userID, @otherTransport);" +

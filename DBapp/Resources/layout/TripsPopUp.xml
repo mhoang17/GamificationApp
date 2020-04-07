@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/TripPopUp"
+    android:visibility = "visible">
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/menuBar"
+        android:visibility = "visible"
+        android:background="@android:color/white"
+        android:padding="15dp"
+        android:layout_margin="40dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="@android:color/black"
+            android:text="Your Trips" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="You can always edit your trips" />
+            
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tripsSpinnerHeader">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="Trips"
+        />
+            <Spinner
+                android:id="@+id/tripsSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+        />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Date:" />
+
+            <EditText
+                android:id="@+id/tripDateValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background = "@color/material_grey_100"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true"
+                android:editable ="false"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/transport_prompt"
+        />
+            <Spinner
+                android:id="@+id/tripTransportSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+        />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dip"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="Distance" />
+
+            <EditText
+                android:id="@+id/distanceValue"
+                android:layout_width="0dp"
+                android:background = "@color/material_grey_100"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:imeOptions="actionDone"
+                android:inputType= "number"
+                android:singleLine="true"
+                android:editable ="true"/>
+        </LinearLayout>
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity = "center">
+
+            <Button
+                android:text="Save Trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tripSaveButton"/>
+
+            <Button
+                android:text="Delete Trip"
+                android:textColor = "@android:color/holo_red_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tripSaveButton"
+                android:id="@+id/tripDeleteButton"
+                android:visibility = "gone"/>
+
+        </RelativeLayout>
+        
+        <Button
+            android:text="Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal = "true"
+            android:layout_gravity = "center"
+            android:id="@+id/tripCloseButton"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
