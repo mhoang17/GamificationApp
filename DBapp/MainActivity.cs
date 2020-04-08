@@ -139,7 +139,7 @@ namespace DBapp
         private ArrayAdapter tripAdapter;
         private ArrayAdapter tripTransportAdapter;
         private string chosenTripTransport;
-
+        private string chosenTrip;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -214,6 +214,9 @@ namespace DBapp
             FindViewById<Button>(Resource.Id.tripSaveButton).Click += (o, e) =>
                 SaveTrip();
 
+            FindViewById<Button>(Resource.Id.tripDeleteButton).Click += (o, e) =>
+                DeleteTrip();
+
             FindViewById<Button>(Resource.Id.tripCloseButton).Click += (o, e) =>
                 tripPopUp.Visibility = Android.Views.ViewStates.Gone;
         }
@@ -225,26 +228,101 @@ namespace DBapp
             string tripName = "";
             TripClass trip;
 
-            if (!chosenTripTransport.Equals("Walking") && !chosenTripTransport.Equals("Bike") && !chosenTripTransport.Equals("Bus"))
+            if (chosenTrip.Equals("New Trip"))
             {
+
                 int index = tripTransportItems.IndexOf(chosenTripTransport);
 
-                CarClass car = carList[index-3];
+                if (!chosenTripTransport.Equals("Walking") && !chosenTripTransport.Equals("Bike") && !chosenTripTransport.Equals("Bus"))
+                {
+                    CarClass car = carList[index - 3];
 
-                trip = new TripClass(distance, timeStamp, user, car);
-                tripName = trip.TimeStamp + " " + chosenTripTransport + " " + trip.Distance;
+                    trip = new TripClass(distance, timeStamp, user, car);
+                    tripName = trip.TimeStamp + " " + chosenTripTransport + " " + trip.Distance;
 
+                }
+                else
+                {
+                    trip = new TripClass(distance, timeStamp, user, chosenTripTransport);
+                    tripName = trip.TimeStamp + " " + trip.OtherTransport + " " + trip.Distance;
+                }
+
+
+                // Max amount of item allowed are 15 right now
+                if (tripNameList.Count == 15)
+                {
+                    tripAdapter.Remove(tripNameList[1]);
+                    tripNameList.RemoveAt(1);
+                    tripElementsList.RemoveAt(1);
+                }
+
+                tripNameList.Add(tripName);
+                tripElementsList.Add(trip);
+                tripAdapter.Add(tripName);
+                tripAdapter.NotifyDataSetChanged();
+
+                chosenTrip = tripName;
+
+                tripSpinner.SetSelection(tripNameList.Count-1);
             }
-            else 
+            else
             {
-                trip = new TripClass(distance, timeStamp, user, chosenTripTransport);
-                tripName = trip.TimeStamp + " " + trip.OtherTransport + " " + trip.Distance;
-            }
+                int index = tripNameList.IndexOf(chosenTrip);
+                tripElementsList[index-1].Update("distance", distance);
+                tripElementsList[index - 1].Update("timeStamp", timeStamp);
 
-            tripNameList.Add(tripName);
-            tripElementsList.Add(trip);
-            tripAdapter.Add(tripName);
-            tripAdapter.NotifyDataSetChanged();
+
+                if (chosenTripTransport.Equals("Walking") || chosenTripTransport.Equals("Bike") || chosenTripTransport.Equals("Bus"))
+                {
+                    tripElementsList[index - 1].Update("otherTransport", chosenTripTransport);
+                }
+                else
+                {
+                    int carIndex = tripTransportItems.IndexOf(chosenTripTransport);
+
+                    CarClass car = carList[carIndex - 3];
+                    tripElementsList[index - 1].Update("carID", car.CarID);    
+                }
+
+                tripName = tripElementsList[index - 1].TimeStamp + " " + chosenTripTransport + " " + tripElementsList[index - 1].Distance;
+
+                tripNameList.Remove(chosenTrip);
+                tripNameList.Insert(index, tripName);
+
+                tripAdapter.Remove(chosenTrip);
+                tripAdapter.Insert(tripName, index);
+                tripAdapter.NotifyDataSetChanged();
+
+                chosenTrip = tripName;
+
+            }
+        }
+
+        private void DeleteTrip() {
+
+            Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
+
+            alert.SetTitle("Are you sure?");
+            alert.SetMessage("Do you want to delete this trip? Notice, the XP you received from this trip will be deleted.");
+
+            alert.SetPositiveButton("Yes", (senderAlert, args) =>
+            {
+                // Find the index of the selected item.
+                int index = tripNameList.IndexOf(chosenTrip);
+
+                tripElementsList[index - 1].Delete();
+
+                tripNameList.Remove(chosenTrip);
+                tripElementsList.RemoveAt(index-1);
+                tripAdapter.Remove(chosenTrip);
+
+            });
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+            });
+
+            Dialog dialog = alert.Create();
+            dialog.Show();
         }
 
         private void TripSpinnerItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {
@@ -256,10 +334,44 @@ namespace DBapp
             {
                 if (tripElementsList.Count >= 1) {
 
-                    FindViewById<Button>(Resource.Id.tripDeleteButton).Visibility = Android.Views.ViewStates.Visible;
                     TripClass selectedTrip = tripElementsList[e.Position - 1];
-                    FindViewById<EditText>(Resource.Id.tripDateValue).Text = selectedTrip.TimeStamp;
-                    FindViewById<EditText>(Resource.Id.distanceValue).Text = selectedTrip.Distance;
+
+                    if (selectedTrip.CarID != null)
+                    {
+                        
+                        string tripCar = "";
+
+                        foreach (CarClass car in carList)
+                        {
+                            if (car.CarID == selectedTrip.CarID)
+                            {
+                                tripCar = car.CarName;
+                            }
+                        }
+
+                        if (!tripCar.Equals(""))
+                        {
+                            FindViewById<Button>(Resource.Id.tripDeleteButton).Visibility = Android.Views.ViewStates.Visible;
+                            FindViewById<EditText>(Resource.Id.tripDateValue).Text = selectedTrip.TimeStamp;
+                            FindViewById<EditText>(Resource.Id.distanceValue).Text = selectedTrip.Distance;
+                            tripTransportSpinner.SetSelection(tripTransportItems.IndexOf(tripCar));
+                            chosenTrip = temp;
+                        }
+                        else
+                        {
+                            tripSpinner.SetSelection(0);
+                        }
+
+                    }
+                    else
+                    {
+                        tripTransportSpinner.SetSelection(tripTransportItems.IndexOf(selectedTrip.OtherTransport));
+                        FindViewById<Button>(Resource.Id.tripDeleteButton).Visibility = Android.Views.ViewStates.Visible;
+                        FindViewById<EditText>(Resource.Id.tripDateValue).Text = selectedTrip.TimeStamp;
+                        FindViewById<EditText>(Resource.Id.distanceValue).Text = selectedTrip.Distance;
+                        chosenTrip = temp;
+                    }
+                 
                 }
             }
             else
@@ -268,7 +380,10 @@ namespace DBapp
                 FindViewById<EditText>(Resource.Id.tripDateValue).Text = DateTime.Now.ToString();
                 FindViewById<EditText>(Resource.Id.distanceValue).Text = "";
                 tripTransportSpinner.SetSelection(0);
+
+                chosenTrip = temp;
             }
+
 
         }
 
@@ -687,9 +802,11 @@ namespace DBapp
                 adapter.Remove(transport);
                 adapter.NotifyDataSetChanged();
 
-                tripTransportItems.RemoveAt(index - 1);
+                tripTransportItems.RemoveAt(index-1);
                 tripTransportAdapter.Remove(transport);
                 tripTransportAdapter.NotifyDataSetChanged();
+
+                mainTransportSpinner.SetSelection(index-1);
             });
             alert.SetNegativeButton("Cancel", (senderAlert, args) =>
             {
@@ -763,7 +880,7 @@ namespace DBapp
                     adapter.NotifyDataSetChanged();
 
                     tripTransportItems.RemoveAt(index-1);
-                    transportItems.Insert(index-1, carName);
+                    tripTransportItems.Insert(index-1, carName);
                     tripTransportAdapter.Remove(transport);
                     tripTransportAdapter.Insert(carName.ToString(), index-1);
                     tripTransportAdapter.NotifyDataSetChanged();
@@ -771,6 +888,7 @@ namespace DBapp
 
                     // Change the transport to the curent car with the new name
                     transport = carName;
+                    chosenTripTransport = carName;
                 }
             }
         }

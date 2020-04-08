@@ -38,30 +38,40 @@ namespace DBapp
         public void Update(string column, string newValue) {
 
             // Update
-            if (column.Equals("distance")) {
+            if (column.Equals("distance"))
+            {
 
                 TripUpdate(column, newValue, this.tripID);
                 this.distance = newValue;
             }
-            else if (column.Equals("otherTransport")) {
+            else if (column.Equals("otherTransport"))
+            {
 
-                TripUpdate(column, newValue, this.tripID);              
+                TripUpdate(column, newValue, this.tripID);
                 this.otherTransport = newValue;
 
-                if (carID != null) {
+                if (carID != null)
+                {
                     TripUpdate("carID", "", this.tripID);
                     this.carID = null;
-                }                
+                }
             }
-            else if (column.Equals("carID")) {
-                
+            else if (column.Equals("carID"))
+            {
+
                 TripUpdate(column, newValue, this.tripID);
                 this.carID = newValue;
 
-                if (otherTransport != null) {
+                if (otherTransport != null)
+                {
                     TripUpdate("otherTransport", "", this.tripID);
                     this.otherTransport = null;
-                }        
+                }
+            }
+            else if (column.Equals("timeStamp")) {
+
+                TripUpdate(column, newValue, this.tripID);
+                this.timeStamp = newValue;
             }
             
         }
