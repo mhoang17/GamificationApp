@@ -2,37 +2,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--Buttons-->
-    <Button
-        android:text="Road"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:layout_margin="40dp"
+    android:background = "@android:color/white"
+    android:id = "@+id/updateBackgroundPopUp"
+    android:visibility = "gone">
+    
+         
+    <TextView
+        android:text="CONGRATULATIONS!"
+        android:textSize = "32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/frontbuildingsButton"
-        android:layout_below="@+id/backbuildingsButton"
-        android:id="@+id/roadButton"
+        android:id="@+id/levelUpHeader"
+        android:layout_centerHorizontal = "true"
+    />
+    <TextView
+        android:text="You can now upgrade a part of your city!"
+        android:textSize = "23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/levelUpHeader"
+        android:id="@+id/levelUpUnderHeader"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginBottom = "30dp"
+        android:textAlignment = "center"
     />
 
-    <Button
-        android:text="Front Buildings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/backbuildingsButton"
-        android:id="@+id/frontbuildingsButton" />
 
-    <Button
-        android:text="Middle Buildings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/backbuildingsButton"
-        android:id="@+id/middleBuildingsButton" />
+    <!--Buttons-->
 
     <Button
         android:text="Back Buildings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/backbuildingsButton" 
+        android:id="@+id/backbuildingsButton"
+        android:layout_below="@+id/levelUpUnderHeader"
+        android:layout_centerHorizontal = "true"
+    />
+
+    <Button
+        android:text="Middle Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backbuildingsButton"
+        android:id="@+id/middleBuildingsButton" 
+        android:layout_centerHorizontal = "true"/>
+
+    
+    <Button
+        android:text="Front Buildings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/middleBuildingsButton"
+        android:id="@+id/frontbuildingsButton"
+        android:layout_centerHorizontal = "true"/>
+
+    <Button
+        android:text="Road"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frontbuildingsButton"
+        android:id="@+id/roadButton"
+        android:layout_centerHorizontal = "true"
     />
 
 </RelativeLayout>

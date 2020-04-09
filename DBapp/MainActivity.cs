@@ -97,7 +97,7 @@ namespace DBapp
         private Spinner carTypeSpinner;
 
         // Constant that decides if the background should be changed.
-        int level = 0;
+        int level = 1;
 
         // User Informations
         private string transport = "";
@@ -141,6 +141,21 @@ namespace DBapp
         private string chosenTripTransport;
         private string chosenTrip;
 
+        // Progress Bar
+        private ProgressBar progressBar;
+        private int xpPercentage;
+        private string UILevel;
+
+        //Trophies Pop Up
+        private LinearLayout trophiesPopUp;
+        private int walkedMeter;
+        private int bikeMeter;
+        private int walkedTrips;
+        private int bikeTrips;
+
+        // Upgrade background
+        private RelativeLayout upgradeBackgroundPopUp;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -170,6 +185,8 @@ namespace DBapp
             // All components that belongs to the trip pop up
             TripPopUpInitialization();
 
+            TrophiesPopUpInitialization();
+
             // All components that belongs to the pop up where you choose your first animal
             AnimalPopUpInitialization();
 
@@ -183,7 +200,64 @@ namespace DBapp
 
             // Buttons that changes the background
             ChangeBackgroundButtons();
-  
+
+            progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
+            xpPercentage = 0;
+
+
+            upgradeBackgroundPopUp = FindViewById<RelativeLayout>(Resource.Id.updateBackgroundPopUp);
+
+            // TODO: This should be an event that is triggered whenever a new trip has been made
+            FindViewById<Button>(Resource.Id.button1).Click += (o, e) =>
+                XPLevelUp();
+        }
+
+        private void XPLevelUp() {
+
+            if (xpPercentage < 100)
+            {
+                // Change to the xp received
+                xpPercentage += 100;
+
+                if (xpPercentage >= 100)
+                {
+                    xpPercentage = 0;
+
+                    // TODO: XP percentage should get the new percentage if the person received more xp than required to lvl up
+
+                    // Increase lvl by 1
+                    level += 1;
+                    UILevel = "Lvl. " + level.ToString();
+
+                    if (FindViewById<Button>(Resource.Id.backbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                        FindViewById<Button>(Resource.Id.middleBuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                        FindViewById<Button>(Resource.Id.frontbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                        FindViewById<Button>(Resource.Id.roadButton).Visibility != Android.Views.ViewStates.Gone
+                     )
+                    {
+                        upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Visible;
+                    }
+
+                    // Update lvl in ui
+                    FindViewById<TextView>(Resource.Id.currentLevel).Text = UILevel;
+
+                    // TODO: update the current xp in UI as well
+                }
+            }
+
+            progressBar.Progress = xpPercentage;
+        }
+
+        private void TrophiesPopUpInitialization() {
+
+            trophiesPopUp = FindViewById<LinearLayout>(Resource.Id.trophiesPopUp);
+
+            TrophyButton.Click += (o, e) =>
+                trophiesPopUp.Visibility = Android.Views.ViewStates.Visible;
+
+            FindViewById<Button>(Resource.Id.closeTrophiesPopUp).Click += (o, e) =>
+                trophiesPopUp.Visibility = Android.Views.ViewStates.Gone;
+        
         }
 
         private void TripPopUpInitialization() {
@@ -221,6 +295,79 @@ namespace DBapp
                 tripPopUp.Visibility = Android.Views.ViewStates.Gone;
         }
 
+        private void TriggerTrophies() {
+
+            if (walkedMeter >= 500) {
+                FindViewById<TextView>(Resource.Id.trophy500m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedMeter >= 1000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy1000m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedMeter >= 2500)
+            {
+                FindViewById<TextView>(Resource.Id.trophy2500m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedMeter >= 5000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy5000m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedMeter >= 7500)
+            {
+                FindViewById<TextView>(Resource.Id.trophy7500m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedMeter >= 10000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy10000m).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 500)
+            {
+                FindViewById<TextView>(Resource.Id.trophy500mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 1000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy1000mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 2500)
+            {
+                FindViewById<TextView>(Resource.Id.trophy2500mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 5000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy5000mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 7500)
+            {
+                FindViewById<TextView>(Resource.Id.trophy7500mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (bikeMeter >= 10000)
+            {
+                FindViewById<TextView>(Resource.Id.trophy10000mBike).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedTrips >= 10) {
+
+                FindViewById<TextView>(Resource.Id.Walk10Trips).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+
+            if (walkedTrips >= 20)
+            {
+
+                FindViewById<TextView>(Resource.Id.Walk20Trips).SetBackgroundColor(Android.Graphics.Color.Green);
+            }
+        }
+
         private void SaveTrip() {
 
             string distance = FindViewById<EditText>(Resource.Id.distanceValue).Text;
@@ -245,6 +392,19 @@ namespace DBapp
                 {
                     trip = new TripClass(distance, timeStamp, user, chosenTripTransport);
                     tripName = trip.TimeStamp + " " + trip.OtherTransport + " " + trip.Distance;
+
+                    if (trip.OtherTransport.Equals("Walking"))
+                    {
+                        walkedMeter += int.Parse(trip.Distance);
+                        walkedTrips += 1;
+                    }
+                    else if (trip.OtherTransport.Equals("Bike")) { 
+                    
+                        bikeMeter += int.Parse(trip.Distance);
+                        bikeTrips += 1;
+                    }
+
+                    TriggerTrophies();
                 }
 
 
@@ -949,12 +1109,28 @@ namespace DBapp
             }
             else
             {
+                
                 // If they have not chosen any car vehicle then the car options should be gone
                 CarName.Visibility = Android.Views.ViewStates.Gone;
                 CarType.Visibility = Android.Views.ViewStates.Gone;
                 CarKmPL.Visibility = Android.Views.ViewStates.Gone;
                 saveCarButton.Visibility = Android.Views.ViewStates.Gone;
                 deleteCarButton.Visibility = Android.Views.ViewStates.Gone;
+
+                // Trigger trophy if they have chosen a more sustainable transport
+                if (!transport.Equals("")) {
+                    if (!transport.Equals("Walking") && !transport.Equals("Bike") && !transport.Equals("Bus"))
+                    {
+                        FindViewById<TextView>(Resource.Id.sustainableTransportTrophy).SetBackgroundColor(Android.Graphics.Color.Green);
+                    }
+                    else if (transport.Equals("Bus")) {
+
+                        if (temp.Equals("Walking") || temp.Equals("Bike")) {
+
+                            FindViewById<TextView>(Resource.Id.sustainableTransportTrophy).SetBackgroundColor(Android.Graphics.Color.Green);
+                        }
+                    }
+                }
             }
 
             // Change the transport of the user to the one that they have picked in the spinner
@@ -1053,47 +1229,41 @@ namespace DBapp
             {
                 backbuildings_7.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_8.Visibility = Android.Views.ViewStates.Visible;
-                level++;
+                FindViewById<Button>(Resource.Id.backbuildingsButton).Visibility = Android.Views.ViewStates.Gone;
             }
             else if (backbuildings_6.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (backbuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (backbuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (backbuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (backbuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (backbuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 backbuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 backbuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
 
+            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             AnimalLevelUp();
-
             ChangeBackgroundColor();
         }
 
@@ -1104,39 +1274,35 @@ namespace DBapp
             {
                 middleBuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                level++;
+                FindViewById<Button>(Resource.Id.middleBuildingsButton).Visibility = Android.Views.ViewStates.Gone;
             }
             else if (middleBuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (middleBuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (middleBuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (middleBuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (middleBuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 middleBuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 middleBuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
 
+            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1147,51 +1313,45 @@ namespace DBapp
             {
                 frontbuildings_8.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_9.Visibility = Android.Views.ViewStates.Visible;
-                level++;
+                FindViewById<Button>(Resource.Id.frontbuildingsButton).Visibility = Android.Views.ViewStates.Gone;
             }
             else if (frontbuildings_7.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_7.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_8.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_6.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_6.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_7.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_5.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_5.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_6.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_4.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_4.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_5.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_3.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_3.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_4.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_2.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_2.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_3.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (frontbuildings_1.Visibility != Android.Views.ViewStates.Gone)
             {
                 frontbuildings_1.Visibility = Android.Views.ViewStates.Gone;
                 frontbuildings_2.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
 
+            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1203,57 +1363,50 @@ namespace DBapp
             {
                 road9.Visibility = Android.Views.ViewStates.Gone;
                 road10.Visibility = Android.Views.ViewStates.Visible;
-                level++;
+                FindViewById<Button>(Resource.Id.roadButton).Visibility = Android.Views.ViewStates.Gone;
             }
             else if (road8.Visibility != Android.Views.ViewStates.Gone)
             {
                 road8.Visibility = Android.Views.ViewStates.Gone;
                 road9.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road7.Visibility != Android.Views.ViewStates.Gone)
             {
                 road7.Visibility = Android.Views.ViewStates.Gone;
                 road8.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road6.Visibility != Android.Views.ViewStates.Gone)
             {
                 road6.Visibility = Android.Views.ViewStates.Gone;
                 road7.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road5.Visibility != Android.Views.ViewStates.Gone)
             {
                 road5.Visibility = Android.Views.ViewStates.Gone;
                 road6.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road4.Visibility != Android.Views.ViewStates.Gone)
             {
                 road4.Visibility = Android.Views.ViewStates.Gone;
                 road5.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road3.Visibility != Android.Views.ViewStates.Gone)
             {
                 road3.Visibility = Android.Views.ViewStates.Gone;
                 road4.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road2.Visibility != Android.Views.ViewStates.Gone)
             {
                 road2.Visibility = Android.Views.ViewStates.Gone;
                 road3.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
             else if (road1.Visibility != Android.Views.ViewStates.Gone)
             {
                 road1.Visibility = Android.Views.ViewStates.Gone;
                 road2.Visibility = Android.Views.ViewStates.Visible;
-                level++;
             }
 
+            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             AnimalLevelUp();
             ChangeBackgroundColor();
         }

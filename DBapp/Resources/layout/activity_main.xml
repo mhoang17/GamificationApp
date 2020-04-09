@@ -24,18 +24,22 @@
         android:layout_marginLeft = "-70dp"
     />
 
-    <include layout="@layout/updateBackgroundPopUp"/>
     <include layout="@layout/koalascene"
         android:visibility="gone"
         android:id = "@+id/koalaScene" />
     <include layout="@layout/polarbearbackgrounds"
         android:visibility="gone"
         android:id = "@+id/PBScene"/>
+    
+    
+    <include layout = "@layout/progressbar"/>
+    <include layout="@layout/updateBackgroundPopUp"/>
     <include layout="@layout/chooseanimalpopup"/>
     <include layout="@layout/menuBar"/>
     <include layout="@layout/createuserpopup"/>
     <include layout="@layout/profilepopup"/>
     <include layout = "@layout/tripspopup"/>
+    <include layout = "@layout/trophiesPopUp"/>
     
 
 

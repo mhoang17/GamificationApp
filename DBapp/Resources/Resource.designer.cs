@@ -8626,11 +8626,20 @@ namespace DBapp
 			// aapt resource value: 0x7f0b003e
 			public const int SYM = 2131427390;
 			
-			// aapt resource value: 0x7f0b012b
-			public const int TripPopUp = 2131427627;
+			// aapt resource value: 0x7f0b012f
+			public const int TripPopUp = 2131427631;
 			
 			// aapt resource value: 0x7f0b00ba
 			public const int UserCreationPopUp = 2131427514;
+			
+			// aapt resource value: 0x7f0b0146
+			public const int Walk10Trips = 2131427654;
+			
+			// aapt resource value: 0x7f0b0147
+			public const int Walk20Trips = 2131427655;
+			
+			// aapt resource value: 0x7f0b0148
+			public const int Walk30Trips = 2131427656;
 			
 			// aapt resource value: 0x7f0b00f6
 			public const int action0 = 2131427574;
@@ -8740,8 +8749,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0b00a0
 			public const int backbuildings8 = 2131427488;
 			
-			// aapt resource value: 0x7f0b0135
-			public const int backbuildingsButton = 2131427637;
+			// aapt resource value: 0x7f0b014e
+			public const int backbuildingsButton = 2131427662;
 			
 			// aapt resource value: 0x7f0b00ae
 			public const int background1 = 2131427502;
@@ -8793,6 +8802,9 @@ namespace DBapp
 			
 			// aapt resource value: 0x7f0b00b1
 			public const int browser_actions_menu_view = 2131427505;
+			
+			// aapt resource value: 0x7f0b011e
+			public const int button1 = 2131427614;
 			
 			// aapt resource value: 0x7f0b0072
 			public const int buttonPanel = 2131427442;
@@ -8863,6 +8875,9 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0119
 			public const int closeProfilePopUp = 2131427609;
 			
+			// aapt resource value: 0x7f0b014a
+			public const int closeTrophiesPopUp = 2131427658;
+			
 			// aapt resource value: 0x7f0b0040
 			public const int collapseActionView = 2131427392;
 			
@@ -8880,6 +8895,9 @@ namespace DBapp
 			
 			// aapt resource value: 0x7f0b00c5
 			public const int createUserButton = 2131427525;
+			
+			// aapt resource value: 0x7f0b011b
+			public const int currentLevel = 2131427611;
 			
 			// aapt resource value: 0x7f0b007c
 			public const int custom = 2131427452;
@@ -8917,8 +8935,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0027
 			public const int disableHome = 2131427367;
 			
-			// aapt resource value: 0x7f0b0130
-			public const int distanceValue = 2131427632;
+			// aapt resource value: 0x7f0b0134
+			public const int distanceValue = 2131427636;
 			
 			// aapt resource value: 0x7f0b008f
 			public const int edit_query = 2131427471;
@@ -9001,8 +9019,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0b00d4
 			public const int frontbuildings9 = 2131427540;
 			
-			// aapt resource value: 0x7f0b0134
-			public const int frontbuildingsButton = 2131427636;
+			// aapt resource value: 0x7f0b0150
+			public const int frontbuildingsButton = 2131427664;
 			
 			// aapt resource value: 0x7f0b000a
 			public const int ghost_view = 2131427338;
@@ -9076,6 +9094,12 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0054
 			public const int left = 2131427412;
 			
+			// aapt resource value: 0x7f0b014c
+			public const int levelUpHeader = 2131427660;
+			
+			// aapt resource value: 0x7f0b014d
+			public const int levelUpUnderHeader = 2131427661;
+			
 			// aapt resource value: 0x7f0b001c
 			public const int line1 = 2131427356;
 			
@@ -9088,20 +9112,20 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0070
 			public const int list_item = 2131427440;
 			
-			// aapt resource value: 0x7f0b0125
-			public const int main_appbar = 2131427621;
+			// aapt resource value: 0x7f0b0129
+			public const int main_appbar = 2131427625;
 			
-			// aapt resource value: 0x7f0b0127
-			public const int main_tablayout = 2131427623;
+			// aapt resource value: 0x7f0b012b
+			public const int main_tablayout = 2131427627;
 			
-			// aapt resource value: 0x7f0b0126
-			public const int main_toolbar = 2131427622;
+			// aapt resource value: 0x7f0b012a
+			public const int main_toolbar = 2131427626;
 			
-			// aapt resource value: 0x7f0b0128
-			public const int main_viewpager = 2131427624;
+			// aapt resource value: 0x7f0b012c
+			public const int main_viewpager = 2131427628;
 			
-			// aapt resource value: 0x7f0b0139
-			public const int masked = 2131427641;
+			// aapt resource value: 0x7f0b0153
+			public const int masked = 2131427667;
 			
 			// aapt resource value: 0x7f0b00f9
 			public const int media_actions = 2131427577;
@@ -9118,8 +9142,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0038
 			public const int middle = 2131427384;
 			
-			// aapt resource value: 0x7f0b0137
-			public const int middleBuildingsButton = 2131427639;
+			// aapt resource value: 0x7f0b014f
+			public const int middleBuildingsButton = 2131427663;
 			
 			// aapt resource value: 0x7f0b00f2
 			public const int middlebuilding1 = 2131427570;
@@ -9196,6 +9220,9 @@ namespace DBapp
 			// aapt resource value: 0x7f0b00e5
 			public const int profileIcon = 2131427557;
 			
+			// aapt resource value: 0x7f0b011c
+			public const int progressBar = 2131427612;
+			
 			// aapt resource value: 0x7f0b0006
 			public const int progress_circular = 2131427334;
 			
@@ -9214,38 +9241,38 @@ namespace DBapp
 			// aapt resource value: 0x7f0b00fd
 			public const int right_side = 2131427581;
 			
-			// aapt resource value: 0x7f0b0124
-			public const int road1 = 2131427620;
-			
-			// aapt resource value: 0x7f0b011b
-			public const int road10 = 2131427611;
-			
-			// aapt resource value: 0x7f0b0123
-			public const int road2 = 2131427619;
-			
-			// aapt resource value: 0x7f0b0122
-			public const int road3 = 2131427618;
-			
-			// aapt resource value: 0x7f0b0121
-			public const int road4 = 2131427617;
-			
-			// aapt resource value: 0x7f0b0120
-			public const int road5 = 2131427616;
+			// aapt resource value: 0x7f0b0128
+			public const int road1 = 2131427624;
 			
 			// aapt resource value: 0x7f0b011f
-			public const int road6 = 2131427615;
+			public const int road10 = 2131427615;
 			
-			// aapt resource value: 0x7f0b011e
-			public const int road7 = 2131427614;
+			// aapt resource value: 0x7f0b0127
+			public const int road2 = 2131427623;
 			
-			// aapt resource value: 0x7f0b011d
-			public const int road8 = 2131427613;
+			// aapt resource value: 0x7f0b0126
+			public const int road3 = 2131427622;
 			
-			// aapt resource value: 0x7f0b011c
-			public const int road9 = 2131427612;
+			// aapt resource value: 0x7f0b0125
+			public const int road4 = 2131427621;
 			
-			// aapt resource value: 0x7f0b0136
-			public const int roadButton = 2131427638;
+			// aapt resource value: 0x7f0b0124
+			public const int road5 = 2131427620;
+			
+			// aapt resource value: 0x7f0b0123
+			public const int road6 = 2131427619;
+			
+			// aapt resource value: 0x7f0b0122
+			public const int road7 = 2131427618;
+			
+			// aapt resource value: 0x7f0b0121
+			public const int road8 = 2131427617;
+			
+			// aapt resource value: 0x7f0b0120
+			public const int road9 = 2131427616;
+			
+			// aapt resource value: 0x7f0b0151
+			public const int roadButton = 2131427665;
 			
 			// aapt resource value: 0x7f0b0116
 			public const int saveCarButton = 2131427606;
@@ -9316,11 +9343,11 @@ namespace DBapp
 			// aapt resource value: 0x7f0b004f
 			public const int selected = 2131427407;
 			
-			// aapt resource value: 0x7f0b0129
-			public const int shellcontent_appbar = 2131427625;
+			// aapt resource value: 0x7f0b012d
+			public const int shellcontent_appbar = 2131427629;
 			
-			// aapt resource value: 0x7f0b012a
-			public const int shellcontent_toolbar = 2131427626;
+			// aapt resource value: 0x7f0b012e
+			public const int shellcontent_toolbar = 2131427630;
 			
 			// aapt resource value: 0x7f0b0083
 			public const int shortcut = 2131427459;
@@ -9384,6 +9411,9 @@ namespace DBapp
 			
 			// aapt resource value: 0x7f0b0098
 			public const int submit_area = 2131427480;
+			
+			// aapt resource value: 0x7f0b0149
+			public const int sustainableTransportTrophy = 2131427657;
 			
 			// aapt resource value: 0x7f0b0026
 			public const int tabMode = 2131427366;
@@ -9472,26 +9502,68 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0013
 			public const int transition_transform = 2131427347;
 			
-			// aapt resource value: 0x7f0b0133
-			public const int tripCloseButton = 2131427635;
-			
-			// aapt resource value: 0x7f0b012e
-			public const int tripDateValue = 2131427630;
+			// aapt resource value: 0x7f0b0137
+			public const int tripCloseButton = 2131427639;
 			
 			// aapt resource value: 0x7f0b0132
-			public const int tripDeleteButton = 2131427634;
+			public const int tripDateValue = 2131427634;
+			
+			// aapt resource value: 0x7f0b0136
+			public const int tripDeleteButton = 2131427638;
+			
+			// aapt resource value: 0x7f0b0135
+			public const int tripSaveButton = 2131427637;
+			
+			// aapt resource value: 0x7f0b0133
+			public const int tripTransportSpinner = 2131427635;
 			
 			// aapt resource value: 0x7f0b0131
-			public const int tripSaveButton = 2131427633;
+			public const int tripsSpinner = 2131427633;
 			
-			// aapt resource value: 0x7f0b012f
-			public const int tripTransportSpinner = 2131427631;
+			// aapt resource value: 0x7f0b0130
+			public const int tripsSpinnerHeader = 2131427632;
 			
-			// aapt resource value: 0x7f0b012d
-			public const int tripsSpinner = 2131427629;
+			// aapt resource value: 0x7f0b0138
+			public const int trophiesPopUp = 2131427640;
 			
-			// aapt resource value: 0x7f0b012c
-			public const int tripsSpinnerHeader = 2131427628;
+			// aapt resource value: 0x7f0b013f
+			public const int trophy10000m = 2131427647;
+			
+			// aapt resource value: 0x7f0b0145
+			public const int trophy10000mBike = 2131427653;
+			
+			// aapt resource value: 0x7f0b013b
+			public const int trophy1000m = 2131427643;
+			
+			// aapt resource value: 0x7f0b0141
+			public const int trophy1000mBike = 2131427649;
+			
+			// aapt resource value: 0x7f0b013c
+			public const int trophy2500m = 2131427644;
+			
+			// aapt resource value: 0x7f0b0142
+			public const int trophy2500mBike = 2131427650;
+			
+			// aapt resource value: 0x7f0b013d
+			public const int trophy5000m = 2131427645;
+			
+			// aapt resource value: 0x7f0b0143
+			public const int trophy5000mBike = 2131427651;
+			
+			// aapt resource value: 0x7f0b013a
+			public const int trophy500m = 2131427642;
+			
+			// aapt resource value: 0x7f0b0140
+			public const int trophy500mBike = 2131427648;
+			
+			// aapt resource value: 0x7f0b013e
+			public const int trophy7500m = 2131427646;
+			
+			// aapt resource value: 0x7f0b0144
+			public const int trophy7500mBike = 2131427652;
+			
+			// aapt resource value: 0x7f0b0139
+			public const int trophyHeader = 2131427641;
 			
 			// aapt resource value: 0x7f0b00e9
 			public const int trophyIcon = 2131427561;
@@ -9505,20 +9577,26 @@ namespace DBapp
 			// aapt resource value: 0x7f0b0009
 			public const int up = 2131427337;
 			
+			// aapt resource value: 0x7f0b014b
+			public const int updateBackgroundPopUp = 2131427659;
+			
 			// aapt resource value: 0x7f0b002d
 			public const int useLogo = 2131427373;
 			
 			// aapt resource value: 0x7f0b001b
 			public const int view_offset_helper = 2131427355;
 			
-			// aapt resource value: 0x7f0b0138
-			public const int visible = 2131427640;
+			// aapt resource value: 0x7f0b0152
+			public const int visible = 2131427666;
 			
 			// aapt resource value: 0x7f0b0043
 			public const int withText = 2131427395;
 			
 			// aapt resource value: 0x7f0b0035
 			public const int wrap_content = 2131427381;
+			
+			// aapt resource value: 0x7f0b011d
+			public const int xpPoint = 2131427613;
 			
 			static Id()
 			{
@@ -9839,31 +9917,37 @@ namespace DBapp
 			public const int ProfilePopUp = 2130968649;
 			
 			// aapt resource value: 0x7f04004a
-			public const int roads = 2130968650;
+			public const int progressBar = 2130968650;
 			
 			// aapt resource value: 0x7f04004b
-			public const int RootLayout = 2130968651;
+			public const int roads = 2130968651;
 			
 			// aapt resource value: 0x7f04004c
-			public const int select_dialog_item_material = 2130968652;
+			public const int RootLayout = 2130968652;
 			
 			// aapt resource value: 0x7f04004d
-			public const int select_dialog_multichoice_material = 2130968653;
+			public const int select_dialog_item_material = 2130968653;
 			
 			// aapt resource value: 0x7f04004e
-			public const int select_dialog_singlechoice_material = 2130968654;
+			public const int select_dialog_multichoice_material = 2130968654;
 			
 			// aapt resource value: 0x7f04004f
-			public const int ShellContent = 2130968655;
+			public const int select_dialog_singlechoice_material = 2130968655;
 			
 			// aapt resource value: 0x7f040050
-			public const int support_simple_spinner_dropdown_item = 2130968656;
+			public const int ShellContent = 2130968656;
 			
 			// aapt resource value: 0x7f040051
-			public const int TripsPopUp = 2130968657;
+			public const int support_simple_spinner_dropdown_item = 2130968657;
 			
 			// aapt resource value: 0x7f040052
-			public const int updateBackgroundPopUp = 2130968658;
+			public const int TripsPopUp = 2130968658;
+			
+			// aapt resource value: 0x7f040053
+			public const int trophiesPopUp = 2130968659;
+			
+			// aapt resource value: 0x7f040054
+			public const int updateBackgroundPopUp = 2130968660;
 			
 			static Layout()
 			{
