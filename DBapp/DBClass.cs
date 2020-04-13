@@ -260,7 +260,6 @@ namespace DBapp
 				cmd.Parameters.AddWithValue("@carID", transport);
 
 				//execute command
-				//execute command
 				object returnID = cmd.ExecuteScalar();
 				id = returnID.ToString();
 
