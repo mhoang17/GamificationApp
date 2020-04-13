@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBapp", "DBapp\DBapp.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamificationAppUnitTest", "GamificationAppUnitTest\GamificationAppUnitTest.csproj", "{54F47332-9105-43E3-B447-4CF30819CAEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P6Test", "..\P6Test-master\P6Test\P6Test.csproj", "{931A93C4-7CC6-43CE-A45A-63D22D01377A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,12 @@ Global
 		{54F47332-9105-43E3-B447-4CF30819CAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F47332-9105-43E3-B447-4CF30819CAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F47332-9105-43E3-B447-4CF30819CAEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{931A93C4-7CC6-43CE-A45A-63D22D01377A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

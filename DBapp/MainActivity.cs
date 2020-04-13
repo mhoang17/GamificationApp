@@ -6,11 +6,21 @@ using Android.Widget;
 using System;
 using System.Collections.Generic;
 using Android.Animation;
+using Android.Gms.Location;
+using Com.Karumi.Dexter;
+using Com.Karumi.Dexter.Listener.Single;
+using Com.Karumi.Dexter.Listener;
+using Plugin.Geolocator;
+using Android;
+using Android.Content;
+using Android.Locations;
+using System.Threading.Tasks;
+using Android.Support.V4.App;
 
 namespace DBapp
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : AppCompatActivity, Android.Gms.Location.ILocationListener, IPermissionListener
     {
 
         // Backgrounds
@@ -156,12 +166,46 @@ namespace DBapp
         // Upgrade background
         private RelativeLayout upgradeBackgroundPopUp;
 
+
+        // GPS Variables
+        private int i = 0;
+        private static int rangeDif = 1;
+        private Bundle bundle;
+        private Xamarin.Essentials.Location oldLocation = null;
+        private Xamarin.Essentials.Location newLocation = null;
+        private bool runGPS = false;
+        FusedLocationProviderClient fusedLocationProviderClient;
+        LocationRequest locationRequest;
+
+        static MainActivity Instance;
+
+        // Get Instance
+        public static MainActivity GetInstance()
+        {
+            return Instance;
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
+
+            Instance = this;
+
+            fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
+            Dexter.WithActivity(this)
+                .WithPermission(Manifest.Permission.AccessFineLocation)
+                .WithListener(this)
+                .Check();
+
+            CreateNotificationChannel();
+            Intent StartServiceIntent = new Intent(this, typeof(ForegroundMethod));
+            StartServiceIntent.SetAction("Service.action.START_SERVICE");
+
+            StartForegroundService(StartServiceIntent);
 
             // Connect to database
             DBConnect connection = new DBConnect();
@@ -217,7 +261,7 @@ namespace DBapp
             if (xpPercentage < 100)
             {
                 // Change to the xp received
-                xpPercentage += 100;
+                xpPercentage += 10;
 
                 if (xpPercentage >= 100)
                 {
@@ -1454,5 +1498,125 @@ namespace DBapp
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        // GPS Methods
+        public void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                //If Android version under O no need for channels
+                return;
+            }
+
+            Java.Lang.ICharSequence name = new Java.Lang.String("Channel");
+            var channel = new NotificationChannel("1100", name, default);
+
+            var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+        }
+
+        private async Task GetLastLocation()
+        {
+            Android.Locations.Location location1 = await fusedLocationProviderClient.GetLastLocationAsync();
+            //if (location1 != null)
+            //{
+            TextView txtLocation1 = FindViewById<TextView>(P6Test.Resource.Id.oldLocation);
+            TextView txtLocation2 = FindViewById<TextView>(P6Test.Resource.Id.NewLocation);
+            TextView speed = FindViewById<TextView>(P6Test.Resource.Id.speed);
+            TextView updates = FindViewById<TextView>(P6Test.Resource.Id.updates);
+
+            var position = location1;
+
+            var test = CrossGeolocator.Current;
+            test.DesiredAccuracy = 20;
+
+            var position1 = test.GetPositionAsync();
+
+
+            if (i == 0)
+            {
+                oldLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
+                newLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
+                txtLocation1.Text = position.Latitude.ToString("#.###") + " : " + position.Longitude.ToString("#.###");
+                i = 1;
+                updates.Text = i.ToString();
+            }
+            else
+            {
+                oldLocation = newLocation;
+                newLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
+
+                if (txtLocation2.Text.Equals(""))
+                {
+                    txtLocation1.Text = txtLocation1.Text;
+
+                }
+                else { txtLocation1.Text = txtLocation2.Text; }
+
+                txtLocation2.Text = position.Latitude.ToString("#.###") + " : " + position.Longitude.ToString("#.###");
+                //distance.Text = Location.CalculateDistance(oldLocation, newLocation, DistanceUnits.Kilometers).ToString() + " km";
+                updates.Text = i.ToString();
+                var speedkmh = position.Speed * 3.6;
+                speed.Text = speedkmh.ToString("#.####") + " km/h";
+            }
+            i++;
+            //}
+        }
+
+        private async void getLocation()
+        {
+            await GetLastLocation();
+        }
+
+        public void OnLocationChanged(Location location)
+        {
+            getLocation();
+        }
+
+        public void OnPermissionDenied(PermissionDeniedResponse p0)
+        {
+             Toast.MakeText(this, "You must accept this permission", ToastLength.Short).Show();
+        }
+
+        public void OnPermissionGranted(PermissionGrantedResponse p0)
+        {
+            UpdateLocation();
+        }
+
+        private void UpdateLocation()
+        {
+            BuildLocationRequest();
+            fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(this);
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Android.Content.PM.Permission.Granted)
+                return;
+            fusedLocationProviderClient.RequestLocationUpdates(locationRequest, GetPendingIntent());
+        }
+
+        private PendingIntent GetPendingIntent()
+        {
+            Intent intent = new Intent(this, typeof(MyLocationService));
+            intent.SetAction(MyLocationService.ACTION_PROCESS_LOCATION);
+            return PendingIntent.GetBroadcast(this, 0, intent, PendingIntentFlags.UpdateCurrent);
+        }
+
+        private void BuildLocationRequest()
+        {
+            locationRequest = new LocationRequest();
+            locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
+            locationRequest.SetInterval(5000);
+            locationRequest.SetFastestInterval(3000);
+            locationRequest.SetSmallestDisplacement(10f);
+
+        }
+
+        public void OnPermissionRationaleShouldBeShown(PermissionRequest p0, IPermissionToken p1)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Getters
+
+        public UserClass GetUser
+        { get { return user; } }
     }
 }
