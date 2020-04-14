@@ -28,24 +28,13 @@ namespace GamificationAppUnitTest
             UserClass user = new UserClass("Maria", "21", "Car");
             CarClass car = new CarClass("Skoda", "Gasoline", "25.00", user);
 
+            TripClass trip = new TripClass("1000", DateTime.Now.ToString(), user, car);
+
             Assert.IsTrue(!car.CarID.Equals(""));
 
             user.Delete();
         }
     }
 
-    [TestClass]
-    public class TripClassTest
-    {
-        [TestMethod]
-        public void CreateTrip()
-        {
-            UserClass user = new UserClass("Maria", "21", "Car");
-            CarClass car = new CarClass("Skoda", "Gasoline", "25.00", user);
-            TripClass trip = new TripClass("1230", DateTime.Now.ToString(), user, "Walking");
 
-            Assert.IsTrue(!trip.TripID.Equals(""));
-
-        }
-    }
 }

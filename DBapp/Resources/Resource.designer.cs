@@ -3677,20 +3677,20 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0049
 			public const int SYM = 2131558473;
 			
-			// aapt resource value: 0x7f0d012f
-			public const int TripPopUp = 2131558703;
+			// aapt resource value: 0x7f0d012e
+			public const int TripPopUp = 2131558702;
 			
 			// aapt resource value: 0x7f0d00c2
 			public const int UserCreationPopUp = 2131558594;
 			
+			// aapt resource value: 0x7f0d0145
+			public const int Walk10Trips = 2131558725;
+			
 			// aapt resource value: 0x7f0d0146
-			public const int Walk10Trips = 2131558726;
+			public const int Walk20Trips = 2131558726;
 			
 			// aapt resource value: 0x7f0d0147
-			public const int Walk20Trips = 2131558727;
-			
-			// aapt resource value: 0x7f0d0148
-			public const int Walk30Trips = 2131558728;
+			public const int Walk30Trips = 2131558727;
 			
 			// aapt resource value: 0x7f0d00fc
 			public const int action0 = 2131558652;
@@ -3806,8 +3806,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d00aa
 			public const int backbuildings8 = 2131558570;
 			
-			// aapt resource value: 0x7f0d014e
-			public const int backbuildingsButton = 2131558734;
+			// aapt resource value: 0x7f0d014d
+			public const int backbuildingsButton = 2131558733;
 			
 			// aapt resource value: 0x7f0d00b8
 			public const int background1 = 2131558584;
@@ -3853,9 +3853,6 @@ namespace DBapp
 			
 			// aapt resource value: 0x7f0d00b9
 			public const int browser_actions_menu_view = 2131558585;
-			
-			// aapt resource value: 0x7f0d0124
-			public const int button1 = 2131558692;
 			
 			// aapt resource value: 0x7f0d007c
 			public const int buttonPanel = 2131558524;
@@ -3926,8 +3923,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d011f
 			public const int closeProfilePopUp = 2131558687;
 			
-			// aapt resource value: 0x7f0d014a
-			public const int closeTrophiesPopUp = 2131558730;
+			// aapt resource value: 0x7f0d0149
+			public const int closeTrophiesPopUp = 2131558729;
 			
 			// aapt resource value: 0x7f0d004b
 			public const int collapseActionView = 2131558475;
@@ -3989,8 +3986,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0033
 			public const int disableHome = 2131558451;
 			
-			// aapt resource value: 0x7f0d0134
-			public const int distanceValue = 2131558708;
+			// aapt resource value: 0x7f0d0133
+			public const int distanceValue = 2131558707;
 			
 			// aapt resource value: 0x7f0d0099
 			public const int edit_query = 2131558553;
@@ -4067,8 +4064,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d00da
 			public const int frontbuildings9 = 2131558618;
 			
-			// aapt resource value: 0x7f0d0150
-			public const int frontbuildingsButton = 2131558736;
+			// aapt resource value: 0x7f0d014f
+			public const int frontbuildingsButton = 2131558735;
 			
 			// aapt resource value: 0x7f0d000a
 			public const int ghost_view = 2131558410;
@@ -4148,11 +4145,11 @@ namespace DBapp
 			// aapt resource value: 0x7f0d005e
 			public const int left = 2131558494;
 			
-			// aapt resource value: 0x7f0d014c
-			public const int levelUpHeader = 2131558732;
+			// aapt resource value: 0x7f0d014b
+			public const int levelUpHeader = 2131558731;
 			
-			// aapt resource value: 0x7f0d014d
-			public const int levelUpUnderHeader = 2131558733;
+			// aapt resource value: 0x7f0d014c
+			public const int levelUpUnderHeader = 2131558732;
 			
 			// aapt resource value: 0x7f0d0030
 			public const int light = 2131558448;
@@ -4169,8 +4166,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d007a
 			public const int list_item = 2131558522;
 			
-			// aapt resource value: 0x7f0d0153
-			public const int masked = 2131558739;
+			// aapt resource value: 0x7f0d0152
+			public const int masked = 2131558738;
 			
 			// aapt resource value: 0x7f0d00ff
 			public const int media_actions = 2131558655;
@@ -4187,8 +4184,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0043
 			public const int middle = 2131558467;
 			
-			// aapt resource value: 0x7f0d014f
-			public const int middleBuildingsButton = 2131558735;
+			// aapt resource value: 0x7f0d014e
+			public const int middleBuildingsButton = 2131558734;
 			
 			// aapt resource value: 0x7f0d00f8
 			public const int middlebuilding1 = 2131558648;
@@ -4286,38 +4283,38 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0103
 			public const int right_side = 2131558659;
 			
-			// aapt resource value: 0x7f0d012e
-			public const int road1 = 2131558702;
-			
-			// aapt resource value: 0x7f0d0125
-			public const int road10 = 2131558693;
-			
 			// aapt resource value: 0x7f0d012d
-			public const int road2 = 2131558701;
+			public const int road1 = 2131558701;
+			
+			// aapt resource value: 0x7f0d0124
+			public const int road10 = 2131558692;
 			
 			// aapt resource value: 0x7f0d012c
-			public const int road3 = 2131558700;
+			public const int road2 = 2131558700;
 			
 			// aapt resource value: 0x7f0d012b
-			public const int road4 = 2131558699;
+			public const int road3 = 2131558699;
 			
 			// aapt resource value: 0x7f0d012a
-			public const int road5 = 2131558698;
+			public const int road4 = 2131558698;
 			
 			// aapt resource value: 0x7f0d0129
-			public const int road6 = 2131558697;
+			public const int road5 = 2131558697;
 			
 			// aapt resource value: 0x7f0d0128
-			public const int road7 = 2131558696;
+			public const int road6 = 2131558696;
 			
 			// aapt resource value: 0x7f0d0127
-			public const int road8 = 2131558695;
+			public const int road7 = 2131558695;
 			
 			// aapt resource value: 0x7f0d0126
-			public const int road9 = 2131558694;
+			public const int road8 = 2131558694;
 			
-			// aapt resource value: 0x7f0d0151
-			public const int roadButton = 2131558737;
+			// aapt resource value: 0x7f0d0125
+			public const int road9 = 2131558693;
+			
+			// aapt resource value: 0x7f0d0150
+			public const int roadButton = 2131558736;
 			
 			// aapt resource value: 0x7f0d0027
 			public const int satellite = 2131558439;
@@ -4457,8 +4454,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d00a2
 			public const int submit_area = 2131558562;
 			
-			// aapt resource value: 0x7f0d0149
-			public const int sustainableTransportTrophy = 2131558729;
+			// aapt resource value: 0x7f0d0148
+			public const int sustainableTransportTrophy = 2131558728;
 			
 			// aapt resource value: 0x7f0d0032
 			public const int tabMode = 2131558450;
@@ -4550,68 +4547,68 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0013
 			public const int transition_transform = 2131558419;
 			
-			// aapt resource value: 0x7f0d0137
-			public const int tripCloseButton = 2131558711;
-			
-			// aapt resource value: 0x7f0d0132
-			public const int tripDateValue = 2131558706;
-			
 			// aapt resource value: 0x7f0d0136
-			public const int tripDeleteButton = 2131558710;
-			
-			// aapt resource value: 0x7f0d0135
-			public const int tripSaveButton = 2131558709;
-			
-			// aapt resource value: 0x7f0d0133
-			public const int tripTransportSpinner = 2131558707;
+			public const int tripCloseButton = 2131558710;
 			
 			// aapt resource value: 0x7f0d0131
-			public const int tripsSpinner = 2131558705;
+			public const int tripDateValue = 2131558705;
+			
+			// aapt resource value: 0x7f0d0135
+			public const int tripDeleteButton = 2131558709;
+			
+			// aapt resource value: 0x7f0d0134
+			public const int tripSaveButton = 2131558708;
+			
+			// aapt resource value: 0x7f0d0132
+			public const int tripTransportSpinner = 2131558706;
 			
 			// aapt resource value: 0x7f0d0130
-			public const int tripsSpinnerHeader = 2131558704;
+			public const int tripsSpinner = 2131558704;
 			
-			// aapt resource value: 0x7f0d0138
-			public const int trophiesPopUp = 2131558712;
+			// aapt resource value: 0x7f0d012f
+			public const int tripsSpinnerHeader = 2131558703;
 			
-			// aapt resource value: 0x7f0d013f
-			public const int trophy10000m = 2131558719;
-			
-			// aapt resource value: 0x7f0d0145
-			public const int trophy10000mBike = 2131558725;
-			
-			// aapt resource value: 0x7f0d013b
-			public const int trophy1000m = 2131558715;
-			
-			// aapt resource value: 0x7f0d0141
-			public const int trophy1000mBike = 2131558721;
-			
-			// aapt resource value: 0x7f0d013c
-			public const int trophy2500m = 2131558716;
-			
-			// aapt resource value: 0x7f0d0142
-			public const int trophy2500mBike = 2131558722;
-			
-			// aapt resource value: 0x7f0d013d
-			public const int trophy5000m = 2131558717;
-			
-			// aapt resource value: 0x7f0d0143
-			public const int trophy5000mBike = 2131558723;
-			
-			// aapt resource value: 0x7f0d013a
-			public const int trophy500m = 2131558714;
-			
-			// aapt resource value: 0x7f0d0140
-			public const int trophy500mBike = 2131558720;
+			// aapt resource value: 0x7f0d0137
+			public const int trophiesPopUp = 2131558711;
 			
 			// aapt resource value: 0x7f0d013e
-			public const int trophy7500m = 2131558718;
+			public const int trophy10000m = 2131558718;
 			
 			// aapt resource value: 0x7f0d0144
-			public const int trophy7500mBike = 2131558724;
+			public const int trophy10000mBike = 2131558724;
+			
+			// aapt resource value: 0x7f0d013a
+			public const int trophy1000m = 2131558714;
+			
+			// aapt resource value: 0x7f0d0140
+			public const int trophy1000mBike = 2131558720;
+			
+			// aapt resource value: 0x7f0d013b
+			public const int trophy2500m = 2131558715;
+			
+			// aapt resource value: 0x7f0d0141
+			public const int trophy2500mBike = 2131558721;
+			
+			// aapt resource value: 0x7f0d013c
+			public const int trophy5000m = 2131558716;
+			
+			// aapt resource value: 0x7f0d0142
+			public const int trophy5000mBike = 2131558722;
 			
 			// aapt resource value: 0x7f0d0139
-			public const int trophyHeader = 2131558713;
+			public const int trophy500m = 2131558713;
+			
+			// aapt resource value: 0x7f0d013f
+			public const int trophy500mBike = 2131558719;
+			
+			// aapt resource value: 0x7f0d013d
+			public const int trophy7500m = 2131558717;
+			
+			// aapt resource value: 0x7f0d0143
+			public const int trophy7500mBike = 2131558723;
+			
+			// aapt resource value: 0x7f0d0138
+			public const int trophyHeader = 2131558712;
 			
 			// aapt resource value: 0x7f0d00ef
 			public const int trophyIcon = 2131558639;
@@ -4625,8 +4622,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d0009
 			public const int up = 2131558409;
 			
-			// aapt resource value: 0x7f0d014b
-			public const int updateBackgroundPopUp = 2131558731;
+			// aapt resource value: 0x7f0d014a
+			public const int updateBackgroundPopUp = 2131558730;
 			
 			// aapt resource value: 0x7f0d0038
 			public const int useLogo = 2131558456;
@@ -4634,8 +4631,8 @@ namespace DBapp
 			// aapt resource value: 0x7f0d001b
 			public const int view_offset_helper = 2131558427;
 			
-			// aapt resource value: 0x7f0d0152
-			public const int visible = 2131558738;
+			// aapt resource value: 0x7f0d0151
+			public const int visible = 2131558737;
 			
 			// aapt resource value: 0x7f0d002d
 			public const int wide = 2131558445;

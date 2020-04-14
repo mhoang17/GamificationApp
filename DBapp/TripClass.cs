@@ -19,6 +19,8 @@ namespace DBapp
             this.otherTransport = otherTransport;
 
             tripID = TripInsert(distance, timeStamp, userID, otherTransport);
+
+            MainActivity.GetInstance.GetXPSystem.LevelUp(otherTransport, Convert.ToInt32(Math.Floor(Double.Parse(distance))));
         }
 
         public TripClass(string distance, string timeStamp, UserClass user, CarClass car)

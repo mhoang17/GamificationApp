@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="UserClassTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XPSystem.cs" />
+    <Compile Include="XPTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -179,10 +179,20 @@ namespace DBapp
 
         static MainActivity Instance;
 
+
+        // XP Variables
+        // Assignment
+        int currentLevel = 1;
+        double totalXp = 0;
+        double currentExperience = 0;
+        double restXp = 0;
+        XPSystem xpSystem;
+        int xpCounter;
+
         // Get Instance
-        public static MainActivity GetInstance()
+        public static MainActivity GetInstance
         {
-            return Instance;
+            get { return Instance; }
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -210,12 +220,13 @@ namespace DBapp
             // Connect to database
             DBConnect connection = new DBConnect();
 
+            xpSystem = new XPSystem(currentLevel, totalXp, currentExperience, restXp);
+
+
             user = new UserClass("Maria", "21", "Walking");
 
             // Create user
             CreateUser();
-
-            
 
             // Initialize the car spinners
             CarSpinnerInitialization();
@@ -248,47 +259,35 @@ namespace DBapp
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
             xpPercentage = 0;
 
+            FindViewById<TextView>(Resource.Id.xpPoint).Text = "0 XP / " + xpSystem.GetXpNeededToLevelUp.ToString() + " XP";
 
             upgradeBackgroundPopUp = FindViewById<RelativeLayout>(Resource.Id.updateBackgroundPopUp);
-
-            // TODO: This should be an event that is triggered whenever a new trip has been made
-            FindViewById<Button>(Resource.Id.button1).Click += (o, e) =>
-                XPLevelUp();
         }
 
-        private void XPLevelUp() {
+        public void XPLevelUp() {
 
-            if (xpPercentage < 100)
+            xpPercentage = Convert.ToInt32(Math.Floor(xpSystem.GetCurrentExperience / xpSystem.GetXpNeededToLevelUp * 100));
+
+            if (level != xpSystem.GetCurrentLevel)
             {
-                // Change to the xp received
-                xpPercentage += 10;
+                xpCounter = xpSystem.GetCurrentLevel - level;
 
-                if (xpPercentage >= 100)
+                if (FindViewById<Button>(Resource.Id.backbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                    FindViewById<Button>(Resource.Id.middleBuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                    FindViewById<Button>(Resource.Id.frontbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
+                    FindViewById<Button>(Resource.Id.roadButton).Visibility != Android.Views.ViewStates.Gone
+                    )
                 {
-                    xpPercentage = 0;
-
-                    // TODO: XP percentage should get the new percentage if the person received more xp than required to lvl up
-
-                    // Increase lvl by 1
-                    level += 1;
-                    UILevel = "Lvl. " + level.ToString();
-
-                    if (FindViewById<Button>(Resource.Id.backbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
-                        FindViewById<Button>(Resource.Id.middleBuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
-                        FindViewById<Button>(Resource.Id.frontbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
-                        FindViewById<Button>(Resource.Id.roadButton).Visibility != Android.Views.ViewStates.Gone
-                     )
-                    {
-                        upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Visible;
-                    }
-
-                    // Update lvl in ui
-                    FindViewById<TextView>(Resource.Id.currentLevel).Text = UILevel;
-
-                    // TODO: update the current xp in UI as well
+                    upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Visible;
                 }
+
+                level = xpSystem.GetCurrentLevel;
+                UILevel = "Lvl. " + level.ToString();
+                FindViewById<TextView>(Resource.Id.currentLevel).Text = UILevel;
             }
 
+            string xpProgress = Math.Floor(xpSystem.GetCurrentExperience).ToString() + " XP / " + xpSystem.GetXpNeededToLevelUp.ToString() + " XP";
+            FindViewById<TextView>(Resource.Id.xpPoint).Text = xpProgress;
             progressBar.Progress = xpPercentage;
         }
 
@@ -447,6 +446,8 @@ namespace DBapp
                         bikeMeter += int.Parse(trip.Distance);
                         bikeTrips += 1;
                     }
+
+                    XPLevelUp();
 
                     TriggerTrophies();
                 }
@@ -1306,7 +1307,15 @@ namespace DBapp
                 backbuildings_2.Visibility = Android.Views.ViewStates.Visible;
             }
 
-            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            if (xpCounter == 1)
+            {
+                upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            }
+            else {
+
+                xpCounter--;
+            }
+            
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1346,7 +1355,15 @@ namespace DBapp
                 middleBuildings_2.Visibility = Android.Views.ViewStates.Visible;
             }
 
-            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            if (xpCounter == 1)
+            {
+                upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            }
+            else
+            {
+                xpCounter--;
+            }
+
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1395,7 +1412,16 @@ namespace DBapp
                 frontbuildings_2.Visibility = Android.Views.ViewStates.Visible;
             }
 
-            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+
+            if (xpCounter == 1)
+            {
+                upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            }
+            else
+            {
+                xpCounter--;
+            }
+
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1450,7 +1476,16 @@ namespace DBapp
                 road2.Visibility = Android.Views.ViewStates.Visible;
             }
 
-            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+
+            if (xpCounter == 1)
+            {
+                upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+            }
+            else
+            {
+                xpCounter--;
+            }
+
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -1618,5 +1653,10 @@ namespace DBapp
 
         public UserClass GetUser
         { get { return user; } }
+
+        public XPSystem GetXPSystem {
+
+            get { return xpSystem;  }
+        }
     }
 }
