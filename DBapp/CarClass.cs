@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DBapp
 {
-    public class CarClass : CarInfo
+    public class CarClass
     {
-        private string carID;
-        private string carName;
-        private string carType;
-        private string KMPerL;
-        private string userID;
+        public string carID;
+        public string carName;
+        public string carType;
+        public string KMPerL;
+        public string userID;
+        private CarInfo carInfo = new CarInfo();
 
         public CarClass(string carName, string carType, string KMPerL, UserClass user) {
             this.carName = carName;
@@ -16,12 +18,15 @@ namespace DBapp
             this.KMPerL = KMPerL;
             userID = user.UserID;
 
-            carID = CarInsert(carType, carName, KMPerL, userID);
+            carID = carInfo.CarInsert(carType, carName, KMPerL, userID);
         }
+
+        [JsonConstructor]
+        public CarClass() { }
 
         public void Delete() {
 
-            CarDelete(this.carID);
+            carInfo.CarDelete(this.carID);
         }
 
         public void Update(string column, string newValue) {
@@ -30,7 +35,7 @@ namespace DBapp
             if (!column.Equals("carID") || !column.Equals("userID"))
             {
                 // Update in database
-                CarUpdate(column, newValue, this.carID);
+                carInfo.CarUpdate(column, newValue, this.carID);
 
                 // Update in object
                 if (column.Equals("carType")) { this.carType = newValue; }
@@ -45,7 +50,7 @@ namespace DBapp
 
             string presetCondition = "carID = " + this.carID;
 
-            List<string> result = CarSelect(column, presetCondition);
+            List<string> result = carInfo.CarSelect(column, presetCondition);
 
             for(int i = 0; i <= result.Count; i++) {
 

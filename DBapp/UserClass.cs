@@ -1,13 +1,15 @@
-﻿namespace DBapp
+﻿using Newtonsoft.Json;
+
+namespace DBapp
 {
     public class UserClass : UserInfo
     {
-        private string userID;
-        private string userName;
-        private string age;
-        private string primaryTransportStart;
-        private string primaryTransportCurrent;
-        private string totalXP;
+        public string userID;
+        public string userName;
+        public string age;
+        public string primaryTransportStart;
+        public string primaryTransportCurrent;
+        public string totalXP;
 
         public UserClass(string userName, string age, string primaryTransportCurrent) {
 
@@ -20,6 +22,9 @@
             userID = UserInsert(userName, age, primaryTransportStart, primaryTransportCurrent, totalXP);
 
         }
+
+        [JsonConstructor]
+        public UserClass() { }
 
         public void Update(string column, string newValue) {
 

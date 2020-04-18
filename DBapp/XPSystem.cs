@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace DBapp
 {
     public class XPSystem
     {
-        private int currentLevel;
-        private double xpNeededToLevelUp;
-        private double xpReceivedFromTrip;
-        private double totalXp;
-        private double currentExperience;
+        public int currentLevel;
+        public double xpNeededToLevelUp;
+        public double xpReceivedFromTrip;
+        public double totalXp;
+        public double currentExperience;
         private int maxLevel = 50;
-        private double restXp;
+        public double restXp;
 
         public XPSystem(int currentLevel, double totalXp, double currentExperience, double restXp)
         {
@@ -24,6 +25,9 @@ namespace DBapp
 
             XpToNextLevel();
         }
+
+        [JsonConstructor]
+        public XPSystem() { }
 
         public int GetCurrentLevel
         {

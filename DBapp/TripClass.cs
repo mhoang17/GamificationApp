@@ -1,15 +1,23 @@
-﻿using System;
+﻿using Android.OS;
+using Android.Runtime;
+using Java.Interop;
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DBapp
 {
-    public class TripClass : TripInfo
+    [Serializable]
+    public class TripClass
     {
-        private string tripID;
-        private string distance;
-        private string timeStamp;
-        private string userID;
-        private string otherTransport;
-        private string carID;
+        public string tripID;
+        public string distance;
+        public string timeStamp;
+        public string userID;
+        public string otherTransport;
+        public string carID;
+        private TripInfo tripInfo = new TripInfo();
+
 
         public TripClass(string distance, string timeStamp, UserClass user, string otherTransport)
         {
@@ -18,7 +26,7 @@ namespace DBapp
             userID = user.UserID;
             this.otherTransport = otherTransport;
 
-            tripID = TripInsert(distance, timeStamp, userID, otherTransport);
+            tripID = tripInfo.TripInsert(distance, timeStamp, userID, otherTransport);
 
             MainActivity.GetInstance.GetXPSystem.LevelUp(otherTransport, Convert.ToInt32(Math.Floor(Double.Parse(distance))));
         }
@@ -30,11 +38,16 @@ namespace DBapp
             userID = user.UserID;
             carID = car.CarID;
 
-            tripID = TripInsert(distance, timeStamp, userID, carID);
+            tripID = tripInfo.TripInsert(distance, timeStamp, userID, carID);
+        }
+       
+        [JsonConstructor]
+        public TripClass()
+        {
         }
 
         public void Delete() {
-            TripDelete(this.tripID);
+            tripInfo.TripDelete(this.tripID);
         }
 
         public void Update(string column, string newValue) {
@@ -43,36 +56,36 @@ namespace DBapp
             if (column.Equals("distance"))
             {
 
-                TripUpdate(column, newValue, this.tripID);
+                tripInfo.TripUpdate(column, newValue, this.tripID);
                 this.distance = newValue;
             }
             else if (column.Equals("otherTransport"))
             {
 
-                TripUpdate(column, newValue, this.tripID);
+                tripInfo.TripUpdate(column, newValue, this.tripID);
                 this.otherTransport = newValue;
 
                 if (carID != null)
                 {
-                    TripUpdate("carID", "", this.tripID);
+                    tripInfo.TripUpdate("carID", "", this.tripID);
                     this.carID = null;
                 }
             }
             else if (column.Equals("carID"))
             {
 
-                TripUpdate(column, newValue, this.tripID);
+                tripInfo.TripUpdate(column, newValue, this.tripID);
                 this.carID = newValue;
 
                 if (otherTransport != null)
                 {
-                    TripUpdate("otherTransport", "", this.tripID);
+                    tripInfo.TripUpdate("otherTransport", "", this.tripID);
                     this.otherTransport = null;
                 }
             }
             else if (column.Equals("timeStamp")) {
 
-                TripUpdate(column, newValue, this.tripID);
+                tripInfo.TripUpdate(column, newValue, this.tripID);
                 this.timeStamp = newValue;
             }
             
@@ -82,7 +95,7 @@ namespace DBapp
         
             string presetCondition = "tripID = " + this.tripID;
 
-            string result = TripSelect(column, presetCondition);
+            string result = tripInfo.TripSelect(column, presetCondition);
 
             return result;
         }
@@ -115,5 +128,6 @@ namespace DBapp
         {
             get { return carID; }
         }
+
     }
 }

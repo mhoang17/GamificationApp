@@ -65,6 +65,7 @@
     <MandroidI18n>West</MandroidI18n>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -78,6 +79,7 @@
     <Compile Include="DBClass.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="ForegroundMethod.cs" />
+    <Compile Include="GenericParcelableCreator.cs" />
     <Compile Include="MyLocationService.cs" />
     <Compile Include="TripClass.cs" />
     <Compile Include="UserClass.cs" />
@@ -125,6 +127,12 @@
   <ItemGroup>
     <PackageReference Include="Dexter">
       <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="GoogleGson">
+      <Version>2.8.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SqlClient">
       <Version>4.8.1</Version>

@@ -29,6 +29,7 @@ namespace DBapp
                         Preferences.Set("newLong", location.Longitude);
                         Preferences.Set("newLat", location.Latitude);
 
+
                         //Preferences.Get("lastCalmLatitude", location.Latitude);
                         //Preferences.Get("lastCalmLongitude", location.Longitude);
                         if (Preferences.Get("setFirstCompared", 0) == 0)
@@ -72,9 +73,63 @@ namespace DBapp
                                 else
                                 {
                                     Console.WriteLine("Trip saved");
-                                    TripClass newTrip = new TripClass(Preferences.Get("distance", 0.0).ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, Preferences.Get("vehicle", "car"));
+                                    Console.WriteLine(Preferences.Get("vehicle", "car"));
+                                    double distance = Math.Round(Preferences.Get("distance", 0.0), 2);
+                                    TripClass newTrip = null;
+                                    string tripName = "";
+
+                                    // If preferences says that they are walking or riding a bike then we save the trip as that
+                                    if (Preferences.Get("vehicle", "car").Equals("Walking") || Preferences.Get("vehicle", "car").Equals("Bike"))
+                                    {
+                                        newTrip =  new TripClass(distance.ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, Preferences.Get("vehicle", "car"));
+                                        tripName = newTrip.TimeStamp + " " + newTrip.OtherTransport + " " + newTrip.Distance;
+                                    }
+                                    else
+                                    {   
+                                        // If we can see that they have chosen bus in their profile, then we safe the trip as them riding the bus
+                                        if (MainActivity.GetInstance.GetTransport.Equals("Bus"))
+                                        {
+                                            newTrip = new TripClass(distance.ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, Preferences.Get("vehicle", "car"));
+                                            tripName = newTrip.TimeStamp + " " + newTrip.OtherTransport + " " + newTrip.Distance;
+                                        }
+                                        // If we can see that their chosen transport is neither walking or bike, then we will find the car they have chosen and save it to the trip
+                                        else if (!MainActivity.GetInstance.GetTransport.Equals("Walking") && !MainActivity.GetInstance.GetTransport.Equals("Bike") && MainActivity.GetInstance.GetCarList.Count != 0)
+                                        {
+                                            foreach (CarClass car in MainActivity.GetInstance.GetCarList)
+                                            {
+                                                if (car.CarName.Equals(MainActivity.GetInstance.GetTransport))
+                                                {
+                                                    newTrip = new TripClass(distance.ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, car);
+                                                    tripName = newTrip.TimeStamp + " " + car.CarName + " " + newTrip.Distance;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        // If they have chosen walking or bike as their primary transport,
+                                        // but we have tracked that they are driving then we will either set their transport to be their first registeret car
+                                        // and if they have not registeret a car before, we assume that they have been taking a bus
+                                        else
+                                        {
+                                            if (MainActivity.GetInstance.GetCarList.Count != 0)
+                                            {
+                                                newTrip = new TripClass(distance.ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, MainActivity.GetInstance.GetCarList[0]);
+                                                tripName = newTrip.TimeStamp + " " + MainActivity.GetInstance.GetCarList[0].CarName + " " + newTrip.Distance;
+                                            }
+                                            else {
+
+                                                newTrip = new TripClass(distance.ToString(), DateTime.Now.ToString(), MainActivity.GetInstance.GetUser, "Bus");
+                                                tripName = newTrip.TimeStamp + " " + newTrip.OtherTransport + " " + newTrip.Distance;
+                                            }
+                                        }
+                                    }
+
+                                    // Level up
                                     MainActivity.GetInstance.XPLevelUp();
-                                    //And save the trip.
+
+                                    // Add the new trip to the UI for later editing
+                                    MainActivity.GetInstance.AddTripToUI(newTrip, tripName);
+
+                                    // Print out the toast and reset
                                     Toast.MakeText(context, "Trip is saved", ToastLength.Short).Show();
                                     resetVaribles(location.Latitude, location.Longitude);
 
@@ -126,6 +181,8 @@ namespace DBapp
                             Console.WriteLine("Dist: " + Preferences.Get("distance", 0.0));
 
                             Console.WriteLine("Trip Status: " + Preferences.Get("isTrip", false));
+
+                            Console.WriteLine("Speed: " + speedkmh);
                         }
                     
                         Preferences.Set("oldLong", Preferences.Get("newLong", location.Longitude));
@@ -143,6 +200,7 @@ namespace DBapp
 
         private void resetVaribles(double latitude, double longitude)
         {
+            Console.WriteLine("Reset variables");
             Preferences.Set("updateFive", 5);
             Preferences.Set("isWalking", 0);
             Preferences.Set("isBiking", 0);
