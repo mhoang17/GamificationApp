@@ -78,9 +78,11 @@
     <Compile Include="CarClass.cs" />
     <Compile Include="DBClass.cs" />
     <Compile Include="DBConnect.cs" />
+    <Compile Include="FactLoader.cs" />
     <Compile Include="ForegroundMethod.cs" />
     <Compile Include="GenericParcelableCreator.cs" />
     <Compile Include="MyLocationService.cs" />
+    <Compile Include="QuizLibrary.cs" />
     <Compile Include="TripClass.cs" />
     <Compile Include="UserClass.cs" />
     <Compile Include="MainActivity.cs" />
@@ -541,6 +543,11 @@
       <Project>{931a93c4-7cc6-43ce-a45a-63d22d01377a}</Project>
       <Name>P6Test</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\quizLayout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

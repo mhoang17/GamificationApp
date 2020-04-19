@@ -1,0 +1,104 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/menuBar"
+        android:padding="15dp"
+        android:layout_margin="40dp"
+        android:background="@android:color/white"
+        android:id="@+id/quiz"
+        android:visibility = "gone"
+        android:layout_centerInParent = "true"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="@android:color/black"
+            android:text="Pop Quiz"
+            android:id = "@+id/quizHeader"
+        />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text=""
+            android:layout_below = "@+id/quizHeader"
+            android:id = "@+id/questionText"
+        />
+
+       <Button
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizAnswer1"
+            android:layout_centerInParent = "true"
+            android:layout_below = "@+id/questionText"
+        />
+
+        <Button
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizAnswer2"
+            android:layout_centerInParent = "true"
+            android:layout_below = "@+id/quizAnswer1"
+        />
+
+        <Button
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizAnswer3"
+            android:layout_centerInParent = "true"
+            android:layout_below = "@+id/quizAnswer2"
+        />
+        
+
+        <TextView
+            android:text="That was the correct answer!"
+            android:textColor = "@android:color/holo_green_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/correctAnswerReply"
+            android:layout_below = "@+id/quizAnswer3"
+            android:layout_centerInParent = "true"
+            android:visibility = "gone"
+        />
+
+        <TextView
+            android:text=""
+            android:textColor = "@android:color/holo_red_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wrongAnswerReply"
+            android:layout_below = "@+id/correctAnswerReply"
+            android:layout_centerInParent = "true"
+            android:visibility = "gone"
+        />
+
+        <Button
+            android:text="Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/closeQuizBtn"
+            android:layout_centerInParent = "true"
+            android:layout_below = "@+id/wrongAnswerReply"
+            android:visibility = "gone"
+        />
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Android.Support.V4.App;
 using Android.Preferences;
 using Newtonsoft.Json;
+using System.Timers;
 
 namespace DBapp
 {
@@ -195,6 +196,20 @@ namespace DBapp
         XPSystem xpSystem;
         int xpCounter;
 
+        // Quiz
+        RelativeLayout quizPopUp;
+        ImageButton quizButton;
+        Button quizAnswer1;
+        Button quizAnswer2;
+        Button quizAnswer3;
+        Button closeQuizBtn;
+
+        // Fact
+        RelativeLayout factView;
+        TextView factText;
+        FactLoader factLoader;
+        
+
         // Get Instance
         public static MainActivity GetInstance
         {
@@ -270,7 +285,130 @@ namespace DBapp
 
             // Buttons that changes the background
             ChangeBackgroundButtons();
+
+            quizPopUp = FindViewById<RelativeLayout>(Resource.Id.quiz);
+            quizButton = FindViewById<ImageButton>(Resource.Id.quizButton);
+            quizAnswer1 = FindViewById<Button>(Resource.Id.quizAnswer1);
+            quizAnswer2 = FindViewById<Button>(Resource.Id.quizAnswer2);
+            quizAnswer3 = FindViewById<Button>(Resource.Id.quizAnswer3);
+
+            quizButton.Click += (o, e) =>
+            {
+                InitializeQuizContents();
+                quizButton.Visibility = Android.Views.ViewStates.Gone;
+            };
+
+            factView = FindViewById<RelativeLayout>(Resource.Id.factView);
+            factText = FindViewById<TextView>(Resource.Id.factText);
+            factLoader = new FactLoader();
+
+            FindViewById<Button>(Resource.Id.closeFactButton).Click += (o, e) =>
+                factView.Visibility = Android.Views.ViewStates.Gone;
+
+            ShowFact();
+        }
+
+        public void TriggerQuiz() {
+
+            quizButton.Visibility = Android.Views.ViewStates.Visible;
             
+        }
+
+        public void ShowFact() {
+
+            string text = factLoader.ChooseFact();
+
+            if (text != null)
+            {
+                factText.Text = text;
+                factView.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                ShowFact();
+            }
+        }
+
+        private void InitializeQuizContents() {
+
+            QuizLibrary quizLibrary = new QuizLibrary();
+
+            quizPopUp.Visibility = Android.Views.ViewStates.Visible;
+
+            closeQuizBtn = FindViewById<Button>(Resource.Id.closeQuizBtn);
+
+            List<string> chosenQuiz = quizLibrary.RandomList();
+
+            if (chosenQuiz != null)
+            {
+                string correctAnswer = chosenQuiz[1];
+
+                FindViewById<TextView>(Resource.Id.questionText).Text = chosenQuiz[0];
+                chosenQuiz.RemoveAt(0);
+
+                Random rand = new Random();
+
+                int num = rand.Next(3);
+                quizAnswer1.Text = chosenQuiz[num];
+                chosenQuiz.RemoveAt(num);
+
+                num = rand.Next(2);
+                quizAnswer2.Text = chosenQuiz[num];
+                chosenQuiz.RemoveAt(num);
+
+                quizAnswer3.Text = chosenQuiz[0];
+
+                EventHandler eventHandler1 = (s, e) =>
+                    CheckAnswer(quizAnswer1.Text, correctAnswer);
+
+                EventHandler eventHandler2 = (s, e) =>
+                    CheckAnswer(quizAnswer2.Text, correctAnswer);
+
+                EventHandler eventHandler3 = (s, e) =>
+                    CheckAnswer(quizAnswer3.Text, correctAnswer);
+
+                quizAnswer1.Click += eventHandler1;
+
+                quizAnswer2.Click += eventHandler2;
+
+                quizAnswer3.Click += eventHandler3;
+
+
+                closeQuizBtn.Click += (o, e) =>
+                {
+                    quizPopUp.Visibility = Android.Views.ViewStates.Gone;
+                    closeQuizBtn.Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<TextView>(Resource.Id.correctAnswerReply).Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<TextView>(Resource.Id.wrongAnswerReply).Visibility = Android.Views.ViewStates.Gone;
+                    quizAnswer1.Click -= eventHandler1;
+                    quizAnswer2.Click -= eventHandler2;
+                    quizAnswer3.Click -= eventHandler3;
+                };
+            }
+            else {
+
+                InitializeQuizContents();
+            }
+        }
+
+        public void CheckAnswer(string buttonText, string correctAnswer) {
+
+            Console.WriteLine("Check Answer" + correctAnswer);
+
+            if (closeQuizBtn.Visibility != Android.Views.ViewStates.Visible)
+            {
+                if (buttonText.Equals(correctAnswer))
+                {
+                    FindViewById<TextView>(Resource.Id.correctAnswerReply).Visibility = Android.Views.ViewStates.Visible;
+                    
+                }
+                else {
+                    FindViewById<TextView>(Resource.Id.wrongAnswerReply).Text = "That was the wrong answer! The correct answer is: " + correctAnswer;
+                    FindViewById<TextView>(Resource.Id.wrongAnswerReply).Visibility = Android.Views.ViewStates.Visible;
+                }
+            }
+
+            closeQuizBtn.Visibility = Android.Views.ViewStates.Visible;
         }
 
         public void XPLevelUp() {
@@ -1869,10 +2007,10 @@ namespace DBapp
                 UpdateKoalaScene();
 
             }
-            else {
+            /*else {
                 //TODO: Delete this
                 chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
-            }
+            }*/
 
             if (pbSceneVisible) {
 

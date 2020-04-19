@@ -123,8 +123,20 @@ namespace DBapp
                                         }
                                     }
 
+                                    // Give Quiz
+                                    MainActivity.GetInstance.TriggerQuiz();
+
+                                    Console.WriteLine("Happens");
+
+                                    // Give Fact
+                                    MainActivity.GetInstance.ShowFact();
+
+                                    Console.WriteLine("Happens");
+
                                     // Level up
                                     MainActivity.GetInstance.XPLevelUp();
+
+                                    Console.WriteLine("Happens");
 
                                     // Add the new trip to the UI for later editing
                                     MainActivity.GetInstance.AddTripToUI(newTrip, tripName);
