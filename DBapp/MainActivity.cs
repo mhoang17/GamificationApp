@@ -1140,15 +1140,15 @@ namespace DBapp
 
                 if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
                 {
-                    MakePolarBearIconVisible(polarBearSmiling);
+                    MakePolarBearIconVisible(polarBearSighing);
                 }
                 else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
                 {
-                    MakePolarBearIconVisible(polarBearThinking);
+                    MakePolarBearIconVisible(polarBearSmiling);
                 }
                 else
                 {
-                    MakePolarBearIconVisible(polarBearSmiling);
+                    MakePolarBearIconVisible(polarBearThinking);
                 }
             }
             else if (polarBearDialogueCounter == 5)
@@ -1742,16 +1742,18 @@ namespace DBapp
             }
 
             // If one animal is level 25 then the other animal should show up as well.
-            if (koalaLevel >= 15)
+            if (koalaLevel >= 15 && !pbSceneVisible)
             {
                 PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 pbSceneVisible = true;
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 NextPolarBearDialogue(dialogueInit);
             }
 
-            if (polarBearLevel >= 15)
+            if (polarBearLevel >= 15 && !koalaSceneVisible)
             {
                 koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaSceneVisible = true;
                 NextKoalaDialogue(dialogueInit);
             }
@@ -1761,21 +1763,25 @@ namespace DBapp
             {
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 15)
             {
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 10)
             {
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 5)
             {
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
             }
 
 
@@ -1784,21 +1790,25 @@ namespace DBapp
             {
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 15)
             {
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 10)
             {
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 5)
             {
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
             }
 
             // Update the different scenes depending on if the level is high enough.
