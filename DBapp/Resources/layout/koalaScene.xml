@@ -59,9 +59,124 @@
         android:visibility = "visible"
     />
 
-    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent = "true"
+        android:layout_margin = "60dp"
+        android:background = "@drawable/dialoguebox"
+        android:id="@+id/koalaDialogueBox"
+        android:visibility = "gone"
+        >
+       
+        <TextView
+            android:text=""
+            android:background = "@android:color/white"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:padding = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/koalaDialogueText3"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+        />
+
+        <TextView
+            android:text=""
+            android:background = "@android:color/white"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:padding = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/koalaDialogueText2"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+        />
+
+        <TextView
+            android:text=""
+            android:background = "@android:color/white"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:padding = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/koalaDialogueText1"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+        />
+        
+       <TextView
+            android:text="Next >"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding = "10dp"
+            android:layout_below = "@+id/koalaDialogueText1"
+            android:layout_alignParentRight = "true"
+        />
+
+        <ImageView
+            android:src="@drawable/koala_worried"
+            android:layout_width="130dp"
+            android:layout_height="140dp"
+            android:id="@+id/koalaWorriedIcon"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+        />
+
+        <ImageView
+            android:src="@drawable/koala_scared"
+            android:layout_width="130dp"
+            android:layout_height="140dp"
+            android:id="@+id/koalaScaredIcon"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/koala_puzzled"
+            android:layout_width="130dp"
+            android:layout_height="150dp"
+            android:id="@+id/koalaPuzzledIcon"
+            android:scaleType="fitXY"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/koala_surprised"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/koalaSurprisedIcon"
+            android:scaleType="fitXY"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/koala_happy"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/koalaHappyIcon"
+            android:scaleType="fitXY"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+    </RelativeLayout>
 
     
+
 
     
 

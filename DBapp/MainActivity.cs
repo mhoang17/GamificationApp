@@ -126,11 +126,34 @@ namespace DBapp
         // The bool values will be in preferences later on.
         private bool koalaSceneVisible;
         private bool pbSceneVisible;
+        private int koalaDialogueCounter;
+        private int polarBearDialogueCounter;
+        private DialogueInitializer dialogueInit;
 
         // Layout for animals
         private LinearLayout chooseAnimalPopUp;
         private RelativeLayout koalaBearScene;
         private RelativeLayout polarBearScene;
+
+        private RelativeLayout koalaDialogueBox;
+        private TextView koalaDialogueText1;
+        private TextView koalaDialogueText2;
+        private TextView koalaDialogueText3;
+        private ImageView koalaWorried;
+        private ImageView koalaScared;
+        private ImageView koalaPuzzled;
+        private ImageView koalaSurprised;
+        private ImageView koalaHappy;
+
+        private RelativeLayout polarBearDialogueBox;
+        private TextView polarBearDialogueText1;
+        private TextView polarBearDialogueText2;
+        private TextView polarBearDialogueText3;
+        private ImageView polarBearSighing;
+        private ImageView polarBearTired;
+        private ImageView polarBearThinking;
+        private ImageView polarBearSmiling;
+
 
         // Constants used to level up the animal scenes
         private int koalaLevel;
@@ -864,21 +887,381 @@ namespace DBapp
             koalaChangeScene = FindViewById<ImageButton>(Resource.Id.koalaChangeSceneBtn);
             PolarBearChangeScene = FindViewById<ImageButton>(Resource.Id.PBChangeSceneBtn);
 
+            // Koala Dialogue
+            koalaDialogueBox = FindViewById<RelativeLayout>(Resource.Id.koalaDialogueBox);
+            koalaDialogueText1 = FindViewById<TextView>(Resource.Id.koalaDialogueText1);
+            koalaDialogueText2 = FindViewById<TextView>(Resource.Id.koalaDialogueText2);
+            koalaDialogueText3 = FindViewById<TextView>(Resource.Id.koalaDialogueText3);
+            koalaWorried = FindViewById<ImageView>(Resource.Id.koalaWorriedIcon);
+            koalaScared = FindViewById<ImageView>(Resource.Id.koalaScaredIcon);
+            koalaPuzzled = FindViewById<ImageView>(Resource.Id.koalaPuzzledIcon);
+            koalaSurprised = FindViewById<ImageView>(Resource.Id.koalaSurprisedIcon);
+            koalaHappy = FindViewById<ImageView>(Resource.Id.koalaHappyIcon);
+
+            // Polar Bear Dialogue
+            polarBearDialogueBox = FindViewById<RelativeLayout>(Resource.Id.pbDialogueBox);
+            polarBearDialogueText1 = FindViewById<TextView>(Resource.Id.pbDialogueText1);
+            polarBearDialogueText2 = FindViewById<TextView>(Resource.Id.pbDialogueText2);
+            polarBearDialogueText3 = FindViewById<TextView>(Resource.Id.pbDialogueText3);
+            polarBearSighing = FindViewById<ImageView>(Resource.Id.pbSighing);
+            polarBearTired = FindViewById<ImageView>(Resource.Id.pbTired);
+            polarBearThinking = FindViewById<ImageView>(Resource.Id.pbThinking);
+            polarBearSmiling = FindViewById<ImageView>(Resource.Id.pbSmiling);
+
+            dialogueInit = new DialogueInitializer();
+
+            koalaDialogueBox.Click += (s, e) =>
+            {
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
+                    NextKoalaDialogue(dialogueInit);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
+                    NextKoalaDialogue(dialogueInit);
+                }
+                else
+                {
+                    koalaDialogueBox.Visibility = Android.Views.ViewStates.Gone;
+                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Visible;
+                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Visible;
+                    koalaDialogueCounter++;
+                    NextKoalaDialogue(dialogueInit);
+                }
+            };
+
+            polarBearDialogueBox.Click += (s, e) =>
+            {
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+                else
+                {
+                    polarBearDialogueBox.Visibility = Android.Views.ViewStates.Gone;
+                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Visible;
+                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Visible;
+                    polarBearDialogueCounter++;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+            };
+
             FindViewById<Button>(Resource.Id.polarBearChoice).Click += (o, e) =>
             {
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
                 pbSceneVisible = true;
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
                 PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
             };
 
             FindViewById<Button>(Resource.Id.koalaChoice).Click += (o, e) =>
             {
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
                 koalaSceneVisible = true;
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
                 koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
             };
+        }
+
+        public void NextKoalaDialogue(DialogueInitializer koalaDialogue) {
+
+            if (koalaDialogueCounter == 1)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue1;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue2;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue3;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaScared);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+            }
+            else if (koalaDialogueCounter == 2)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue4;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue5;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue6;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaScared);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+            }
+            else if (koalaDialogueCounter == 3)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue7;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue8;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue9;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+            else if (koalaDialogueCounter == 4)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue10;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue11;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue12;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaPuzzled);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+            else if (koalaDialogueCounter == 5)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue13;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue14;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue15;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+        }
+
+        public void NextPolarBearDialogue(DialogueInitializer polarBearDialogue)
+        {
+            if (polarBearDialogueCounter == 1) {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue1;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue2;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue3;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearTired);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+            else if (polarBearDialogueCounter == 2)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue4;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue5;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue6;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+            }
+            else if (polarBearDialogueCounter == 3)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue7;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue8;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue9;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+            else if (polarBearDialogueCounter == 4)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue10;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue11;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue12;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+            else if (polarBearDialogueCounter == 5)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue13;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue14;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue15;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+
+            
+        }
+
+        private void MakeKoalaIconVisible(ImageView koalaIcon) {
+
+            if (koalaIcon == koalaWorried)
+            {
+                koalaWorried.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaWorried.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaScared)
+            {
+                koalaScared.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaScared.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaPuzzled)
+            {
+                koalaPuzzled.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaPuzzled.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaSurprised)
+            {
+                koalaSurprised.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaSurprised.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaHappy)
+            {
+                koalaHappy.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaHappy.Visibility = Android.Views.ViewStates.Gone;
+            }
+        }
+
+        private void MakePolarBearIconVisible(ImageView polarBearIcon) {
+
+            if (polarBearIcon == polarBearSighing)
+            {
+                polarBearSighing.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearSighing.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearTired)
+            {
+                polarBearTired.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearTired.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearThinking)
+            {
+                polarBearThinking.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearThinking.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearSmiling)
+            {
+                polarBearSmiling.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearSmiling.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+
+
         }
 
         // Buttons seen on the main page
@@ -1359,16 +1742,63 @@ namespace DBapp
             }
 
             // If one animal is level 25 then the other animal should show up as well.
-            if (koalaLevel >= 25)
+            if (koalaLevel >= 15)
             {
                 PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 pbSceneVisible = true;
+                NextPolarBearDialogue(dialogueInit);
             }
 
-            if (polarBearLevel >= 25)
+            if (polarBearLevel >= 15)
             {
                 koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 koalaSceneVisible = true;
+                NextKoalaDialogue(dialogueInit);
+            }
+
+            // Koala Dialogue Trigger
+            if (koalaLevel == 20)
+            {
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (koalaLevel == 15)
+            {
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (koalaLevel == 10)
+            {
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (koalaLevel == 5)
+            {
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+
+
+            // Polar Bear Dialogue Trigger
+            if (polarBearLevel == 20)
+            {
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (polarBearLevel == 15)
+            {
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (polarBearLevel == 10)
+            {
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else if (polarBearLevel == 5)
+            {
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
             }
 
             // Update the different scenes depending on if the level is high enough.
@@ -1857,7 +2287,6 @@ namespace DBapp
         {
             throw new NotImplementedException();
         }
-
         
         // Getters
         public UserClass GetUser
@@ -1917,9 +2346,14 @@ namespace DBapp
             prefEditor.PutString("user", userJSON);
             prefEditor.PutString("primaryTransport", primaryTransport);
             prefEditor.PutBoolean("koalaSceneVisible", koalaSceneVisible);
+            
+            Console.WriteLine(pbSceneVisible);
+
             prefEditor.PutBoolean("pbSceneVisible", pbSceneVisible);
             prefEditor.PutInt("koalaLevel", koalaLevel);
             prefEditor.PutInt("polarBearLevel", polarBearLevel);
+            prefEditor.PutInt("koalaDialogueCounter", koalaDialogueCounter);
+            prefEditor.PutInt("polarBearDialogueCounter", polarBearDialogueCounter);
 
             prefEditor.Commit();
             
@@ -1999,24 +2433,27 @@ namespace DBapp
             pbSceneVisible = prefs.GetBoolean("pbSceneVisible", false);
             polarBearLevel = prefs.GetInt("polarBearLevel", 0);
 
+            koalaDialogueCounter = prefs.GetInt("koalaDialogueCounter", 1);
+            polarBearDialogueCounter = prefs.GetInt("polarBearDialogueCounter", 1);
 
             if (koalaSceneVisible)
             {
-
                 koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 UpdateKoalaScene();
-
             }
-            /*else {
-                //TODO: Delete this
-                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
-            }*/
 
             if (pbSceneVisible) {
 
                 PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 UpdatePolarBearScene();
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
             }
+            else
+            {
+                //TODO: Delete this
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
+            }
+
 
             // Registeret cars
             if (carListJSON != null)

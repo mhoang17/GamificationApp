@@ -34,36 +34,8 @@
     
     <include layout = "@layout/progressbar"/>
 
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above = "@+id/quizButton"
-            android:id="@+id/factView"
-            android:visibility = "visible"
-            android:background = "@android:color/white"
-            android:padding = "30dp"
-            android:layout_margin = "40dp"
-            android:layout_centerInParent = "true">
-
-        <TextView
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/factText"
-            android:layout_centerHorizontal = "true"
-        />
-
-        <Button
-            android:text="Close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/closeFactButton"
-            android:layout_below = "@+id/factText"
-            android:layout_centerHorizontal = "true"
-            android:layout_marginTop = "10dp"
-        />
-    </RelativeLayout>
-    
+    <!-- Remember to make it visible again -->
+    <include layout = "@layout/factpopup" android:visibility = "gone"/>
     
     <ImageButton
         android:src="@android:drawable/star_big_on"

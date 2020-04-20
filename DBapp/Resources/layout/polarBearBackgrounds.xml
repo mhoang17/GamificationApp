@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -58,4 +58,112 @@
         android:src="@drawable/pbbg1"
         android:visibility = "visible"
     />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent = "true"
+        android:layout_margin = "60dp"
+        android:background = "@drawable/dialoguebox"
+        android:id="@+id/pbDialogueBox"
+        android:visibility = "gone"
+        >
+        
+        <TextView
+            android:text=""
+            android:padding = "10dp"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/pbDialogueText3"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+            android:background = "@android:color/white"
+        />
+
+        <TextView
+            android:text=""
+            android:padding = "10dp"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/pbDialogueText2"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+            android:background = "@android:color/white"
+        />
+
+        <TextView
+            android:text=""
+            android:padding = "10dp"
+            android:layout_marginTop = "10dp"
+            android:layout_marginRight = "10dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id = "@+id/pbDialogueText1"
+            android:layout_marginLeft = "130dp"
+            android:gravity = "center"
+            android:background = "@android:color/white"
+        />
+        
+       <TextView
+            android:text="Next >"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding = "10dp"
+            android:layout_below = "@+id/pbDialogueText1"
+            android:layout_alignParentRight = "true"
+        />
+
+        <ImageView
+            android:src="@drawable/pb_sighing"
+            android:layout_width="140dp"
+            android:layout_height="160dp"
+            android:id="@+id/pbSighing"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/pb_tired"
+            android:layout_width="140dp"
+            android:layout_height="160dp"
+            android:id="@+id/pbTired"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/pb_thinking"
+            android:layout_width="140dp"
+            android:layout_height="160dp"
+            android:id="@+id/pbThinking"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+        <ImageView
+            android:src="@drawable/pb_smiling"
+            android:layout_width="140dp"
+            android:layout_height="160dp"
+            android:id="@+id/pbSmiling"
+            android:scaleType="fitXY"
+            android:paddingTop = "10dp"
+            android:layout_marginRight = "80dp"
+            android:layout_centerVertical = "true"
+            android:visibility = "gone"
+        />
+
+    </RelativeLayout>
 </RelativeLayout>
