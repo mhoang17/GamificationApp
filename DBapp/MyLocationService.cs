@@ -39,7 +39,7 @@ namespace DBapp
                             Preferences.Set("lastComparedLongitude", location.Longitude);
                         }
 
-                        if (Preferences.Get("updateFive", 5) == 0){
+                        if (Preferences.Get("updateFive", 10) == 0){
 
                             if (isPositionChanged(Preferences.Get("newLat", location.Latitude)
                                 , Preferences.Get("newLong", location.Longitude)
@@ -150,9 +150,9 @@ namespace DBapp
                         }
 
                         
-                        if (Preferences.Get("updateFive", 5) == 0)
+                        if (Preferences.Get("updateFive", 10) == 0)
                         {
-                            Preferences.Set("updateFive", 5);
+                            Preferences.Set("updateFive", 10);
                         }
                         else { Preferences.Set("updateFive", Preferences.Get("updateFive", 5) - 1); }
                         
@@ -161,7 +161,7 @@ namespace DBapp
                         {
                             if (Preferences.Get("isWalking", 0) == 0)
                             {
-                                Preferences.Set("updateFive", 5);
+                                Preferences.Set("updateFive", 100);
                                 Preferences.Set("isWalking", 1);
                                 Preferences.Set("vehicle", "Walking");
                             }
@@ -169,14 +169,14 @@ namespace DBapp
                             if (speedkmh >= 12 && Preferences.Get("isBiking", 0) == 0)
                             {
                                 Preferences.Set("vehicle", "Bike");
-                                Preferences.Set("updateFive", 5);
+                                Preferences.Set("updateFive", 20);
                                 Preferences.Set("isBiking", 1);
                             }
 
                             if ((speedkmh > 45) && Preferences.Get("isDriving", 0) == 0)
                             {
                                 Preferences.Set("vehicle", "Bus");
-                                Preferences.Set("updateFive", 5);
+                                Preferences.Set("updateFive", 10);
                                 Preferences.Set("isDriving", 1);
                             }
 
@@ -213,7 +213,7 @@ namespace DBapp
         private void resetVaribles(double latitude, double longitude)
         {
             Console.WriteLine("Reset variables");
-            Preferences.Set("updateFive", 5);
+            Preferences.Set("updateFive", 10);
             Preferences.Set("isWalking", 0);
             Preferences.Set("isBiking", 0);
             Preferences.Set("isDriving", 0);

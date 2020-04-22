@@ -29,10 +29,13 @@ namespace DBapp
             var notification = new NotificationCompat.Builder(this, "1100")
                 .SetContentTitle("Location")
                 .SetContentText("You can't close me")
-                .SetSmallIcon(P6Test.Resource.Drawable.IMG_0485)
+                .SetSmallIcon(Resource.Drawable.IMG_0485)
                 //.SetLargeIcon()
                 .SetOngoing(true)
                 .Build();
+
+            Console.WriteLine("ForegroundMethod");
+
             NotificationManager notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
             const int notificationId = 0;
             notificationManager.Notify(notificationId, notification);
