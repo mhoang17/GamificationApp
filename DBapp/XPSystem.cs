@@ -183,5 +183,20 @@ namespace DBapp
                 }
             }
         }
+
+        public void QuizPoints() {
+
+            currentExperience += 100;
+
+            if (currentExperience >= xpNeededToLevelUp) {
+
+                restXp = currentExperience - xpNeededToLevelUp;
+                currentLevel++;
+                XpToNextLevel();
+                currentExperience = restXp;
+            }
+
+            CalcTotalXp();
+        }
     }
 }

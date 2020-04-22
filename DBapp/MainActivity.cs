@@ -231,18 +231,9 @@ namespace DBapp
         RelativeLayout factView;
         TextView factText;
         FactLoader factLoader;
+
         
-
-        // Get Instance
-        public static MainActivity GetInstance
-        {
-            get { return Instance; }
-        }
-
-        public List<CarClass> GetCarList { get { return carList; }}
-
-        public string GetTransport { get { return primaryTransport; } }
-
+        // On Create which is called either when the app is first opened or is destroyed and then opened
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -291,11 +282,11 @@ namespace DBapp
             carAnimator = ObjectAnimator.OfFloat(car1, "x", 1200);
             CarAnimation();
 
-            // Load Settings
-            RetrieveSet();
-
             // Create user
             CreateUser();
+
+            // Load Settings
+            RetrieveSet();
 
             // Initialize the car spinners
             CarSpinnerInitialization();
@@ -331,28 +322,219 @@ namespace DBapp
             ShowFact();
         }
 
+        // When the app closes
+        protected override void OnStop()
+        {
+            Console.WriteLine("Stop");
+            base.OnStop();
+        }
+
+        // When the app is killed
+        protected override void OnDestroy()
+        {
+            Console.WriteLine("Destroyed");
+            SaveSet();
+            base.OnStop();
+        }
+
+        // When the app changes state (Might not be needed)
+        protected override void OnSaveInstanceState(Bundle savedInstanceState)
+        {
+            base.OnSaveInstanceState(savedInstanceState);
+
+            Console.WriteLine("Save");
+
+        }
+
+        // Save all variables and settings for later retrieval when app is opened
+        protected void SaveSet()
+        {
+            var prefs = Application.Context.GetSharedPreferences("Preferences", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+
+            Console.WriteLine(carList.Count);
+
+            var tripElemListJSON = JsonConvert.SerializeObject(tripElementsList);
+            var tripNameListJSON = JsonConvert.SerializeObject(tripNameList);
+            var tripTransportItemsJSON = JsonConvert.SerializeObject(tripTransportItems);
+            var xpSystemJSON = JsonConvert.SerializeObject(xpSystem, Formatting.Indented);
+            var carListJSON = JsonConvert.SerializeObject(carList);
+            var transportItemsJSON = JsonConvert.SerializeObject(transportItems);
+            var userJSON = JsonConvert.SerializeObject(user);
+
+
+            prefEditor.PutString("tripElementList", tripElemListJSON);
+            prefEditor.PutString("tripNameList", tripNameListJSON);
+            prefEditor.PutString("tripTransportItems", tripTransportItemsJSON);
+            prefEditor.PutString("xpSystem", xpSystemJSON);
+            prefEditor.PutString("carList", carListJSON);
+            prefEditor.PutString("transportItemsList", transportItemsJSON);
+            prefEditor.PutInt("backBuildingsLevel", backBuildingsLevel);
+            prefEditor.PutInt("middleBuilsingsLevel", middleBuildingsLevel);
+            prefEditor.PutInt("frontBuildingsLevel", frontBuildingsLevel);
+            prefEditor.PutInt("roadLevel", roadLevel);
+            prefEditor.PutString("user", userJSON);
+            prefEditor.PutString("primaryTransport", primaryTransport);
+            prefEditor.PutBoolean("koalaSceneVisible", koalaSceneVisible);
+
+            Console.WriteLine(pbSceneVisible);
+
+            prefEditor.PutBoolean("pbSceneVisible", pbSceneVisible);
+            prefEditor.PutInt("koalaLevel", koalaLevel);
+            prefEditor.PutInt("polarBearLevel", polarBearLevel);
+            prefEditor.PutInt("koalaDialogueCounter", koalaDialogueCounter);
+            prefEditor.PutInt("polarBearDialogueCounter", polarBearDialogueCounter);
+
+            prefEditor.Commit();
+
+        }
+
+        // Retrieve the saved information or if there hasn't been any saved information yet, initialize them
+        protected void RetrieveSet()
+        {
+            // Shared Preferences 
+            var prefs = Application.Context.GetSharedPreferences("Preferences", FileCreationMode.Private);
+
+            var tripElementListJSON = prefs.GetString("tripElementList", null);
+            var tripNameListJSON = prefs.GetString("tripNameList", null);
+            var tripTransportItemsJSON = prefs.GetString("tripTransportItems", null);
+            var carListJSON = prefs.GetString("carList", null);
+            var xpSystemJSON = prefs.GetString("xpSystem", null);
+            var transportItemsListJSON = prefs.GetString("transportItemsList", null);
+            var userJSON = prefs.GetString("user", null);
+
+
+            // Trip items
+            if (tripNameListJSON != null && tripElementListJSON != null)
+            {
+
+                tripElementsList = JsonConvert.DeserializeObject<List<TripClass>>(tripElementListJSON);
+
+                tripNameList = JsonConvert.DeserializeObject<List<string>>(tripNameListJSON);
+            }
+            else
+            {
+                tripNameList = new List<string>();
+                tripElementsList = new List<TripClass>();
+
+                tripNameList.Add("New Trip");
+            }
+
+            // Transport for trips
+            if (tripTransportItemsJSON != null)
+            {
+                tripTransportItems = JsonConvert.DeserializeObject<List<string>>(tripTransportItemsJSON);
+            }
+            else
+            {
+                tripTransportItems = new List<string>();
+                tripTransportItems.Add("Walking");
+                tripTransportItems.Add("Bike");
+                tripTransportItems.Add("Bus");
+            }
+
+            // XP System
+            if (xpSystemJSON != null)
+            {
+
+                xpSystem = JsonConvert.DeserializeObject<XPSystem>(xpSystemJSON);
+                level = xpSystem.GetCurrentLevel;
+                XPLevelUp();
+            }
+            else
+            {
+                xpSystem = new XPSystem(1, 0, 0, 0);
+            }
+
+            // Layout levels
+            backBuildingsLevel = prefs.GetInt("backBuildingsLevel", 0);
+            middleBuildingsLevel = prefs.GetInt("middleBuilsingsLevel", 0);
+            frontBuildingsLevel = prefs.GetInt("frontBuildingsLevel", 0);
+            roadLevel = prefs.GetInt("roadLevel", 0);
+
+            ChangeBackBuildings();
+            ChangeMiddleBuildings();
+            ChangeFrontBuildings();
+            ChangeRoad();
+            ChangeBackgroundColor();
+
+            // Animal Scene Visibility
+            koalaSceneVisible = prefs.GetBoolean("koalaSceneVisible", false);
+            koalaLevel = prefs.GetInt("koalaLevel", 0);
+            pbSceneVisible = prefs.GetBoolean("pbSceneVisible", false);
+            polarBearLevel = prefs.GetInt("polarBearLevel", 0);
+
+            koalaDialogueCounter = prefs.GetInt("koalaDialogueCounter", 1);
+            polarBearDialogueCounter = prefs.GetInt("polarBearDialogueCounter", 1);
+
+            if (koalaSceneVisible)
+            {
+                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                UpdateKoalaScene();
+            }
+
+            if (pbSceneVisible)
+            {
+
+                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                UpdatePolarBearScene();
+            }
+
+
+            // Registeret cars
+            if (carListJSON != null)
+            {
+                carList = JsonConvert.DeserializeObject<List<CarClass>>(carListJSON);
+            }
+            else
+            {
+                carList = new List<CarClass>();
+            }
+
+            // Cars for the layout
+            if (transportItemsListJSON != null)
+            {
+                transportItems = JsonConvert.DeserializeObject<List<string>>(transportItemsListJSON);
+            }
+            else
+            {
+                transportItems = new List<string>();
+                transportItems.Add("Walking");
+                transportItems.Add("Bike");
+                transportItems.Add("Bus");
+                transportItems.Add("New Car");
+            }
+
+            // Choose primary transport
+            primaryTransport = prefs.GetString("primaryTransport", "Walking");
+
+            // User init
+            if (userJSON != null)
+            {
+                user = JsonConvert.DeserializeObject<UserClass>(userJSON);
+
+                // Change the text in the EditText boxes in the profile pop up to the user's name and age 
+                FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
+                FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
+            }
+            else
+            {
+                CreateUserPopUp.Visibility = Android.Views.ViewStates.Visible;
+            }
+        }
+
+
+
+
+        // Points and other gamification methods
         public void TriggerQuiz() {
 
             quizButton.Visibility = Android.Views.ViewStates.Visible;
             
         }
 
-        public void ShowFact() {
-
-            string text = factLoader.ChooseFact();
-
-            if (text != null)
-            {
-                factText.Text = text;
-                factView.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                ShowFact();
-            }
-        }
-
-        private void InitializeQuizContents() {
+        private void InitializeQuizContents()
+        {
 
             QuizLibrary quizLibrary = new QuizLibrary();
 
@@ -396,7 +578,7 @@ namespace DBapp
 
                 quizAnswer3.Click += eventHandler3;
 
-
+                // Close the quiz pop up and remove the events so it doesn't not trigger them again later on
                 closeQuizBtn.Click += (o, e) =>
                 {
                     quizPopUp.Visibility = Android.Views.ViewStates.Gone;
@@ -408,7 +590,8 @@ namespace DBapp
                     quizAnswer3.Click -= eventHandler3;
                 };
             }
-            else {
+            else
+            {
 
                 InitializeQuizContents();
             }
@@ -423,6 +606,8 @@ namespace DBapp
                 if (buttonText.Equals(correctAnswer))
                 {
                     FindViewById<TextView>(Resource.Id.correctAnswerReply).Visibility = Android.Views.ViewStates.Visible;
+                    xpSystem.QuizPoints();
+                    XPLevelUp();
                     
                 }
                 else {
@@ -432,6 +617,22 @@ namespace DBapp
             }
 
             closeQuizBtn.Visibility = Android.Views.ViewStates.Visible;
+        }
+
+        public void ShowFact()
+        {
+
+            string text = factLoader.ChooseFact();
+
+            if (text != null)
+            {
+                factText.Text = text;
+                factView.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                ShowFact();
+            }
         }
 
         public void XPLevelUp() {
@@ -461,6 +662,10 @@ namespace DBapp
             progressBar.Progress = xpPercentage;
         }
 
+
+
+
+        // Trophies
         private void TrophiesPopUpInitialization() {
 
             trophiesPopUp = FindViewById<LinearLayout>(Resource.Id.trophiesPopUp);
@@ -473,34 +678,11 @@ namespace DBapp
         
         }
 
-        private void TripPopUpInitialization() {
+        private void TriggerTrophies()
+        {
 
-            tripPopUp = FindViewById<RelativeLayout>(Resource.Id.TripPopUp);
-
-            tripSpinner = FindViewById<Spinner>(Resource.Id.tripsSpinner);
-            tripSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TripSpinnerItemSelected);
-            tripAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripNameList);
-            tripSpinner.Adapter = tripAdapter;
-
-            tripTransportSpinner = FindViewById<Spinner>(Resource.Id.tripTransportSpinner);
-            tripTransportSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TripTransportSpinnerItemSelected);
-            tripTransportAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripTransportItems);
-            tripTransportSpinner.Adapter = tripTransportAdapter;
-
-
-            FindViewById<Button>(Resource.Id.tripSaveButton).Click += (o, e) =>
-                SaveTrip();
-
-            FindViewById<Button>(Resource.Id.tripDeleteButton).Click += (o, e) =>
-                DeleteTrip();
-
-            FindViewById<Button>(Resource.Id.tripCloseButton).Click += (o, e) =>
-                tripPopUp.Visibility = Android.Views.ViewStates.Gone;
-        }
-
-        private void TriggerTrophies() {
-
-            if (walkedMeter >= 500) {
+            if (walkedMeter >= 500)
+            {
                 FindViewById<TextView>(Resource.Id.trophy500m).SetBackgroundColor(Android.Graphics.Color.Green);
             }
 
@@ -559,7 +741,8 @@ namespace DBapp
                 FindViewById<TextView>(Resource.Id.trophy10000mBike).SetBackgroundColor(Android.Graphics.Color.Green);
             }
 
-            if (walkedTrips >= 10) {
+            if (walkedTrips >= 10)
+            {
 
                 FindViewById<TextView>(Resource.Id.Walk10Trips).SetBackgroundColor(Android.Graphics.Color.Green);
             }
@@ -569,6 +752,35 @@ namespace DBapp
 
                 FindViewById<TextView>(Resource.Id.Walk20Trips).SetBackgroundColor(Android.Graphics.Color.Green);
             }
+        }
+
+
+
+
+        // Trip Methods
+        private void TripPopUpInitialization() {
+
+            tripPopUp = FindViewById<RelativeLayout>(Resource.Id.TripPopUp);
+
+            tripSpinner = FindViewById<Spinner>(Resource.Id.tripsSpinner);
+            tripSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TripSpinnerItemSelected);
+            tripAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripNameList);
+            tripSpinner.Adapter = tripAdapter;
+
+            tripTransportSpinner = FindViewById<Spinner>(Resource.Id.tripTransportSpinner);
+            tripTransportSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TripTransportSpinnerItemSelected);
+            tripTransportAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripTransportItems);
+            tripTransportSpinner.Adapter = tripTransportAdapter;
+
+
+            FindViewById<Button>(Resource.Id.tripSaveButton).Click += (o, e) =>
+                SaveTrip();
+
+            FindViewById<Button>(Resource.Id.tripDeleteButton).Click += (o, e) =>
+                DeleteTrip();
+
+            FindViewById<Button>(Resource.Id.tripCloseButton).Click += (o, e) =>
+                tripPopUp.Visibility = Android.Views.ViewStates.Gone;
         }
 
         private void SaveTrip() {
@@ -769,500 +981,9 @@ namespace DBapp
 
         }
 
-        private void CarAnimation() {
-
-
-            carAnimator.SetDuration(5000);
-            carAnimator.Start();
-            carAnimator.RepeatCount = ObjectAnimator.Infinite;
-
-        }
-
-        private void CarSpinnerInitialization() {
-
-            //Transport spinner 
-            mainTransportSpinner = FindViewById<Spinner>(Resource.Id.spinner);
-            mainTransportSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TransportSpinnerItemSelected);
-            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, transportItems);
-            mainTransportSpinner.Adapter = adapter;
-
-            mainTransportSpinner.SetSelection(transportItems.IndexOf(primaryTransport));
-
-            // Car type spinner
-            carTypeSpinner = FindViewById<Spinner>(Resource.Id.carTypeSpinner);
-            carTypeSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(CarTypeSpinner);
-            var carTypeAdapter = ArrayAdapter.CreateFromResource(
-                    this, Resource.Array.car_type_array, Android.Resource.Layout.SimpleSpinnerItem);
-            carTypeAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            carTypeSpinner.Adapter = carTypeAdapter;
-        }
-
-        private void BackgroundInitialization() {
-            
-            background_1 = FindViewById<ImageView>(Resource.Id.background1);
-            background_2 = FindViewById<ImageView>(Resource.Id.background2);
-            background_3 = FindViewById<ImageView>(Resource.Id.background3);
-            background_4 = FindViewById<ImageView>(Resource.Id.background4);
-            background_5 = FindViewById<ImageView>(Resource.Id.background5);
-            background_6 = FindViewById<ImageView>(Resource.Id.background6);
-            background_7 = FindViewById<ImageView>(Resource.Id.background7);
-
-            backbuildings_1 = FindViewById<ImageView>(Resource.Id.backbuildings1);
-            backbuildings_2 = FindViewById<ImageView>(Resource.Id.backbuildings2);
-            backbuildings_3 = FindViewById<ImageView>(Resource.Id.backbuildings3);
-            backbuildings_4 = FindViewById<ImageView>(Resource.Id.backbuildings4);
-            backbuildings_5 = FindViewById<ImageView>(Resource.Id.backbuildings5);
-            backbuildings_6 = FindViewById<ImageView>(Resource.Id.backbuildings6);
-            backbuildings_7 = FindViewById<ImageView>(Resource.Id.backbuildings7);
-            backbuildings_8 = FindViewById<ImageView>(Resource.Id.backbuildings8);
-
-            middleBuildings_1 = FindViewById<ImageView>(Resource.Id.middlebuilding1);
-            middleBuildings_2 = FindViewById<ImageView>(Resource.Id.middlebuilding2);
-            middleBuildings_3 = FindViewById<ImageView>(Resource.Id.middlebuilding3);
-            middleBuildings_4 = FindViewById<ImageView>(Resource.Id.middlebuilding4);
-            middleBuildings_5 = FindViewById<ImageView>(Resource.Id.middlebuilding5);
-            middleBuildings_6 = FindViewById<ImageView>(Resource.Id.middlebuilding6);
-            middleBuildings_7 = FindViewById<ImageView>(Resource.Id.middlebuilding7);
-
-            frontbuildings_1 = FindViewById<ImageView>(Resource.Id.frontbuildings1);
-            frontbuildings_2 = FindViewById<ImageView>(Resource.Id.frontbuildings2);
-            frontbuildings_3 = FindViewById<ImageView>(Resource.Id.frontbuildings3);
-            frontbuildings_4 = FindViewById<ImageView>(Resource.Id.frontbuildings4);
-            frontbuildings_5 = FindViewById<ImageView>(Resource.Id.frontbuildings5);
-            frontbuildings_6 = FindViewById<ImageView>(Resource.Id.frontbuildings6);
-            frontbuildings_7 = FindViewById<ImageView>(Resource.Id.frontbuildings7);
-            frontbuildings_8 = FindViewById<ImageView>(Resource.Id.frontbuildings8);
-            frontbuildings_9 = FindViewById<ImageView>(Resource.Id.frontbuildings9);
-
-            road1 = FindViewById<ImageView>(Resource.Id.road1);
-            road2 = FindViewById<ImageView>(Resource.Id.road2);
-            road3 = FindViewById<ImageView>(Resource.Id.road3);
-            road4 = FindViewById<ImageView>(Resource.Id.road4);
-            road5 = FindViewById<ImageView>(Resource.Id.road5);
-            road6 = FindViewById<ImageView>(Resource.Id.road6);
-            road7 = FindViewById<ImageView>(Resource.Id.road7);
-            road8 = FindViewById<ImageView>(Resource.Id.road8);
-            road9 = FindViewById<ImageView>(Resource.Id.road9);
-            road10 = FindViewById<ImageView>(Resource.Id.road10);
-        }
-
-        private void ProfilePopUpInitialization() {
-
-            ProfileButton = FindViewById<ImageButton>(Resource.Id.profileIcon);
-            MenuButton = FindViewById<ImageButton>(Resource.Id.menuIcon);
-            TrophyButton = FindViewById<ImageButton>(Resource.Id.trophyIcon);
-
-            ProfilePopUp = FindViewById<ScrollView>(Resource.Id.ProfilePopUp);
-
-            CarName = FindViewById<LinearLayout>(Resource.Id.carNamePrompt);
-            CarType = FindViewById<LinearLayout>(Resource.Id.carTypePrompt);
-            CarKmPL = FindViewById<LinearLayout>(Resource.Id.carKmPLPrompt);
-            saveCarButton = FindViewById<Button>(Resource.Id.saveCarButton);
-            deleteCarButton = FindViewById<Button>(Resource.Id.deleteCarButton);
-
-            FindViewById<Button>(Resource.Id.closeProfilePopUp).Click += (o, e) =>
-              ProfilePopUp.Visibility = Android.Views.ViewStates.Gone;
-
-
-            FindViewById<Button>(Resource.Id.deleteUserButton).Click += (o, e) =>
-                DeleteUserAlert();
-
-            FindViewById<Button>(Resource.Id.saveProfileButton).Click += (o, e) =>
-                SaveUser();
-
-            FindViewById<Button>(Resource.Id.deleteCarButton).Click += (o, e) =>
-                DeleteCarAlert();
-
-            FindViewById<Button>(Resource.Id.saveCarButton).Click += (o, e) =>
-                SaveCar();
-        }
-
-        private void AnimalPopUpInitialization() {
-
-            chooseAnimalPopUp = FindViewById<LinearLayout>(Resource.Id.chooseAnimalPopUp);
-
-            koalaBearScene = FindViewById<RelativeLayout>(Resource.Id.koalaScene);
-            polarBearScene = FindViewById<RelativeLayout>(Resource.Id.PBScene);
-            cityChangeScene = FindViewById<ImageButton>(Resource.Id.cityChangeSceneBtn);
-            koalaChangeScene = FindViewById<ImageButton>(Resource.Id.koalaChangeSceneBtn);
-            PolarBearChangeScene = FindViewById<ImageButton>(Resource.Id.PBChangeSceneBtn);
-
-            // Koala Dialogue
-            koalaDialogueBox = FindViewById<RelativeLayout>(Resource.Id.koalaDialogueBox);
-            koalaDialogueText1 = FindViewById<TextView>(Resource.Id.koalaDialogueText1);
-            koalaDialogueText2 = FindViewById<TextView>(Resource.Id.koalaDialogueText2);
-            koalaDialogueText3 = FindViewById<TextView>(Resource.Id.koalaDialogueText3);
-            koalaWorried = FindViewById<ImageView>(Resource.Id.koalaWorriedIcon);
-            koalaScared = FindViewById<ImageView>(Resource.Id.koalaScaredIcon);
-            koalaPuzzled = FindViewById<ImageView>(Resource.Id.koalaPuzzledIcon);
-            koalaSurprised = FindViewById<ImageView>(Resource.Id.koalaSurprisedIcon);
-            koalaHappy = FindViewById<ImageView>(Resource.Id.koalaHappyIcon);
-
-            // Polar Bear Dialogue
-            polarBearDialogueBox = FindViewById<RelativeLayout>(Resource.Id.pbDialogueBox);
-            polarBearDialogueText1 = FindViewById<TextView>(Resource.Id.pbDialogueText1);
-            polarBearDialogueText2 = FindViewById<TextView>(Resource.Id.pbDialogueText2);
-            polarBearDialogueText3 = FindViewById<TextView>(Resource.Id.pbDialogueText3);
-            polarBearSighing = FindViewById<ImageView>(Resource.Id.pbSighing);
-            polarBearTired = FindViewById<ImageView>(Resource.Id.pbTired);
-            polarBearThinking = FindViewById<ImageView>(Resource.Id.pbThinking);
-            polarBearSmiling = FindViewById<ImageView>(Resource.Id.pbSmiling);
-
-            dialogueInit = new DialogueInitializer();
-
-            koalaDialogueBox.Click += (s, e) =>
-            {
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
-                    NextKoalaDialogue(dialogueInit);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
-                    NextKoalaDialogue(dialogueInit);
-                }
-                else
-                {
-                    koalaDialogueBox.Visibility = Android.Views.ViewStates.Gone;
-                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Visible;
-                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Visible;
-                    koalaDialogueCounter++;
-                    NextKoalaDialogue(dialogueInit);
-                }
-            };
-
-            polarBearDialogueBox.Click += (s, e) =>
-            {
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
-                    NextPolarBearDialogue(dialogueInit);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
-                    NextPolarBearDialogue(dialogueInit);
-                }
-                else
-                {
-                    polarBearDialogueBox.Visibility = Android.Views.ViewStates.Gone;
-                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Visible;
-                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Visible;
-                    polarBearDialogueCounter++;
-                    NextPolarBearDialogue(dialogueInit);
-                }
-            };
-
-            FindViewById<Button>(Resource.Id.polarBearChoice).Click += (o, e) =>
-            {
-                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
-                pbSceneVisible = true;
-                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
-                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
-                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
-                NextPolarBearDialogue(dialogueInit);
-            };
-
-            FindViewById<Button>(Resource.Id.koalaChoice).Click += (o, e) =>
-            {
-                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
-                koalaSceneVisible = true;
-                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
-                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
-                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
-                NextKoalaDialogue(dialogueInit);
-            };
-        }
-
-        public void NextKoalaDialogue(DialogueInitializer koalaDialogue) {
-
-            if (koalaDialogueCounter == 1)
-            {
-                koalaDialogueText1.Text = dialogueInit.koalaDialogue1;
-                koalaDialogueText2.Text = dialogueInit.koalaDialogue2;
-                koalaDialogueText3.Text = dialogueInit.koalaDialogue3;
-
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaWorried);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaScared);
-                }
-                else
-                {
-                    MakeKoalaIconVisible(koalaWorried);
-                }
-            }
-            else if (koalaDialogueCounter == 2)
-            {
-                koalaDialogueText1.Text = dialogueInit.koalaDialogue4;
-                koalaDialogueText2.Text = dialogueInit.koalaDialogue5;
-                koalaDialogueText3.Text = dialogueInit.koalaDialogue6;
-
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaWorried);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaScared);
-                }
-                else
-                {
-                    MakeKoalaIconVisible(koalaSurprised);
-                }
-            }
-            else if (koalaDialogueCounter == 3)
-            {
-                koalaDialogueText1.Text = dialogueInit.koalaDialogue7;
-                koalaDialogueText2.Text = dialogueInit.koalaDialogue8;
-                koalaDialogueText3.Text = dialogueInit.koalaDialogue9;
-
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaSurprised);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaSurprised);
-                }
-                else
-                {
-                    MakeKoalaIconVisible(koalaHappy);
-                }
-            }
-            else if (koalaDialogueCounter == 4)
-            {
-                koalaDialogueText1.Text = dialogueInit.koalaDialogue10;
-                koalaDialogueText2.Text = dialogueInit.koalaDialogue11;
-                koalaDialogueText3.Text = dialogueInit.koalaDialogue12;
-
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaPuzzled);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaSurprised);
-                }
-                else
-                {
-                    MakeKoalaIconVisible(koalaHappy);
-                }
-            }
-            else if (koalaDialogueCounter == 5)
-            {
-                koalaDialogueText1.Text = dialogueInit.koalaDialogue13;
-                koalaDialogueText2.Text = dialogueInit.koalaDialogue14;
-                koalaDialogueText3.Text = dialogueInit.koalaDialogue15;
-
-                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaSurprised);
-                }
-                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakeKoalaIconVisible(koalaHappy);
-                }
-                else
-                {
-                    MakeKoalaIconVisible(koalaHappy);
-                }
-            }
-        }
-
-        public void NextPolarBearDialogue(DialogueInitializer polarBearDialogue)
-        {
-            if (polarBearDialogueCounter == 1) {
-                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue1;
-                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue2;
-                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue3;
-
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSighing);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearTired);
-                }
-                else
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-            }
-            else if (polarBearDialogueCounter == 2)
-            {
-                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue4;
-                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue5;
-                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue6;
-
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSighing);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearThinking);
-                }
-                else
-                {
-                    MakePolarBearIconVisible(polarBearSighing);
-                }
-            }
-            else if (polarBearDialogueCounter == 3)
-            {
-                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue7;
-                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue8;
-                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue9;
-
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearThinking);
-                }
-                else
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-            }
-            else if (polarBearDialogueCounter == 4)
-            {
-                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue10;
-                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue11;
-                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue12;
-
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSighing);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-                else
-                {
-                    MakePolarBearIconVisible(polarBearThinking);
-                }
-            }
-            else if (polarBearDialogueCounter == 5)
-            {
-                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue13;
-                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue14;
-                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue15;
-
-                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
-                {
-                    MakePolarBearIconVisible(polarBearThinking);
-                }
-                else
-                {
-                    MakePolarBearIconVisible(polarBearSmiling);
-                }
-            }
-
-            
-        }
-
-        private void MakeKoalaIconVisible(ImageView koalaIcon) {
-
-            if (koalaIcon == koalaWorried)
-            {
-                koalaWorried.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                koalaWorried.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (koalaIcon == koalaScared)
-            {
-                koalaScared.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                koalaScared.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (koalaIcon == koalaPuzzled)
-            {
-                koalaPuzzled.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                koalaPuzzled.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (koalaIcon == koalaSurprised)
-            {
-                koalaSurprised.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                koalaSurprised.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (koalaIcon == koalaHappy)
-            {
-                koalaHappy.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                koalaHappy.Visibility = Android.Views.ViewStates.Gone;
-            }
-        }
-
-        private void MakePolarBearIconVisible(ImageView polarBearIcon) {
-
-            if (polarBearIcon == polarBearSighing)
-            {
-                polarBearSighing.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                polarBearSighing.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (polarBearIcon == polarBearTired)
-            {
-                polarBearTired.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                polarBearTired.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (polarBearIcon == polarBearThinking)
-            {
-                polarBearThinking.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                polarBearThinking.Visibility = Android.Views.ViewStates.Gone;
-            }
-
-            if (polarBearIcon == polarBearSmiling)
-            {
-                polarBearSmiling.Visibility = Android.Views.ViewStates.Visible;
-            }
-            else
-            {
-                polarBearSmiling.Visibility = Android.Views.ViewStates.Gone;
-            }
 
 
 
-        }
 
         // Buttons seen on the main page
         private void MainButtons() {
@@ -1297,6 +1018,11 @@ namespace DBapp
             };
         }
 
+
+
+
+
+        // Creation of user methods
         // Spinner for making the car EditText visible and chooses the transport of the user (User creation)
         private void CreateSpinnerItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
@@ -1414,6 +1140,7 @@ namespace DBapp
                 }
                 else
                 {
+                    user = new UserClass(userName, age, primaryTransport);
                     // Create user
                     FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
                     FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
@@ -1471,6 +1198,23 @@ namespace DBapp
                 adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, transportItems);
                 mainTransportSpinner.Adapter = adapter;
 
+                // Trip lists and spinners
+                tripElementsList = new List<TripClass>();
+
+                tripNameList = new List<string>();
+                tripNameList.Add("New Trip");
+
+                tripTransportItems = new List<string>();
+                tripTransportItems.Add("Walking");
+                tripTransportItems.Add("Bike");
+                tripTransportItems.Add("Bus");
+
+                tripAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripNameList);
+                tripSpinner.Adapter = tripAdapter;
+                tripTransportAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, tripTransportItems);
+                tripTransportSpinner.Adapter = tripTransportAdapter;
+
+                // Show The user creation page
                 ProfilePopUp.Visibility = Android.Views.ViewStates.Gone;
                 CreateUserPopUp.Visibility = Android.Views.ViewStates.Visible;
 
@@ -1479,6 +1223,9 @@ namespace DBapp
                 FindViewById<EditText>(Resource.Id.ageCreate).Text = "";
                 FindViewById<EditText>(Resource.Id.carNameCreate).Text = "";
                 FindViewById<EditText>(Resource.Id.kmPerLCreate).Text = "";
+
+                // Reset all variables
+                ResetUI();
             });
 
             alert.SetNegativeButton("Cancel", (senderAlert, args) =>
@@ -1487,6 +1234,89 @@ namespace DBapp
 
             Dialog dialog = alert.Create();
             dialog.Show();
+        }
+
+        public void ResetUI() {
+
+            // XP progress
+            xpSystem = new XPSystem(1,0,0,0);
+            level = xpSystem.GetCurrentLevel;
+            UILevel = "Lvl. " + level.ToString();
+            FindViewById<TextView>(Resource.Id.currentLevel).Text = UILevel;
+
+            string xpProgress = Math.Floor(xpSystem.GetCurrentExperience).ToString() + " XP / " + xpSystem.GetXpNeededToLevelUp.ToString() + " XP";
+            FindViewById<TextView>(Resource.Id.xpPoint).Text = xpProgress;
+            progressBar.Progress = 0;
+
+            // Main UI
+            backBuildingsLevel = 0;
+            middleBuildingsLevel = 0;
+            frontBuildingsLevel = 0;
+            roadLevel = 0;
+
+            backbuildings_1.Visibility = Android.Views.ViewStates.Visible;
+            backbuildings_2.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_3.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_4.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_5.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_6.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_7.Visibility = Android.Views.ViewStates.Gone;
+            backbuildings_8.Visibility = Android.Views.ViewStates.Gone;
+
+            middleBuildings_1.Visibility = Android.Views.ViewStates.Visible;
+            middleBuildings_2.Visibility = Android.Views.ViewStates.Gone;
+            middleBuildings_3.Visibility = Android.Views.ViewStates.Gone;
+            middleBuildings_4.Visibility = Android.Views.ViewStates.Gone;
+            middleBuildings_5.Visibility = Android.Views.ViewStates.Gone;
+            middleBuildings_6.Visibility = Android.Views.ViewStates.Gone;
+            middleBuildings_7.Visibility = Android.Views.ViewStates.Gone;
+
+            frontbuildings_1.Visibility = Android.Views.ViewStates.Visible;
+            frontbuildings_2.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_3.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_4.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_5.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_6.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_7.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_8.Visibility = Android.Views.ViewStates.Gone;
+            frontbuildings_9.Visibility = Android.Views.ViewStates.Gone;
+            
+            road1.Visibility = Android.Views.ViewStates.Visible;
+            road2.Visibility = Android.Views.ViewStates.Gone;
+            road3.Visibility = Android.Views.ViewStates.Gone;
+            road4.Visibility = Android.Views.ViewStates.Gone;
+            road5.Visibility = Android.Views.ViewStates.Gone;
+            road6.Visibility = Android.Views.ViewStates.Gone;
+            road7.Visibility = Android.Views.ViewStates.Gone;
+            road8.Visibility = Android.Views.ViewStates.Gone;
+            road8.Visibility = Android.Views.ViewStates.Gone;
+            road9.Visibility = Android.Views.ViewStates.Gone;
+            road10.Visibility = Android.Views.ViewStates.Gone;
+
+            background_1.Visibility = Android.Views.ViewStates.Visible;
+
+
+            // Animal UI
+            koalaSceneVisible = false;
+            koalaLevel = 0;
+            pbSceneVisible = false;
+            polarBearLevel = 0;
+
+            koalaChangeScene.Visibility = Android.Views.ViewStates.Gone;
+            PolarBearChangeScene.Visibility = Android.Views.ViewStates.Gone;
+
+            koalaDialogueCounter = 1;
+            polarBearDialogueCounter = 1;
+
+            FindViewById<ImageView>(Resource.Id.koalaBackground4).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.koalaBackground3).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.koalaBackground2).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.koalaBackground1).Visibility = Android.Views.ViewStates.Visible;
+
+            FindViewById<ImageView>(Resource.Id.PBBackground4).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.PBBackground3).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.PBBackground2).Visibility = Android.Views.ViewStates.Visible;
+            FindViewById<ImageView>(Resource.Id.PBBackground1).Visibility = Android.Views.ViewStates.Visible;
         }
 
         // Save user
@@ -1514,6 +1344,72 @@ namespace DBapp
             }
 
             //TODO: Error message must choose valid transport
+        }
+
+        private void ProfilePopUpInitialization()
+        {
+
+            ProfileButton = FindViewById<ImageButton>(Resource.Id.profileIcon);
+            MenuButton = FindViewById<ImageButton>(Resource.Id.menuIcon);
+            TrophyButton = FindViewById<ImageButton>(Resource.Id.trophyIcon);
+
+            ProfilePopUp = FindViewById<ScrollView>(Resource.Id.ProfilePopUp);
+
+            CarName = FindViewById<LinearLayout>(Resource.Id.carNamePrompt);
+            CarType = FindViewById<LinearLayout>(Resource.Id.carTypePrompt);
+            CarKmPL = FindViewById<LinearLayout>(Resource.Id.carKmPLPrompt);
+            saveCarButton = FindViewById<Button>(Resource.Id.saveCarButton);
+            deleteCarButton = FindViewById<Button>(Resource.Id.deleteCarButton);
+
+            FindViewById<Button>(Resource.Id.closeProfilePopUp).Click += (o, e) =>
+              ProfilePopUp.Visibility = Android.Views.ViewStates.Gone;
+
+
+            FindViewById<Button>(Resource.Id.deleteUserButton).Click += (o, e) =>
+                DeleteUserAlert();
+
+            FindViewById<Button>(Resource.Id.saveProfileButton).Click += (o, e) =>
+                SaveUser();
+
+            FindViewById<Button>(Resource.Id.deleteCarButton).Click += (o, e) =>
+                DeleteCarAlert();
+
+            FindViewById<Button>(Resource.Id.saveCarButton).Click += (o, e) =>
+                SaveCar();
+        }
+
+
+
+
+        // Car Methods
+        private void CarAnimation()
+        {
+
+
+            carAnimator.SetDuration(5000);
+            carAnimator.Start();
+            carAnimator.RepeatCount = ObjectAnimator.Infinite;
+
+        }
+
+        private void CarSpinnerInitialization()
+        {
+
+            //Transport spinner 
+            mainTransportSpinner = FindViewById<Spinner>(Resource.Id.spinner);
+            mainTransportSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(TransportSpinnerItemSelected);
+            adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, transportItems);
+            mainTransportSpinner.Adapter = adapter;
+
+            mainTransportSpinner.SetSelection(transportItems.IndexOf(primaryTransport));
+
+            // Car type spinner
+            carTypeSpinner = FindViewById<Spinner>(Resource.Id.carTypeSpinner);
+            carTypeSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(CarTypeSpinner);
+            var carTypeAdapter = ArrayAdapter.CreateFromResource(
+                    this, Resource.Array.car_type_array, Android.Resource.Layout.SimpleSpinnerItem);
+            carTypeAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            carTypeSpinner.Adapter = carTypeAdapter;
         }
 
         // Delete the current selected car
@@ -1727,7 +1623,402 @@ namespace DBapp
 
         }
 
-        // This function is called whenever a user has chosen what they want to level up and it levels up the koala and polar bear as well.
+
+
+
+
+        // Animal Methods
+        private void AnimalPopUpInitialization()
+        {
+            chooseAnimalPopUp = FindViewById<LinearLayout>(Resource.Id.chooseAnimalPopUp);
+
+            koalaBearScene = FindViewById<RelativeLayout>(Resource.Id.koalaScene);
+            polarBearScene = FindViewById<RelativeLayout>(Resource.Id.PBScene);
+            cityChangeScene = FindViewById<ImageButton>(Resource.Id.cityChangeSceneBtn);
+            koalaChangeScene = FindViewById<ImageButton>(Resource.Id.koalaChangeSceneBtn);
+            PolarBearChangeScene = FindViewById<ImageButton>(Resource.Id.PBChangeSceneBtn);
+
+            // Koala Dialogue
+            koalaDialogueBox = FindViewById<RelativeLayout>(Resource.Id.koalaDialogueBox);
+            koalaDialogueText1 = FindViewById<TextView>(Resource.Id.koalaDialogueText1);
+            koalaDialogueText2 = FindViewById<TextView>(Resource.Id.koalaDialogueText2);
+            koalaDialogueText3 = FindViewById<TextView>(Resource.Id.koalaDialogueText3);
+            koalaWorried = FindViewById<ImageView>(Resource.Id.koalaWorriedIcon);
+            koalaScared = FindViewById<ImageView>(Resource.Id.koalaScaredIcon);
+            koalaPuzzled = FindViewById<ImageView>(Resource.Id.koalaPuzzledIcon);
+            koalaSurprised = FindViewById<ImageView>(Resource.Id.koalaSurprisedIcon);
+            koalaHappy = FindViewById<ImageView>(Resource.Id.koalaHappyIcon);
+
+            // Polar Bear Dialogue
+            polarBearDialogueBox = FindViewById<RelativeLayout>(Resource.Id.pbDialogueBox);
+            polarBearDialogueText1 = FindViewById<TextView>(Resource.Id.pbDialogueText1);
+            polarBearDialogueText2 = FindViewById<TextView>(Resource.Id.pbDialogueText2);
+            polarBearDialogueText3 = FindViewById<TextView>(Resource.Id.pbDialogueText3);
+            polarBearSighing = FindViewById<ImageView>(Resource.Id.pbSighing);
+            polarBearTired = FindViewById<ImageView>(Resource.Id.pbTired);
+            polarBearThinking = FindViewById<ImageView>(Resource.Id.pbThinking);
+            polarBearSmiling = FindViewById<ImageView>(Resource.Id.pbSmiling);
+
+            dialogueInit = new DialogueInitializer();
+
+            koalaDialogueBox.Click += (s, e) =>
+            {
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
+                    NextKoalaDialogue(dialogueInit);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
+                    NextKoalaDialogue(dialogueInit);
+                }
+                else
+                {
+                    koalaDialogueBox.Visibility = Android.Views.ViewStates.Gone;
+                    koalaDialogueText1.Visibility = Android.Views.ViewStates.Visible;
+                    koalaDialogueText2.Visibility = Android.Views.ViewStates.Visible;
+                    koalaDialogueCounter++;
+                    NextKoalaDialogue(dialogueInit);
+                }
+            };
+
+            polarBearDialogueBox.Click += (s, e) =>
+            {
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Invisible;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Invisible;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+                else
+                {
+                    polarBearDialogueBox.Visibility = Android.Views.ViewStates.Gone;
+                    polarBearDialogueText1.Visibility = Android.Views.ViewStates.Visible;
+                    polarBearDialogueText2.Visibility = Android.Views.ViewStates.Visible;
+                    polarBearDialogueCounter++;
+                    NextPolarBearDialogue(dialogueInit);
+                }
+            };
+
+            FindViewById<Button>(Resource.Id.polarBearChoice).Click += (o, e) =>
+            {
+                polarBearScene.Visibility = Android.Views.ViewStates.Visible;
+                pbSceneVisible = true;
+                polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
+                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                NextPolarBearDialogue(dialogueInit);
+            };
+
+            FindViewById<Button>(Resource.Id.koalaChoice).Click += (o, e) =>
+            {
+                koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
+                koalaSceneVisible = true;
+                koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
+                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
+                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
+                NextKoalaDialogue(dialogueInit);
+            };
+        }
+
+        public void NextKoalaDialogue(DialogueInitializer koalaDialogue)
+        {
+
+            if (koalaDialogueCounter == 1)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue1;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue2;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue3;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaScared);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+            }
+            else if (koalaDialogueCounter == 2)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue4;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue5;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue6;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaWorried);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaScared);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+            }
+            else if (koalaDialogueCounter == 3)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue7;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue8;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue9;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+            else if (koalaDialogueCounter == 4)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue10;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue11;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue12;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaPuzzled);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+            else if (koalaDialogueCounter == 5)
+            {
+                koalaDialogueText1.Text = dialogueInit.koalaDialogue13;
+                koalaDialogueText2.Text = dialogueInit.koalaDialogue14;
+                koalaDialogueText3.Text = dialogueInit.koalaDialogue15;
+
+                if (koalaDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaSurprised);
+                }
+                else if (koalaDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+                else
+                {
+                    MakeKoalaIconVisible(koalaHappy);
+                }
+            }
+        }
+
+        public void NextPolarBearDialogue(DialogueInitializer polarBearDialogue)
+        {
+            if (polarBearDialogueCounter == 1)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue1;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue2;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue3;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearTired);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+            else if (polarBearDialogueCounter == 2)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue4;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue5;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue6;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+            }
+            else if (polarBearDialogueCounter == 3)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue7;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue8;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue9;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+            else if (polarBearDialogueCounter == 4)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue10;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue11;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue12;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSighing);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+            }
+            else if (polarBearDialogueCounter == 5)
+            {
+                polarBearDialogueText1.Text = polarBearDialogue.polarBearDialogue13;
+                polarBearDialogueText2.Text = polarBearDialogue.polarBearDialogue14;
+                polarBearDialogueText3.Text = polarBearDialogue.polarBearDialogue15;
+
+                if (polarBearDialogueText1.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+                else if (polarBearDialogueText2.Visibility == Android.Views.ViewStates.Visible)
+                {
+                    MakePolarBearIconVisible(polarBearThinking);
+                }
+                else
+                {
+                    MakePolarBearIconVisible(polarBearSmiling);
+                }
+            }
+
+
+        }
+
+        private void MakeKoalaIconVisible(ImageView koalaIcon)
+        {
+
+            if (koalaIcon == koalaWorried)
+            {
+                koalaWorried.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaWorried.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaScared)
+            {
+                koalaScared.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaScared.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaPuzzled)
+            {
+                koalaPuzzled.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaPuzzled.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaSurprised)
+            {
+                koalaSurprised.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaSurprised.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (koalaIcon == koalaHappy)
+            {
+                koalaHappy.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                koalaHappy.Visibility = Android.Views.ViewStates.Gone;
+            }
+        }
+
+        private void MakePolarBearIconVisible(ImageView polarBearIcon)
+        {
+
+            if (polarBearIcon == polarBearSighing)
+            {
+                polarBearSighing.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearSighing.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearTired)
+            {
+                polarBearTired.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearTired.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearThinking)
+            {
+                polarBearThinking.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearThinking.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+            if (polarBearIcon == polarBearSmiling)
+            {
+                polarBearSmiling.Visibility = Android.Views.ViewStates.Visible;
+            }
+            else
+            {
+                polarBearSmiling.Visibility = Android.Views.ViewStates.Gone;
+            }
+
+
+
+        }
+
         private void AnimalLevelUp()
         {
             // Update the levels/layout for the ones that are visible
@@ -1866,6 +2157,61 @@ namespace DBapp
             {
                 FindViewById<ImageView>(Resource.Id.PBBackground1).Visibility = Android.Views.ViewStates.Gone;
             }
+        }
+
+
+
+
+
+        // Change Backgrounds methods
+        private void BackgroundInitialization()
+        {
+
+            background_1 = FindViewById<ImageView>(Resource.Id.background1);
+            background_2 = FindViewById<ImageView>(Resource.Id.background2);
+            background_3 = FindViewById<ImageView>(Resource.Id.background3);
+            background_4 = FindViewById<ImageView>(Resource.Id.background4);
+            background_5 = FindViewById<ImageView>(Resource.Id.background5);
+            background_6 = FindViewById<ImageView>(Resource.Id.background6);
+            background_7 = FindViewById<ImageView>(Resource.Id.background7);
+
+            backbuildings_1 = FindViewById<ImageView>(Resource.Id.backbuildings1);
+            backbuildings_2 = FindViewById<ImageView>(Resource.Id.backbuildings2);
+            backbuildings_3 = FindViewById<ImageView>(Resource.Id.backbuildings3);
+            backbuildings_4 = FindViewById<ImageView>(Resource.Id.backbuildings4);
+            backbuildings_5 = FindViewById<ImageView>(Resource.Id.backbuildings5);
+            backbuildings_6 = FindViewById<ImageView>(Resource.Id.backbuildings6);
+            backbuildings_7 = FindViewById<ImageView>(Resource.Id.backbuildings7);
+            backbuildings_8 = FindViewById<ImageView>(Resource.Id.backbuildings8);
+
+            middleBuildings_1 = FindViewById<ImageView>(Resource.Id.middlebuilding1);
+            middleBuildings_2 = FindViewById<ImageView>(Resource.Id.middlebuilding2);
+            middleBuildings_3 = FindViewById<ImageView>(Resource.Id.middlebuilding3);
+            middleBuildings_4 = FindViewById<ImageView>(Resource.Id.middlebuilding4);
+            middleBuildings_5 = FindViewById<ImageView>(Resource.Id.middlebuilding5);
+            middleBuildings_6 = FindViewById<ImageView>(Resource.Id.middlebuilding6);
+            middleBuildings_7 = FindViewById<ImageView>(Resource.Id.middlebuilding7);
+
+            frontbuildings_1 = FindViewById<ImageView>(Resource.Id.frontbuildings1);
+            frontbuildings_2 = FindViewById<ImageView>(Resource.Id.frontbuildings2);
+            frontbuildings_3 = FindViewById<ImageView>(Resource.Id.frontbuildings3);
+            frontbuildings_4 = FindViewById<ImageView>(Resource.Id.frontbuildings4);
+            frontbuildings_5 = FindViewById<ImageView>(Resource.Id.frontbuildings5);
+            frontbuildings_6 = FindViewById<ImageView>(Resource.Id.frontbuildings6);
+            frontbuildings_7 = FindViewById<ImageView>(Resource.Id.frontbuildings7);
+            frontbuildings_8 = FindViewById<ImageView>(Resource.Id.frontbuildings8);
+            frontbuildings_9 = FindViewById<ImageView>(Resource.Id.frontbuildings9);
+
+            road1 = FindViewById<ImageView>(Resource.Id.road1);
+            road2 = FindViewById<ImageView>(Resource.Id.road2);
+            road3 = FindViewById<ImageView>(Resource.Id.road3);
+            road4 = FindViewById<ImageView>(Resource.Id.road4);
+            road5 = FindViewById<ImageView>(Resource.Id.road5);
+            road6 = FindViewById<ImageView>(Resource.Id.road6);
+            road7 = FindViewById<ImageView>(Resource.Id.road7);
+            road8 = FindViewById<ImageView>(Resource.Id.road8);
+            road9 = FindViewById<ImageView>(Resource.Id.road9);
+            road10 = FindViewById<ImageView>(Resource.Id.road10);
         }
 
         private void ChangeBackgroundButtons() {
@@ -2183,6 +2529,8 @@ namespace DBapp
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+
+
         // GPS Methods
         public void CreateNotificationChannel()
         {
@@ -2247,14 +2595,14 @@ namespace DBapp
             //}
         }
 
-        private async void getLocation()
+        private async void GetLocation()
         {
             await GetLastLocation();
         }
 
         public void OnLocationChanged(Location location)
         {
-            getLocation();
+            GetLocation();
         }
 
         public void OnPermissionDenied(PermissionDeniedResponse p0)
@@ -2298,6 +2646,8 @@ namespace DBapp
             throw new NotImplementedException();
         }
         
+        
+        
         // Getters
         public UserClass GetUser
         { get { return user; } }
@@ -2307,205 +2657,14 @@ namespace DBapp
             get { return xpSystem;  }
         }
 
-        protected override void OnStop()
+        public static MainActivity GetInstance
         {
-            Console.WriteLine("Stop");
-            base.OnStop();
+            get { return Instance; }
         }
 
-        protected override void OnDestroy()
-        {
-            Console.WriteLine("Destroyed");
-            SaveSet();
-            base.OnStop();
-        }
+        public List<CarClass> GetCarList { get { return carList; } }
 
-        protected override void OnSaveInstanceState(Bundle savedInstanceState)
-        {
-            base.OnSaveInstanceState(savedInstanceState);
+        public string GetTransport { get { return primaryTransport; } }
 
-            Console.WriteLine("Save");
-
-        }
-
-        protected void SaveSet() {
-            var prefs = Application.Context.GetSharedPreferences("Preferences", FileCreationMode.Private);
-            var prefEditor = prefs.Edit();
-
-            Console.WriteLine(carList.Count);
-
-            var tripElemListJSON = JsonConvert.SerializeObject(tripElementsList);
-            var tripNameListJSON = JsonConvert.SerializeObject(tripNameList);
-            var tripTransportItemsJSON = JsonConvert.SerializeObject(tripTransportItems);
-            var xpSystemJSON = JsonConvert.SerializeObject(xpSystem, Formatting.Indented);
-            var carListJSON = JsonConvert.SerializeObject(carList);
-            var transportItemsJSON = JsonConvert.SerializeObject(transportItems);
-            var userJSON = JsonConvert.SerializeObject(user);
-            
-
-            prefEditor.PutString("tripElementList", tripElemListJSON);
-            prefEditor.PutString("tripNameList", tripNameListJSON);
-            prefEditor.PutString("tripTransportItems", tripTransportItemsJSON);
-            prefEditor.PutString("xpSystem", xpSystemJSON);
-            prefEditor.PutString("carList", carListJSON);
-            prefEditor.PutString("transportItemsList", transportItemsJSON);
-            prefEditor.PutInt("backBuildingsLevel", backBuildingsLevel);
-            prefEditor.PutInt("middleBuilsingsLevel", middleBuildingsLevel);
-            prefEditor.PutInt("frontBuildingsLevel", frontBuildingsLevel);
-            prefEditor.PutInt("roadLevel", roadLevel);
-            prefEditor.PutString("user", userJSON);
-            prefEditor.PutString("primaryTransport", primaryTransport);
-            prefEditor.PutBoolean("koalaSceneVisible", koalaSceneVisible);
-            
-            Console.WriteLine(pbSceneVisible);
-
-            prefEditor.PutBoolean("pbSceneVisible", pbSceneVisible);
-            prefEditor.PutInt("koalaLevel", koalaLevel);
-            prefEditor.PutInt("polarBearLevel", polarBearLevel);
-            prefEditor.PutInt("koalaDialogueCounter", koalaDialogueCounter);
-            prefEditor.PutInt("polarBearDialogueCounter", polarBearDialogueCounter);
-
-            prefEditor.Commit();
-            
-        }
-
-        protected void RetrieveSet()
-        {
-            // Shared Preferences 
-            var prefs = Application.Context.GetSharedPreferences("Preferences", FileCreationMode.Private);
-
-            var tripElementListJSON = prefs.GetString("tripElementList", null);
-            var tripNameListJSON = prefs.GetString("tripNameList", null);
-            var tripTransportItemsJSON = prefs.GetString("tripTransportItems", null);
-            var carListJSON = prefs.GetString("carList", null);
-            var xpSystemJSON = prefs.GetString("xpSystem", null);
-            var transportItemsListJSON = prefs.GetString("transportItemsList", null);
-            var userJSON = prefs.GetString("user", null);
-            
-
-            // Trip items
-            if (tripNameListJSON != null && tripElementListJSON != null)
-            {
-
-                tripElementsList = JsonConvert.DeserializeObject<List<TripClass>>(tripElementListJSON);
-
-                tripNameList = JsonConvert.DeserializeObject<List<string>>(tripNameListJSON);
-            }
-            else
-            {
-                tripNameList = new List<string>();
-                tripElementsList = new List<TripClass>();
-
-                tripNameList.Add("New Trip");
-            }
-
-            // Transport for trips
-            if (tripTransportItemsJSON != null)
-            {
-                tripTransportItems = JsonConvert.DeserializeObject<List<string>>(tripTransportItemsJSON);
-            }
-            else 
-            {
-                tripTransportItems = new List<string>();
-                tripTransportItems.Add("Walking");
-                tripTransportItems.Add("Bike");
-                tripTransportItems.Add("Bus");
-            }
-
-            // XP System
-            if (xpSystemJSON != null)
-            {
-
-                xpSystem = JsonConvert.DeserializeObject<XPSystem>(xpSystemJSON);
-                level = xpSystem.GetCurrentLevel;
-                XPLevelUp();
-            }
-            else
-            {
-                xpSystem = new XPSystem(1, 0, 0, 0);
-            }
-            
-            // Layout levels
-            backBuildingsLevel = prefs.GetInt("backBuildingsLevel", 0);
-            middleBuildingsLevel = prefs.GetInt("middleBuilsingsLevel", 0);
-            frontBuildingsLevel = prefs.GetInt("frontBuildingsLevel", 0);
-            roadLevel = prefs.GetInt("roadLevel", 0);
-
-            ChangeBackBuildings();
-            ChangeMiddleBuildings();
-            ChangeFrontBuildings();
-            ChangeRoad();
-            ChangeBackgroundColor();
-
-            // Animal Scene Visibility
-            koalaSceneVisible = prefs.GetBoolean("koalaSceneVisible", false);
-            koalaLevel = prefs.GetInt("koalaLevel", 0);
-            pbSceneVisible = prefs.GetBoolean("pbSceneVisible", false);
-            polarBearLevel = prefs.GetInt("polarBearLevel", 0);
-
-            koalaDialogueCounter = prefs.GetInt("koalaDialogueCounter", 1);
-            polarBearDialogueCounter = prefs.GetInt("polarBearDialogueCounter", 1);
-
-            if (koalaSceneVisible)
-            {
-                koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
-                UpdateKoalaScene();
-            }
-
-            if (pbSceneVisible) {
-
-                PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
-                UpdatePolarBearScene();
-                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Gone;
-            }
-            else
-            {
-                //TODO: Delete this
-                chooseAnimalPopUp.Visibility = Android.Views.ViewStates.Visible;
-            }
-
-
-            // Registeret cars
-            if (carListJSON != null)
-            {
-                carList = JsonConvert.DeserializeObject<List<CarClass>>(carListJSON);
-            }
-            else {
-                carList = new List<CarClass>();
-            }
-
-            // Cars for the layout
-            if (transportItemsListJSON != null)
-            {
-                transportItems = JsonConvert.DeserializeObject<List<string>>(transportItemsListJSON);
-            }
-            else
-            {
-                transportItems = new List<string>();
-                transportItems.Add("Walking");
-                transportItems.Add("Bike");
-                transportItems.Add("Bus");
-                transportItems.Add("New Car");
-            }
-
-            // Choose primary transport
-            primaryTransport = prefs.GetString("primaryTransport", "Walking");
-            
-            // User init
-            if (userJSON != null)
-            {
-                user = JsonConvert.DeserializeObject<UserClass>(userJSON);
-
-                // Change the text in the EditText boxes in the profile pop up to the user's name and age 
-                FindViewById<EditText>(Resource.Id.et_username).SetText(user.UserName, TextView.BufferType.Editable);
-                FindViewById<EditText>(Resource.Id.age).SetText(user.UserAge, TextView.BufferType.Editable);
-            }
-
-            // TODO: Delete this
-            else
-            {
-                user = new UserClass("Maria", "21", "Walking");
-            }
-        }
     }
 }

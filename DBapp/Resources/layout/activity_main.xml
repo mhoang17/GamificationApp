@@ -35,7 +35,7 @@
     <include layout = "@layout/progressbar"/>
 
     <!-- Remember to make it visible again -->
-    <include layout = "@layout/factpopup" android:visibility = "gone"/>
+    <include layout = "@layout/factpopup"/>
     
     <ImageButton
         android:src="@android:drawable/star_big_on"
