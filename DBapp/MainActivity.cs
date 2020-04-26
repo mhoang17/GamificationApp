@@ -23,7 +23,7 @@ using System.Timers;
 
 namespace DBapp
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, Android.Gms.Location.ILocationListener, IPermissionListener
     {
 
@@ -277,6 +277,9 @@ namespace DBapp
 
             upgradeBackgroundPopUp = FindViewById<RelativeLayout>(Resource.Id.updateBackgroundPopUp);
 
+            // Buttons that changes the background
+            ChangeBackgroundButtons();
+
             // Car Animations
             car1 = FindViewById<ImageView>(Resource.Id.car1);
             carAnimator = ObjectAnimator.OfFloat(car1, "x", 1200);
@@ -296,9 +299,6 @@ namespace DBapp
 
             // Trophies
             TrophiesPopUpInitialization();
-
-            // Buttons that changes the background
-            ChangeBackgroundButtons();
 
             quizPopUp = FindViewById<RelativeLayout>(Resource.Id.quiz);
             quizButton = FindViewById<ImageButton>(Resource.Id.quizButton);
@@ -320,6 +320,21 @@ namespace DBapp
                 factView.Visibility = Android.Views.ViewStates.Gone;
 
             ShowFact();
+
+            //I have no idea why, but for some reason when we come down here the upgrade popup will always be gone and the xpCounter has been substracted by 4.
+            //So we put this in, so that if it happens that the app crashes or is killed while the user can upgrade things, then when they open the app they will still be able to do so.
+            xpCounter += 4;
+
+            Console.WriteLine("XP Counter:" + xpCounter);
+
+            if (xpCounter >= 1)
+            {
+                upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Visible;
+
+                Console.WriteLine("Visibility " + upgradeBackgroundPopUp.Visibility);
+            }
+
+            Console.WriteLine("Visibility " + upgradeBackgroundPopUp.Visibility);
         }
 
         // When the app closes
@@ -376,14 +391,18 @@ namespace DBapp
             prefEditor.PutString("user", userJSON);
             prefEditor.PutString("primaryTransport", primaryTransport);
             prefEditor.PutBoolean("koalaSceneVisible", koalaSceneVisible);
-
-            Console.WriteLine(pbSceneVisible);
-
             prefEditor.PutBoolean("pbSceneVisible", pbSceneVisible);
             prefEditor.PutInt("koalaLevel", koalaLevel);
             prefEditor.PutInt("polarBearLevel", polarBearLevel);
             prefEditor.PutInt("koalaDialogueCounter", koalaDialogueCounter);
             prefEditor.PutInt("polarBearDialogueCounter", polarBearDialogueCounter);
+            prefEditor.PutInt("walkedMeter", walkedMeter);
+            prefEditor.PutInt("bikeMeter", bikeMeter);
+            prefEditor.PutInt("walkedTrips", walkedTrips);
+            prefEditor.PutInt("bikeTrips", bikeTrips);
+            prefEditor.PutInt("xpCounter", xpCounter);
+
+            Console.WriteLine("XP Counter:" + xpCounter);
 
             prefEditor.Commit();
 
@@ -434,17 +453,33 @@ namespace DBapp
             }
 
             // XP System
+
+            xpCounter = prefs.GetInt("xpCounter", 0);
+            Console.WriteLine("XP Counter:" + xpCounter);
+
+
             if (xpSystemJSON != null)
             {
 
                 xpSystem = JsonConvert.DeserializeObject<XPSystem>(xpSystemJSON);
                 level = xpSystem.GetCurrentLevel;
                 XPLevelUp();
+
+                
             }
             else
             {
                 xpSystem = new XPSystem(1, 0, 0, 0);
             }
+
+            // Trophies
+            walkedMeter = prefs.GetInt("walkedMeter", 0);
+            bikeMeter = prefs.GetInt("bikeMeter", 0);
+            walkedTrips = prefs.GetInt("walkedTrips", 0);
+            bikeTrips = prefs.GetInt("bikeTrips", 0);
+
+            TriggerTrophies();
+
 
             // Layout levels
             backBuildingsLevel = prefs.GetInt("backBuildingsLevel", 0);
@@ -471,13 +506,42 @@ namespace DBapp
             {
                 koalaChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 UpdateKoalaScene();
+
+                if (koalaLevel < 10)
+                {
+                    FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Visible;
+                }
+                else if (koalaLevel >= 10 && koalaLevel < 15)
+                {
+                    FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Visible;
+                }
+                else
+                {
+                    FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Visible;
+                }
             }
 
             if (pbSceneVisible)
             {
-
                 PolarBearChangeScene.Visibility = Android.Views.ViewStates.Visible;
                 UpdatePolarBearScene();
+
+                if (polarBearLevel < 10)
+                {
+                    FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Visible;
+                }
+                else if (polarBearLevel >= 10 && polarBearLevel < 15)
+                {
+                    FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Visible;
+                }
+                else
+                {
+                    FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                    FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Visible;
+                }
             }
 
 
@@ -641,7 +705,7 @@ namespace DBapp
 
             if (level != xpSystem.GetCurrentLevel)
             {
-                xpCounter = xpSystem.GetCurrentLevel - level;
+                xpCounter += xpSystem.GetCurrentLevel - level;
 
                 if (FindViewById<Button>(Resource.Id.backbuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
                     FindViewById<Button>(Resource.Id.middleBuildingsButton).Visibility != Android.Views.ViewStates.Gone ||
@@ -1239,6 +1303,9 @@ namespace DBapp
         public void ResetUI() {
 
             // XP progress
+            xpCounter = 0;
+            upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
+
             xpSystem = new XPSystem(1,0,0,0);
             level = xpSystem.GetCurrentLevel;
             UILevel = "Lvl. " + level.ToString();
@@ -1247,6 +1314,28 @@ namespace DBapp
             string xpProgress = Math.Floor(xpSystem.GetCurrentExperience).ToString() + " XP / " + xpSystem.GetXpNeededToLevelUp.ToString() + " XP";
             FindViewById<TextView>(Resource.Id.xpPoint).Text = xpProgress;
             progressBar.Progress = 0;
+
+            // Trophy progress
+            walkedMeter = 0;
+            walkedTrips = 0;
+            bikeMeter = 0;
+            bikeTrips = 0;
+
+            FindViewById<TextView>(Resource.Id.trophy500m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy1000m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy2500m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy5000m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy7500m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy10000m).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy500mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy1000mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy2500mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy5000mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy7500mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.trophy10000mBike).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.Walk10Trips).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.Walk20Trips).SetBackgroundColor(Android.Graphics.Color.White);
+            FindViewById<TextView>(Resource.Id.sustainableTransportTrophy).SetBackgroundColor(Android.Graphics.Color.White);
 
             // Main UI
             backBuildingsLevel = 0;
@@ -1654,10 +1743,10 @@ namespace DBapp
             polarBearDialogueText1 = FindViewById<TextView>(Resource.Id.pbDialogueText1);
             polarBearDialogueText2 = FindViewById<TextView>(Resource.Id.pbDialogueText2);
             polarBearDialogueText3 = FindViewById<TextView>(Resource.Id.pbDialogueText3);
-            polarBearSighing = FindViewById<ImageView>(Resource.Id.pbSighing);
-            polarBearTired = FindViewById<ImageView>(Resource.Id.pbTired);
-            polarBearThinking = FindViewById<ImageView>(Resource.Id.pbThinking);
-            polarBearSmiling = FindViewById<ImageView>(Resource.Id.pbSmiling);
+            polarBearSighing = FindViewById<ImageView>(Resource.Id.pbSighingIcon);
+            polarBearTired = FindViewById<ImageView>(Resource.Id.pbTiredIcon);
+            polarBearThinking = FindViewById<ImageView>(Resource.Id.pbThinkingIcon);
+            polarBearSmiling = FindViewById<ImageView>(Resource.Id.pbSmilingIcon);
 
             dialogueInit = new DialogueInitializer();
 
@@ -1679,7 +1768,21 @@ namespace DBapp
                     koalaDialogueText1.Visibility = Android.Views.ViewStates.Visible;
                     koalaDialogueText2.Visibility = Android.Views.ViewStates.Visible;
                     koalaDialogueCounter++;
-                    NextKoalaDialogue(dialogueInit);
+
+                    if (koalaLevel < 10)
+                    {
+                        FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Visible;
+                    }
+                    else if (koalaLevel >= 10 && koalaLevel < 15)
+                    {
+                        FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                        FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Visible;
+                    }
+                    else 
+                    {
+                        FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                        FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Visible;
+                    }
                 }
             };
 
@@ -1701,7 +1804,21 @@ namespace DBapp
                     polarBearDialogueText1.Visibility = Android.Views.ViewStates.Visible;
                     polarBearDialogueText2.Visibility = Android.Views.ViewStates.Visible;
                     polarBearDialogueCounter++;
-                    NextPolarBearDialogue(dialogueInit);
+
+                    if (polarBearLevel < 10)
+                    {
+                        FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Visible;
+                    }
+                    else if (polarBearLevel >= 10 && polarBearLevel < 15)
+                    {
+                        FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                        FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Visible;
+                    }
+                    else
+                    {
+                        FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                        FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Visible;
+                    }
                 }
             };
 
@@ -2052,24 +2169,36 @@ namespace DBapp
             // Koala Dialogue Trigger
             if (koalaLevel == 20)
             {
+                FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Gone;
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 15)
             {
+                FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Gone;
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 10)
             {
+                FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Gone;
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextKoalaDialogue(dialogueInit);
             }
             else if (koalaLevel == 5)
             {
+                FindViewById<ImageView>(Resource.Id.koalaWorried).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaSurprised).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.koalaHappy).Visibility = Android.Views.ViewStates.Gone;
                 koalaDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 koalaBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextKoalaDialogue(dialogueInit);
@@ -2079,24 +2208,38 @@ namespace DBapp
             // Polar Bear Dialogue Trigger
             if (polarBearLevel == 20)
             {
+                FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Gone;
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 15)
             {
+                FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Gone;
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 10)
             {
+                FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Gone;
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextPolarBearDialogue(dialogueInit);
             }
             else if (polarBearLevel == 5)
             {
+
+                FindViewById<ImageView>(Resource.Id.pbSighing).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbThinking).Visibility = Android.Views.ViewStates.Gone;
+                FindViewById<ImageView>(Resource.Id.pbSmiling).Visibility = Android.Views.ViewStates.Gone;
+
                 polarBearDialogueBox.Visibility = Android.Views.ViewStates.Visible;
                 polarBearScene.Visibility = Android.Views.ViewStates.Visible;
                 NextPolarBearDialogue(dialogueInit);
@@ -2289,11 +2432,9 @@ namespace DBapp
             {
                 upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             }
-            else {
 
-                xpCounter--;
-            }
-            
+            xpCounter--;
+
             AnimalLevelUp();
             ChangeBackgroundColor();
         }
@@ -2340,10 +2481,8 @@ namespace DBapp
             {
                 upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             }
-            else
-            {
-                xpCounter--;
-            }
+
+            xpCounter--;
 
             AnimalLevelUp();
             ChangeBackgroundColor();
@@ -2403,10 +2542,8 @@ namespace DBapp
             {
                 upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             }
-            else
-            {
-                xpCounter--;
-            }
+
+            xpCounter--;
 
 
             AnimalLevelUp();
@@ -2471,10 +2608,8 @@ namespace DBapp
             {
                 upgradeBackgroundPopUp.Visibility = Android.Views.ViewStates.Gone;
             }
-            else
-            {
-                xpCounter--;
-            }
+
+            xpCounter--;
 
             AnimalLevelUp();
             ChangeBackgroundColor();
@@ -2550,12 +2685,6 @@ namespace DBapp
         private async Task GetLastLocation()
         {
             Android.Locations.Location location1 = await fusedLocationProviderClient.GetLastLocationAsync();
-            //if (location1 != null)
-            //{
-            TextView txtLocation1 = FindViewById<TextView>(P6Test.Resource.Id.oldLocation);
-            TextView txtLocation2 = FindViewById<TextView>(P6Test.Resource.Id.NewLocation);
-            TextView speed = FindViewById<TextView>(P6Test.Resource.Id.speed);
-            TextView updates = FindViewById<TextView>(P6Test.Resource.Id.updates);
 
             var position = location1;
 
@@ -2569,30 +2698,14 @@ namespace DBapp
             {
                 oldLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
                 newLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
-                txtLocation1.Text = position.Latitude.ToString("#.###") + " : " + position.Longitude.ToString("#.###");
                 i = 1;
-                updates.Text = i.ToString();
             }
             else
             {
                 oldLocation = newLocation;
                 newLocation = new Xamarin.Essentials.Location(position.Latitude, position.Longitude);
-
-                if (txtLocation2.Text.Equals(""))
-                {
-                    txtLocation1.Text = txtLocation1.Text;
-
-                }
-                else { txtLocation1.Text = txtLocation2.Text; }
-
-                txtLocation2.Text = position.Latitude.ToString("#.###") + " : " + position.Longitude.ToString("#.###");
-                //distance.Text = Location.CalculateDistance(oldLocation, newLocation, DistanceUnits.Kilometers).ToString() + " km";
-                updates.Text = i.ToString();
-                var speedkmh = position.Speed * 3.6;
-                speed.Text = speedkmh.ToString("#.####") + " km/h";
             }
             i++;
-            //}
         }
 
         private async void GetLocation()

@@ -34,8 +34,6 @@ namespace DBapp
                 .SetOngoing(true)
                 .Build();
 
-            Console.WriteLine("ForegroundMethod");
-
             NotificationManager notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
             const int notificationId = 0;
             notificationManager.Notify(notificationId, notification);

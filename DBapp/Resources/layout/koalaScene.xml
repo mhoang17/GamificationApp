@@ -125,7 +125,7 @@
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
-            android:layout_centerVertical = "true"
+            android:visibility = "gone"
         />
 
         <ImageView
@@ -136,7 +136,6 @@
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
-            android:layout_centerVertical = "true"
             android:visibility = "gone"
         />
 
@@ -146,8 +145,8 @@
             android:layout_height="150dp"
             android:id="@+id/koalaPuzzledIcon"
             android:scaleType="fitXY"
+            android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
-            android:layout_centerVertical = "true"
             android:visibility = "gone"
         />
 
@@ -175,7 +174,38 @@
 
     </RelativeLayout>
 
-    
+    <ImageView
+        android:src="@drawable/koala_worried"
+        android:layout_width="130dp"
+        android:layout_height="140dp"
+        android:id="@+id/koalaWorried"
+        android:layout_alignParentBottom = "true"
+        android:layout_marginBottom = "60dp"
+        android:layout_marginLeft = "40dp"
+        android:visibility = "gone"
+    />
+
+    <ImageView
+        android:src="@drawable/koala_surprised"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:id="@+id/koalaSurprised"
+        android:layout_alignParentBottom = "true"
+        android:layout_marginBottom = "60dp"
+        android:layout_marginLeft = "40dp"
+        android:visibility = "gone"
+    />
+
+    <ImageView
+        android:src="@drawable/koala_happy"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:id="@+id/koalaHappy"
+        android:layout_alignParentBottom = "true"
+        android:layout_marginBottom = "60dp"
+        android:layout_marginLeft = "40dp"
+        android:visibility = "gone"
+    />
 
 
     

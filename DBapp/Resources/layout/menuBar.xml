@@ -11,33 +11,30 @@
         android:layout_centerInParent="true">
 
         <ImageButton
-            android:src="@android:drawable/ic_menu_gallery"
+            android:src="@drawable/koala_face"
             android:text="Koala"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="25px"
-            android:minHeight="25px"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:scaleType="fitXY"
             android:id="@+id/koalaChangeSceneBtn"
             android:layout_toRightOf ="@+id/cityChangeSceneBtn"
             android:visibility = "gone"/>
 
         <ImageButton
-            android:src="@android:drawable/ic_menu_gallery"
+            android:src="@drawable/V4"
             android:text="City"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="25px"
-            android:minHeight="25px"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:scaleType="fitXY"
             android:id="@+id/cityChangeSceneBtn"
             android:layout_toRightOf ="@+id/PBChangeSceneBtn"/>
 
         <ImageButton
-            android:src="@android:drawable/ic_menu_gallery"
+            android:src="@drawable/pb_face"
             android:text="Polar Bear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="25px"
-            android:minHeight="25px"
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:scaleType="fitXY"
             android:id="@+id/PBChangeSceneBtn"
             android:visibility = "gone"/>
 

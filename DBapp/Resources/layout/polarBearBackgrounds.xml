@@ -121,7 +121,7 @@
             android:src="@drawable/pb_sighing"
             android:layout_width="140dp"
             android:layout_height="160dp"
-            android:id="@+id/pbSighing"
+            android:id="@+id/pbSighingIcon"
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
@@ -133,7 +133,7 @@
             android:src="@drawable/pb_tired"
             android:layout_width="140dp"
             android:layout_height="160dp"
-            android:id="@+id/pbTired"
+            android:id="@+id/pbTiredIcon"
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
@@ -145,7 +145,7 @@
             android:src="@drawable/pb_thinking"
             android:layout_width="140dp"
             android:layout_height="160dp"
-            android:id="@+id/pbThinking"
+            android:id="@+id/pbThinkingIcon"
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
@@ -157,7 +157,7 @@
             android:src="@drawable/pb_smiling"
             android:layout_width="140dp"
             android:layout_height="160dp"
-            android:id="@+id/pbSmiling"
+            android:id="@+id/pbSmilingIcon"
             android:scaleType="fitXY"
             android:paddingTop = "10dp"
             android:layout_marginRight = "80dp"
@@ -166,4 +166,37 @@
         />
 
     </RelativeLayout>
+
+    <ImageView
+        android:src="@drawable/pb_sighing"
+        android:layout_width="140dp"
+        android:layout_height="160dp"
+        android:id="@+id/pbSighing"
+        android:layout_alignParentBottom = "true"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginBottom = "150dp"
+        android:visibility = "gone"
+    />
+
+    <ImageView
+        android:src="@drawable/pb_thinking"
+        android:layout_width="140dp"
+        android:layout_height="160dp"
+        android:id="@+id/pbThinking"
+        android:layout_alignParentBottom = "true"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginBottom = "150dp"
+        android:visibility = "gone"
+    />
+
+    <ImageView
+        android:src="@drawable/pb_smiling"
+        android:layout_width="140dp"
+        android:layout_height="160dp"
+        android:id="@+id/pbSmiling"
+        android:layout_alignParentBottom = "true"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginBottom = "150dp"
+        android:visibility = "gone"
+    />
 </RelativeLayout>
