@@ -108,7 +108,6 @@ namespace DBapp
 
                 while (restXp >= xpNeededToLevelUp)
                 {
-
                     currentLevel++;
                     restXp = restXp - xpNeededToLevelUp;
                     XpToNextLevel();

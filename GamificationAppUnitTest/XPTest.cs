@@ -63,7 +63,7 @@ namespace GamificationAppUnitTest
 
             xpSystem.LevelUp("Walking", 1900);
 
-            Assert.AreEqual(40, xpSystem.GetRestXp);
+            Assert.AreEqual(140, xpSystem.GetRestXp);
 
         }
 
